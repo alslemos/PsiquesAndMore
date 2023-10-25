@@ -1,8 +1,8 @@
 //
 //  GameModel.swift
-//  GameCenterMultiplayer
+//  GameKitTest
 //
-//  Created by Pedro Contine on 29/06/20.
+//  Created by Arthur Sobrosa on 25/10/23.
 //
 
 import Foundation
