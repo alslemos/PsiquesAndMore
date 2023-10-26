@@ -6,6 +6,7 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, 
     @Published var authenticatonState: PlayerAuthState = .authenticating
     @Published var inGame: Bool = false
     @Published var isGameOver: Bool = false
+    @Published var isMenuViewPresented: Bool = false
     @Published var isGameViewPresented: Bool = false
     @Published var match: GKMatch?
     
@@ -84,7 +85,7 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, 
     
     func startGame(newMatch: GKMatch) {
         match = newMatch
-        isGameViewPresented = true
+        isMenuViewPresented = true
     }
 }
 

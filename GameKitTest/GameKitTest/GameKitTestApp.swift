@@ -11,7 +11,7 @@ import SwiftUI
 struct GameKitTestApp: App {
     var body: some Scene {
         WindowGroup {
-            MenuView(vm: MatchManager())
+            ContentView(vm: MatchManager())
         }
     }
 }

@@ -8,10 +8,14 @@
 import SwiftUI
 import GameKit
 import SpriteKit
+import Combine
 
 class GameScene: SKScene {
     private var square = SKSpriteNode()
     private var label = SKLabelNode()
+    private var timerLabel = SKLabelNode()
+    
+    var vm: MatchManager?
     
     var match: GKMatch?
     
@@ -20,6 +24,8 @@ class GameScene: SKScene {
             updateUI()
         }
     }
+    
+    private var cancellables = Set<AnyCancellable>()
     
     var localPlayerIndex: Int?
     var remotePlayerIndex: Int?
@@ -39,10 +45,44 @@ class GameScene: SKScene {
         label.numberOfLines = 2
         label.fontSize = 20
         
+        timerLabel.position = CGPoint(x: label.position.x, y: label.position.y - 50)
+        timerLabel.fontColor = .white
+        timerLabel.numberOfLines = 1
+        timerLabel.fontSize = 20
+        
         addChild(square)
         addChild(label)
+        addChild(timerLabel)
         
+        startTimer()
         setUpTapGestureRecognizer()
+    }
+    
+    private func startTimer() {
+        let timer = Timer.publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+        
+        timer
+            .scan(0, { count, _ in
+                return count + 1
+            })
+            .sink { completion in
+                print("data stream completion \(completion)")
+            } receiveValue: { timeStamp in
+                self.timerLabel.text = "\(timeStamp)"
+            }
+            .store(in: &cancellables)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            self.gameOver()
+        }
+    }
+    
+    private func gameOver() {
+        guard let scene = self.scene else { return }
+        scene.removeAllActions()
+        square.removeFromParent()
+        vm?.isGameViewPresented = false
     }
     
     private func moveSprite() {
