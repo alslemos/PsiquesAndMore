@@ -6,21 +6,13 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, 
     @Published var authenticatonState: PlayerAuthState = .authenticating
     @Published var inGame: Bool = false
     @Published var isGameOver: Bool = false
-    
-    @Published var isGameViewPresented = false {
-        didSet {
-            print("value of 'isGameViewPresented' changed")
-        }
-    }
-    
-    private var gameModel: GameModel?
+    @Published var isGameViewPresented: Bool = false
+    @Published var match: GKMatch?
     
     var isAuthenticated: Bool {
         return GKLocalPlayer.local.isAuthenticated
     }
     
-    var match: GKMatch?
-    var otherPlayer: GKPlayer?
     var localPlayer = GKLocalPlayer.local
     
     var rootViewController: UIViewController? {
@@ -69,15 +61,6 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, 
         
         vc.matchmakerDelegate = self
         presentMatchmaking(viewController: vc)
-        
-//        let request = GKMatchRequest()
-//        request.minPlayers = 2
-//        request.maxPlayers = 2
-//        
-//        let matchmakingViewController = GKMatchmakerViewController(matchRequest: request)
-//        matchmakingViewController?.delegate = self
-//        
-//        rootViewController?.present(matchmakingViewController ?? GKMatchmakerViewController(), animated: true)
     }
     
     private func createMatchmaker(withInvite invite: GKInvite? = nil) -> GKMatchmakerViewController? {
@@ -101,10 +84,6 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, 
     
     func startGame(newMatch: GKMatch) {
         match = newMatch
-        match?.delegate = self
-        otherPlayer = match?.players.first
-        
-        print("toggle na variavel para acionar sheet")
         isGameViewPresented = true
     }
 }
@@ -121,13 +100,6 @@ extension MatchManager: GKMatchmakerViewControllerDelegate {
     }
     
     func matchmakerViewControllerWasCancelled(_ viewController: GKMatchmakerViewController) {
-        viewController.dismiss(animated: true)
-    }
-}
-
-extension MatchManager: GKMatchDelegate {
-    func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
-        guard let model = GameModel.decode(data: data) else { return }
-        gameModel = model
+        viewController.dismiss(animated: false)
     }
 }
