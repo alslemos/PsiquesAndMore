@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct SplashView: View {
-    
+    @StateObject var matchManager = MatchManager()
     @State var isActive: Bool = false
     
     var body: some View {
         ZStack {
             if self.isActive {
-                FirstView()
+                FirstView(matchManager: matchManager)
             } else {
                 Rectangle()
                     .background(Color.black)

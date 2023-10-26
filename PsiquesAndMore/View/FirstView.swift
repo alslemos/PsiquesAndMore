@@ -4,20 +4,24 @@ import GameKit
 
 
 struct FirstView: View {
+    @ObservedObject var matchManager: MatchManager
+    
+    let publi = NotificationCenter.default.publisher(for: .restartGameNotificationName)
+    
     @State var showGame : Bool = false
     @State var showCredits : Bool = false
     @State var showInstructions: Bool = false
-
-    let publi =  NotificationCenter.default.publisher(for: .restartGameNotificationName)
     
     var scene: SKScene {
         let scene = GameScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        scene.matchManager = matchManager
+        scene.match = matchManager.match
+        scene.anchorPoint = CGPoint(x: 0, y: 0)
+        scene.scaleMode = .fill
         return scene
     }
     
-    
     var body: some View {
-        
         ZStack {
             NavigationStack {
                 
@@ -29,8 +33,10 @@ struct FirstView: View {
                         Image("playButton")
                     }
                 }
-                .onAppear{
-                    GKAccessPoint.shared.isActive = true
+                .onAppear {
+                    if matchManager.authenticationState != .authenticated {
+                        matchManager.authenticatePlayer()
+                    }
                 }
                 .onDisappear {
                     GKAccessPoint.shared.isActive = false
