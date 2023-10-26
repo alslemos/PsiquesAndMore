@@ -4,6 +4,9 @@ import GameKit
 
 
 struct FirstView: View {
+    @State var showGame : Bool = false
+    @State var showCredits : Bool = false
+    @State var showInstructions: Bool = false
 
     let publi =  NotificationCenter.default.publisher(for: .restartGameNotificationName)
     
@@ -12,7 +15,6 @@ struct FirstView: View {
         return scene
     }
     
-    @State var showDetails: Bool = false
     
     var body: some View {
         
@@ -22,7 +24,7 @@ struct FirstView: View {
                 // link para o jogo, com imagem, sem texto
                 VStack {
                     Button {
-                        showDetails = true
+                        showGame = true
                     } label: {
                         Image("playButton")
                     }
@@ -32,33 +34,34 @@ struct FirstView: View {
                 }
                 .onDisappear {
                     GKAccessPoint.shared.isActive = false
+                    showGame = false
                 }
                 
-                .navigationDestination(isPresented: $showDetails) {
+                .navigationDestination(isPresented: $showGame) {
                     VStack {
                         SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
                     }
                 }
                 
                 // link para o jogo, sem imagem só texto
-//                VStack {
-//                     Button("Jogar") {
-//                      showDetails = false
-//                     }
-//                    }
-//                .navigationDestination(isPresented: $showDetails) {
-//                    VStack {
-//                        SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
-//                    }
-//                }
+                VStack {
+                     Button("Jogar") {
+                     showGame = true
+                     }
+                }
+                .navigationDestination(isPresented: $showGame) {
+                    VStack {
+                        SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
+                    }
+                }
                 
                 // link para as instrucoes
                 VStack {
                      Button("Instructions") {
-                      showDetails = true
+                      showInstructions = true
                      }
                     }
-                .navigationDestination(isPresented: $showDetails) {
+                .navigationDestination(isPresented:  $showInstructions) {
                     VStack {
                         InstructionsView().ignoresSafeArea().navigationBarBackButtonHidden(false)
                     }
@@ -67,19 +70,18 @@ struct FirstView: View {
                 // link para as creditos
                 VStack {
                      Button("Credits") {
-                      showDetails = true
+                      showCredits = true
                      }
                     }
-                .navigationDestination(isPresented: $showDetails) {
+                .navigationDestination(isPresented: $showCredits) {
                     VStack {
                         CreditsView().ignoresSafeArea().navigationBarBackButtonHidden(false)
                     }
                 }
                 
-                
             }.ignoresSafeArea()
              .onReceive(publi) { _ in
-                showDetails.toggle()
+                showGame.toggle()
             }
         }
     }
