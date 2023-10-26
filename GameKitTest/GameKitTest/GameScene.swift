@@ -8,7 +8,6 @@
 import SwiftUI
 import GameKit
 import SpriteKit
-import Combine
 
 class GameScene: SKScene {
     private var square = SKSpriteNode()
@@ -16,13 +15,11 @@ class GameScene: SKScene {
     
     var match: GKMatch?
     
-    @Published var gameModel: GameModel! {
+    var gameModel: GameModel! {
         didSet {
             updateUI()
         }
     }
-    
-    private var cancellables = Set<AnyCancellable>()
     
     var localPlayerIndex: Int?
     var remotePlayerIndex: Int?
