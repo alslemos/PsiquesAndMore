@@ -8,5 +8,5 @@
 import Foundation
 
 extension NSNotification.Name {
-    static var restartGameNotificationName: NSNotification.Name = NSNotification.Name("fechar")
+    static var restartGameNotificationName: NSNotification.Name = NSNotification.Name("CloseGame")
 }

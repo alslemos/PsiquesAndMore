@@ -1,4 +1,6 @@
 import SwiftUI
+import SpriteKit
+import GameKit
 
 
 struct FirstView: View {
@@ -13,18 +15,19 @@ struct FirstView: View {
     @State var showDetails: Bool = false
     
     var body: some View {
+        
         ZStack {
-            Color(red: 13 / 255, green: 43 / 255, blue: 69 / 255)
-            
             NavigationStack {
                 
+                // link para o jogo, com imagem, sem texto
                 VStack {
                     Button {
                         showDetails = true
                     } label: {
                         Image("playButton")
                     }
-                }.onAppear{
+                }
+                .onAppear{
                     GKAccessPoint.shared.isActive = true
                 }
                 .onDisappear {
@@ -36,6 +39,44 @@ struct FirstView: View {
                         SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
                     }
                 }
+                
+                // link para o jogo, sem imagem só texto
+//                VStack {
+//                     Button("Jogar") {
+//                      showDetails = false
+//                     }
+//                    }
+//                .navigationDestination(isPresented: $showDetails) {
+//                    VStack {
+//                        SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
+//                    }
+//                }
+                
+                // link para as instrucoes
+                VStack {
+                     Button("Instructions") {
+                      showDetails = true
+                     }
+                    }
+                .navigationDestination(isPresented: $showDetails) {
+                    VStack {
+                        InstructionsView().ignoresSafeArea().navigationBarBackButtonHidden(false)
+                    }
+                }
+                
+                // link para as creditos
+                VStack {
+                     Button("Credits") {
+                      showDetails = true
+                     }
+                    }
+                .navigationDestination(isPresented: $showDetails) {
+                    VStack {
+                        CreditsView().ignoresSafeArea().navigationBarBackButtonHidden(false)
+                    }
+                }
+                
+                
             }.ignoresSafeArea()
              .onReceive(publi) { _ in
                 showDetails.toggle()
