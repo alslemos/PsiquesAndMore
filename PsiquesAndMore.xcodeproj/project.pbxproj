@@ -11,6 +11,8 @@
 		E7D119392ADE077C00ECA9BE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D119382ADE077C00ECA9BE /* ContentView.swift */; };
 		E7D1193B2ADE077E00ECA9BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7D1193A2ADE077E00ECA9BE /* Assets.xcassets */; };
 		E7D1193E2ADE077E00ECA9BE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7D1193D2ADE077E00ECA9BE /* Preview Assets.xcassets */; };
+		E7D119622AE9E62600ECA9BE /* FirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D119612AE9E62600ECA9BE /* FirstView.swift */; };
+		E7D119662AE9E6D400ECA9BE /* NotificationCenter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D119652AE9E6D400ECA9BE /* NotificationCenter+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		E7D119382ADE077C00ECA9BE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E7D1193A2ADE077E00ECA9BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E7D1193D2ADE077E00ECA9BE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E7D119612AE9E62600ECA9BE /* FirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstView.swift; sourceTree = "<group>"; };
+		E7D119652AE9E6D400ECA9BE /* NotificationCenter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +55,8 @@
 		E7D119352ADE077C00ECA9BE /* PsiquesAndMore */ = {
 			isa = PBXGroup;
 			children = (
+				E7D119642AE9E6AA00ECA9BE /* Extensions */,
+				E7D119602AE9E60300ECA9BE /* View */,
 				E7D119362ADE077C00ECA9BE /* PsiquesAndMoreApp.swift */,
 				E7D119382ADE077C00ECA9BE /* ContentView.swift */,
 				E7D1193A2ADE077E00ECA9BE /* Assets.xcassets */,
@@ -65,6 +71,22 @@
 				E7D1193D2ADE077E00ECA9BE /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E7D119602AE9E60300ECA9BE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E7D119612AE9E62600ECA9BE /* FirstView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E7D119642AE9E6AA00ECA9BE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E7D119652AE9E6D400ECA9BE /* NotificationCenter+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,6 +160,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7D119392ADE077C00ECA9BE /* ContentView.swift in Sources */,
+				E7D119662AE9E6D400ECA9BE /* NotificationCenter+Extensions.swift in Sources */,
+				E7D119622AE9E62600ECA9BE /* FirstView.swift in Sources */,
 				E7D119372ADE077C00ECA9BE /* PsiquesAndMoreApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
