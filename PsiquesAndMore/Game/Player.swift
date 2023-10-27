@@ -4,5 +4,10 @@ import UIKit
 struct Player: Codable {
     var displayName: String
     var didJump: Bool = false
-    var life: Float = 100
+    var movements: Movements
+}
+
+enum Movements: Codable, CaseIterable {
+    case upAndDown
+    case rightAndLeft
 }

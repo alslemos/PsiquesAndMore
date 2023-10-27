@@ -80,7 +80,7 @@ class GameScene: SKScene {
         NotificationCenter.default.post(name: .restartGameNotificationName, object: nil)
     }
     
-    private func moveSprite() {
+    private func jump() {
         square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y + 50), duration: 0.2))
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -105,15 +105,18 @@ class GameScene: SKScene {
             }
             
             self.gameModel.players[index].didJump = true
-            self.sendData()
+            self.sendData {
+                print("data sent")
+                self.jump()
+            }
         }
     }
     
     private func savePlayers() {
         guard let remotePlayerName = match?.players.first?.displayName else { return }
         
-        let localPlayer = Player(displayName: GKLocalPlayer.local.displayName)
-        let remotePlayer = Player(displayName: remotePlayerName)
+        var localPlayer = Player(displayName: GKLocalPlayer.local.displayName, movements: .upAndDown)
+        var remotePlayer = Player(displayName: remotePlayerName, movements: .rightAndLeft)
         
         var players = [localPlayer, remotePlayer]
         players.sort { (localPlayer, remotePlayer) -> Bool in
@@ -121,11 +124,42 @@ class GameScene: SKScene {
         }
         
         self.localPlayerIndex = players.firstIndex { $0.displayName == localPlayer.displayName }
+        print("local index: \(localPlayerIndex)")
         self.remotePlayerIndex = players.firstIndex { $0.displayName == remotePlayer.displayName }
+        print("remote index: \(remotePlayerIndex)")
         
         self.gameModel.players = players
         
-        sendData()
+        if let index = localPlayerIndex {
+            if index == 0 {
+                print("sou o principal")
+                let movements = setMovementsForPlayer()
+                gameModel.players[0].movements = movements[0]
+                gameModel.players[1].movements = movements[1]
+                
+                sendData {
+                    print("data sent")
+                }
+            }
+        }
+    }
+    
+    private func setMovementsForPlayer() -> [Movements] {
+        var allMovements: [Movements] = Movements.allCases
+        var localPlayerMovements: Movements = .upAndDown
+        var remotePlayerMovements: Movements = .upAndDown
+        
+        guard let movements = allMovements.randomElement() else { return [] }
+        localPlayerMovements = movements
+        print("local movements: \(localPlayerMovements)")
+        
+        guard let index = (allMovements.firstIndex { $0 == localPlayerMovements }) else { return [] }
+        allMovements.remove(at: index)
+        
+        remotePlayerMovements = allMovements[0]
+        print("remote movements: \(remotePlayerMovements)")
+        
+        return [localPlayerMovements, remotePlayerMovements]
     }
     
     private func updateUI() {
@@ -138,19 +172,22 @@ class GameScene: SKScene {
         
         if gameModel.players[index].didJump {
             gameModel.players[index].didJump = false
-            sendData()
-            moveSprite()
+            sendData {
+                print("data sent")
+                self.jump()
+            }
         }
         
-        label.text = "[\(self.gameModel.players[0].displayName): \(self.gameModel.players[0].didJump), \(self.gameModel.players[1].displayName): \(self.gameModel.players[1].didJump)]"
+        label.text = "[\(self.gameModel.players[0].displayName): \(self.gameModel.players[0].movements)] \n[\(self.gameModel.players[1].displayName): \(self.gameModel.players[1].movements)]"
     }
     
-    private func sendData() {
+    private func sendData(completion: @escaping (() -> Void)) {
         guard let match = match else { return }
         
         do {
             guard let data = self.gameModel.encode() else { return }
             try match.sendData(toAllPlayers: data, with: .reliable)
+            completion()
         } catch {
             print("Send data failed")
         }
