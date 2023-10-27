@@ -1,13 +1,44 @@
 import SwiftUI
+import GameController
 import GameKit
 import SpriteKit
 import Combine
 
+
+
+class GameViewController: UIViewController {
+    // Virtual Onscreen Controller
+    private var _virtualController: Any?
+    @available(iOS 15.0, *)
+    public var virtualController: GCVirtualController? {
+        get { return self._virtualController as? GCVirtualController }
+        set { self._virtualController = newValue }
+    }
+}
+
+
+
 class GameScene: SKScene {
-    private var square = SKSpriteNode()
+        
+    // tempo
     private var label = SKLabelNode()
     private var timerLabel = SKLabelNode()
     
+    var virtualController: GCVirtualController?
+    
+    
+    // fundo
+    private var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
+    
+    // chao
+    private var floor = SKSpriteNode(imageNamed: "floor")
+    
+    // personagem
+    var velocityX: CGFloat = 0.0
+    var velocityY: CGFloat = 0.0
+    private var square = SKSpriteNode()
+    
+    // logica do jogo
     var matchManager: MatchManager?
     
     var match: GKMatch?
@@ -27,7 +58,10 @@ class GameScene: SKScene {
         
         savePlayers()
         
-        square = SKSpriteNode(color: .red, size: CGSize(width: 50, height: 50))
+        triggerfloor()
+        triggerComands()
+        
+        square = SKSpriteNode(color: .red, size: CGSize(width: 150, height: 50))
         square.anchorPoint = CGPoint(x: 0.5, y: 0)
         square.position = CGPoint(x: view.frame.midX, y: view.frame.midY)
         
@@ -69,6 +103,77 @@ class GameScene: SKScene {
         }
     }
     
+    private func triggerfloor(){
+        // floor
+        let physicsBodyFloor = SKPhysicsBody(rectangleOf: CGSize(width: 220, height: 844))
+        physicsBodyFloor.contactTestBitMask = 0x00000001
+        physicsBodyFloor.affectedByGravity = false
+        physicsBodyFloor.allowsRotation = false
+        physicsBodyFloor.isDynamic = false;
+        
+        floor.physicsBody = physicsBodyFloor
+        floor.name = "floor"
+        
+        self.floor.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
+        self.addChild(floor)
+        
+    }
+    
+    func triggerComands(){
+        let virtualControllerConfig = GCVirtualController.Configuration()
+        virtualControllerConfig.elements = [GCInputLeftTrigger, GCInputButtonX]
+        
+        
+        virtualController = GCVirtualController(configuration: virtualControllerConfig)
+        virtualController!.connect()
+        getInputComand()
+    }
+    
+    func getInputComand() {
+        var jumpButton: GCControllerButtonInput?
+        var actionButton: GCControllerButtonInput?
+        var stickXAxis: GCControllerAxisInput?
+        
+        if let buttons = virtualController!.controller?.extendedGamepad {
+            jumpButton = buttons.buttonA
+            actionButton = buttons.buttonB
+            stickXAxis = buttons.leftThumbstick.xAxis
+        }
+        stickXAxis?.valueChangedHandler = {
+            ( _ button: GCControllerAxisInput, _ value: Float) -> Void in
+            print(value)
+            
+            // faz algo com essa info
+            
+            if value == 0.0 {
+                // faz algo
+            }
+        }
+        jumpButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
+            
+            if pressed {
+                // faz algo
+                print("Botao a pressionado")
+            }
+        }
+        
+        actionButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
+            
+            if pressed {
+                // faz algo
+                print("Botao B pressionado")
+            }
+        }
+        
+        
+    }
+    
+    
+    func removeComands(){
+        virtualController?.disconnect()
+    }
+    
+    
     private func gameOver() {
         guard let scene = self.scene else { return }
         
@@ -76,6 +181,7 @@ class GameScene: SKScene {
         square.removeFromParent()
         label.removeFromParent()
         timerLabel.removeFromParent()
+        removeComands()
         
         NotificationCenter.default.post(name: .restartGameNotificationName, object: nil)
     }
@@ -156,6 +262,9 @@ class GameScene: SKScene {
         }
     }
 }
+
+
+
 
 extension GameScene: GKMatchDelegate {
     func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
