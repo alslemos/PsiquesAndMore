@@ -18,8 +18,6 @@ class GameScene: SKScene {
         }
     }
     
-    private var cancellables = Set<AnyCancellable>()
-    
     var localPlayerIndex: Int?
     var remotePlayerIndex: Int?
     
@@ -55,7 +53,7 @@ class GameScene: SKScene {
         let timer = Timer.publish(every: 1, on: .main, in: .common)
             .autoconnect()
         
-        timer
+        let subscription = timer
             .scan(0, { count, _ in
                 return count + 1
             })
@@ -64,10 +62,10 @@ class GameScene: SKScene {
             } receiveValue: { timeStamp in
                 self.timerLabel.text = "\(timeStamp)"
             }
-            .store(in: &cancellables)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
             self.gameOver()
+            subscription.cancel()
         }
     }
     
@@ -76,6 +74,8 @@ class GameScene: SKScene {
         
         scene.removeAllActions()
         square.removeFromParent()
+        label.removeFromParent()
+        timerLabel.removeFromParent()
         
         NotificationCenter.default.post(name: .restartGameNotificationName, object: nil)
     }
