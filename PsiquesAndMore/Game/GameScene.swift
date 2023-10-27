@@ -26,12 +26,11 @@ class GameScene: SKScene {
     
     var virtualController: GCVirtualController?
     
+    // chao
+    private let floor = SKSpriteNode(imageNamed: "floor")
     
     // fundo
     private var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
-    
-    // chao
-    private var floor = SKSpriteNode(imageNamed: "floor")
     
     // personagem
     var velocityX: CGFloat = 0.0
@@ -58,12 +57,9 @@ class GameScene: SKScene {
         
         savePlayers()
         
+        triggerCharacter()
         triggerfloor()
         triggerComands()
-        
-        square = SKSpriteNode(color: .red, size: CGSize(width: 150, height: 50))
-        square.anchorPoint = CGPoint(x: 0.5, y: 0)
-        square.position = CGPoint(x: view.frame.midX, y: view.frame.midY)
         
         label.position = CGPoint(x: view.frame.midX, y: view.frame.maxY - 100)
         label.fontColor = .white
@@ -75,7 +71,6 @@ class GameScene: SKScene {
         timerLabel.numberOfLines = 1
         timerLabel.fontSize = 20
         
-        addChild(square)
         addChild(label)
         addChild(timerLabel)
         
@@ -83,6 +78,7 @@ class GameScene: SKScene {
         setUpTapGestureRecognizer()
     }
     
+    // comecando o timer
     private func startTimer() {
         let timer = Timer.publish(every: 1, on: .main, in: .common)
             .autoconnect()
@@ -103,22 +99,55 @@ class GameScene: SKScene {
         }
     }
     
+    // comecando o chao
     private func triggerfloor(){
         // floor
+        // var floor = SKSpriteNode(imageNamed: "floor")
+       
+        
+       
+        floor.physicsBody = SKPhysicsBody(texture: floor.texture!,
+                                           size: floor.texture!.size())
+        
+        
         let physicsBodyFloor = SKPhysicsBody(rectangleOf: CGSize(width: 220, height: 844))
         physicsBodyFloor.contactTestBitMask = 0x00000001
         physicsBodyFloor.affectedByGravity = false
         physicsBodyFloor.allowsRotation = false
         physicsBodyFloor.isDynamic = false;
-        
+
         floor.physicsBody = physicsBodyFloor
         floor.name = "floor"
         
-        self.floor.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
+        floor.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
         self.addChild(floor)
         
     }
     
+    // comecando o chao
+    private func triggerCharacter(){
+        square = SKSpriteNode(color: .red, size: CGSize(width: 150, height: 50))
+        square.anchorPoint = CGPoint(x: 0.5, y: 0)
+    
+        // floor
+        let physicsBodyCharacter = SKPhysicsBody(rectangleOf: CGSize(width: 150, height: 50))
+        physicsBodyCharacter.contactTestBitMask = 0x00000001
+        physicsBodyCharacter.affectedByGravity = true
+        physicsBodyCharacter.allowsRotation = false
+        physicsBodyCharacter.isDynamic = true;
+        
+        
+        square.physicsBody = physicsBodyCharacter
+        square.name = "character"
+        square.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
+        
+        self.addChild(square)
+        
+    }
+    
+    
+    
+    // comecando os comandos
     func triggerComands(){
         let virtualControllerConfig = GCVirtualController.Configuration()
         virtualControllerConfig.elements = [GCInputLeftTrigger, GCInputButtonX]
@@ -129,16 +158,19 @@ class GameScene: SKScene {
         getInputComand()
     }
     
+    // pegando os valores dos comandos
     func getInputComand() {
-        var jumpButton: GCControllerButtonInput?
-        var actionButton: GCControllerButtonInput?
+        var leftButton: GCControllerButtonInput?
+        var rightButton: GCControllerButtonInput?
         var stickXAxis: GCControllerAxisInput?
         
         if let buttons = virtualController!.controller?.extendedGamepad {
-            jumpButton = buttons.buttonA
-            actionButton = buttons.buttonB
+            leftButton = buttons.leftTrigger
+            rightButton = buttons.buttonX
             stickXAxis = buttons.leftThumbstick.xAxis
         }
+        
+        // nao usando ainda
         stickXAxis?.valueChangedHandler = {
             ( _ button: GCControllerAxisInput, _ value: Float) -> Void in
             print(value)
@@ -149,31 +181,34 @@ class GameScene: SKScene {
                 // faz algo
             }
         }
-        jumpButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
+        leftButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
             
             if pressed {
-                // faz algo
-                print("Botao a pressionado")
+                self.moveSpriteLeft() // subindo
+                
+                print("Botao da esquerda pressionado")
             }
         }
         
-        actionButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
+        rightButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
             
             if pressed {
-                // faz algo
-                print("Botao B pressionado")
+                
+                self.moveSpriteUP() // subindo
+                
+                print("Botao da direita pressionado")
             }
         }
         
         
     }
     
-    
+    // removendo os comandos da tela
     func removeComands(){
         virtualController?.disconnect()
     }
     
-    
+    // fim de jogo
     private func gameOver() {
         guard let scene = self.scene else { return }
         
@@ -186,12 +221,20 @@ class GameScene: SKScene {
         NotificationCenter.default.post(name: .restartGameNotificationName, object: nil)
     }
     
-    private func moveSprite() {
+    
+    // moveu para cima
+    private func moveSpriteUP() {
         square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y + 50), duration: 0.2))
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.square.run(.move(to: CGPoint(x: self.square.position.x, y: self.square.position.y - 50), duration: 0.2))
         }
+    }
+    
+    // moveu para a esquerda
+    private func moveSpriteLeft() {
+        square.run(.move(to: CGPoint(x: square.position.x - 10, y: square.position.y), duration: 0.2))
+        
     }
     
     private func setUpTapGestureRecognizer() {
@@ -245,7 +288,7 @@ class GameScene: SKScene {
         if gameModel.players[index].didJump {
             gameModel.players[index].didJump = false
             sendData()
-            moveSprite()
+            moveSpriteUP()
         }
         
         label.text = "[\(self.gameModel.players[0].displayName): \(self.gameModel.players[0].didJump), \(self.gameModel.players[1].displayName): \(self.gameModel.players[1].didJump)]"
