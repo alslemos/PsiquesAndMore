@@ -5,10 +5,7 @@ import SwiftUI
 class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, GKLocalPlayerListener {
     @Published var authenticationState: PlayerAuthState = .authenticating
     @Published var match: GKMatch?
-    
-//    var isAuthenticated: Bool {
-//        return GKLocalPlayer.local.isAuthenticated
-//    }
+    @Published var isGamePresented: Bool = false
     
     var localPlayer = GKLocalPlayer.local
     
@@ -85,7 +82,8 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, 
     }
     
     func startGame(newMatch: GKMatch) {
+        print("starting game...")
         match = newMatch
-        //isMenuViewPresented = true
+        isGamePresented = true
     }
 }

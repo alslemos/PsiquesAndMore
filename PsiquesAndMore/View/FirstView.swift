@@ -7,8 +7,7 @@ struct FirstView: View {
     @ObservedObject var matchManager: MatchManager
     
     let publi = NotificationCenter.default.publisher(for: .restartGameNotificationName)
-    
-    @State var showGame : Bool = false
+
     @State var showCredits : Bool = false
     @State var showInstructions: Bool = false
     
@@ -23,72 +22,67 @@ struct FirstView: View {
     
     var body: some View {
         ZStack {
-            NavigationStack {
-                
-                // link para o jogo, com imagem, sem texto
+            if matchManager.isGamePresented {
                 VStack {
-                    Button {
-                        showGame = true
-                    } label: {
-                        Image("playButton")
-                    }
+                    SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
                 }
-                .onAppear {
-                    if matchManager.authenticationState != .authenticated {
-                        matchManager.authenticatePlayer()
-                    }
-                }
-                .onDisappear {
-                    GKAccessPoint.shared.isActive = false
-                    showGame = false
-                }
-                
-                .navigationDestination(isPresented: $showGame) {
+            } else {
+                NavigationStack {
+                    
+                    // link para o jogo, com imagem, sem texto
                     VStack {
-                        SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
+                        Button {
+                            matchManager.startMatchmaking()
+                        } label: {
+                            Image("playButton")
+                        }
                     }
-                }
-                
-                // link para o jogo, sem imagem só texto
-                VStack {
-                     Button("Jogar") {
-                     showGame = true
-                     }
-                }
-                .navigationDestination(isPresented: $showGame) {
+                    .onAppear {
+                        if matchManager.authenticationState != .authenticated {
+                            matchManager.authenticatePlayer()
+                        }
+                    }
+                    .onDisappear {
+                        GKAccessPoint.shared.isActive = false
+//                        matchManager.isGamePresented = false
+                    }
+                    
+                    // link para o jogo, sem imagem só texto
                     VStack {
-                        SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
+                         Button("Jogar") {
+                             matchManager.startMatchmaking()
+                         }
                     }
-                }
-                
-                // link para as instrucoes
-                VStack {
-                     Button("Instructions") {
-                      showInstructions = true
-                     }
-                    }
-                .navigationDestination(isPresented:  $showInstructions) {
+                    
+                    // link para as instrucoes
                     VStack {
-                        InstructionsView().ignoresSafeArea().navigationBarBackButtonHidden(false)
+                         Button("Instructions") {
+                          showInstructions = true
+                         }
+                        }
+                    .navigationDestination(isPresented:  $showInstructions) {
+                        VStack {
+                            InstructionsView().ignoresSafeArea().navigationBarBackButtonHidden(false)
+                        }
                     }
-                }
-                
-                // link para as creditos
-                VStack {
-                     Button("Credits") {
-                      showCredits = true
-                     }
-                    }
-                .navigationDestination(isPresented: $showCredits) {
+                    
+                    // link para as creditos
                     VStack {
-                        CreditsView().ignoresSafeArea().navigationBarBackButtonHidden(false)
+                         Button("Credits") {
+                          showCredits = true
+                         }
+                        }
+                    .navigationDestination(isPresented: $showCredits) {
+                        VStack {
+                            CreditsView().ignoresSafeArea().navigationBarBackButtonHidden(false)
+                        }
                     }
-                }
-                
-            }.ignoresSafeArea()
-             .onReceive(publi) { _ in
-                showGame.toggle()
+                    
+                }.ignoresSafeArea()
             }
         }
+        .onReceive(publi) { _ in
+            matchManager.isGamePresented = false
+       }
     }
 }
