@@ -7,25 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6806C3E12AEAF70D00EDED8E /* MatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E02AEAF70D00EDED8E /* MatchManager.swift */; };
+		6806C3E32AEAF84900EDED8E /* MatchManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E22AEAF84900EDED8E /* MatchManager+Extensions.swift */; };
+		6806C3E62AEAF94300EDED8E /* PlayerAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E52AEAF94300EDED8E /* PlayerAuthState.swift */; };
+		6806C3E82AEB034C00EDED8E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E72AEB034C00EDED8E /* GameScene.swift */; };
+		6806C3EA2AEB03CA00EDED8E /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E92AEB03CA00EDED8E /* GameModel.swift */; };
+		6806C3EC2AEB03EF00EDED8E /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3EB2AEB03EF00EDED8E /* Player.swift */; };
 		E7D119372ADE077C00ECA9BE /* PsiquesAndMoreApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D119362ADE077C00ECA9BE /* PsiquesAndMoreApp.swift */; };
 		E7D1193B2ADE077E00ECA9BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7D1193A2ADE077E00ECA9BE /* Assets.xcassets */; };
 		E7D1193E2ADE077E00ECA9BE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7D1193D2ADE077E00ECA9BE /* Preview Assets.xcassets */; };
 		E7D119622AE9E62600ECA9BE /* FirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D119612AE9E62600ECA9BE /* FirstView.swift */; };
 		E7D119662AE9E6D400ECA9BE /* NotificationCenter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D119652AE9E6D400ECA9BE /* NotificationCenter+Extensions.swift */; };
-		E7D119682AE9E8E100ECA9BE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D119672AE9E8E100ECA9BE /* GameScene.swift */; };
+		E7D119682AE9E8E100ECA9BE /* OldGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D119672AE9E8E100ECA9BE /* OldGameScene.swift */; };
 		E7D1196C2AE9EB7700ECA9BE /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D1196B2AE9EB7700ECA9BE /* InstructionsView.swift */; };
 		E7D1196E2AE9EB8400ECA9BE /* CreditsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D1196D2AE9EB8400ECA9BE /* CreditsView.swift */; };
 		E7D119712AE9EE8100ECA9BE /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D119702AE9EE8100ECA9BE /* SplashView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6806C3E02AEAF70D00EDED8E /* MatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchManager.swift; sourceTree = "<group>"; };
+		6806C3E22AEAF84900EDED8E /* MatchManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatchManager+Extensions.swift"; sourceTree = "<group>"; };
+		6806C3E52AEAF94300EDED8E /* PlayerAuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerAuthState.swift; sourceTree = "<group>"; };
+		6806C3E72AEB034C00EDED8E /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		6806C3E92AEB03CA00EDED8E /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
+		6806C3EB2AEB03EF00EDED8E /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		6806C3ED2AEB08F000EDED8E /* PsiquesAndMore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PsiquesAndMore.entitlements; sourceTree = "<group>"; };
 		E7D119332ADE077C00ECA9BE /* PsiquesAndMore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PsiquesAndMore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7D119362ADE077C00ECA9BE /* PsiquesAndMoreApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsiquesAndMoreApp.swift; sourceTree = "<group>"; };
 		E7D1193A2ADE077E00ECA9BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E7D1193D2ADE077E00ECA9BE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E7D119612AE9E62600ECA9BE /* FirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstView.swift; sourceTree = "<group>"; };
 		E7D119652AE9E6D400ECA9BE /* NotificationCenter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+Extensions.swift"; sourceTree = "<group>"; };
-		E7D119672AE9E8E100ECA9BE /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		E7D119672AE9E8E100ECA9BE /* OldGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldGameScene.swift; sourceTree = "<group>"; };
 		E7D1196B2AE9EB7700ECA9BE /* InstructionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
 		E7D1196D2AE9EB8400ECA9BE /* CreditsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsView.swift; sourceTree = "<group>"; };
 		E7D119702AE9EE8100ECA9BE /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
@@ -42,6 +55,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6806C3DF2AEAF6F900EDED8E /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				6806C3E02AEAF70D00EDED8E /* MatchManager.swift */,
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		6806C3E42AEAF92E00EDED8E /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				6806C3E52AEAF94300EDED8E /* PlayerAuthState.swift */,
+			);
+			path = Misc;
+			sourceTree = "<group>";
+		};
 		E7D1192A2ADE077C00ECA9BE = {
 			isa = PBXGroup;
 			children = (
@@ -61,6 +90,9 @@
 		E7D119352ADE077C00ECA9BE /* PsiquesAndMore */ = {
 			isa = PBXGroup;
 			children = (
+				6806C3ED2AEB08F000EDED8E /* PsiquesAndMore.entitlements */,
+				6806C3E42AEAF92E00EDED8E /* Misc */,
+				6806C3DF2AEAF6F900EDED8E /* New Group */,
 				E7D1196F2AE9EE5900ECA9BE /* Splash */,
 				E7D1196A2AE9E90800ECA9BE /* App */,
 				E7D119692AE9E8F500ECA9BE /* Game */,
@@ -94,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				E7D119652AE9E6D400ECA9BE /* NotificationCenter+Extensions.swift */,
+				6806C3E22AEAF84900EDED8E /* MatchManager+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -101,7 +134,10 @@
 		E7D119692AE9E8F500ECA9BE /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				E7D119672AE9E8E100ECA9BE /* GameScene.swift */,
+				E7D119672AE9E8E100ECA9BE /* OldGameScene.swift */,
+				6806C3E72AEB034C00EDED8E /* GameScene.swift */,
+				6806C3E92AEB03CA00EDED8E /* GameModel.swift */,
+				6806C3EB2AEB03EF00EDED8E /* Player.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -194,10 +230,16 @@
 			files = (
 				E7D119662AE9E6D400ECA9BE /* NotificationCenter+Extensions.swift in Sources */,
 				E7D1196C2AE9EB7700ECA9BE /* InstructionsView.swift in Sources */,
+				6806C3E62AEAF94300EDED8E /* PlayerAuthState.swift in Sources */,
 				E7D119622AE9E62600ECA9BE /* FirstView.swift in Sources */,
 				E7D1196E2AE9EB8400ECA9BE /* CreditsView.swift in Sources */,
-				E7D119682AE9E8E100ECA9BE /* GameScene.swift in Sources */,
+				6806C3EC2AEB03EF00EDED8E /* Player.swift in Sources */,
+				6806C3EA2AEB03CA00EDED8E /* GameModel.swift in Sources */,
+				6806C3E82AEB034C00EDED8E /* GameScene.swift in Sources */,
+				E7D119682AE9E8E100ECA9BE /* OldGameScene.swift in Sources */,
+				6806C3E12AEAF70D00EDED8E /* MatchManager.swift in Sources */,
 				E7D119372ADE077C00ECA9BE /* PsiquesAndMoreApp.swift in Sources */,
+				6806C3E32AEAF84900EDED8E /* MatchManager+Extensions.swift in Sources */,
 				E7D119712AE9EE8100ECA9BE /* SplashView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -324,10 +366,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = PsiquesAndMore/PsiquesAndMore.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PsiquesAndMore/Preview Content\"";
-				DEVELOPMENT_TEAM = 53Z75DPZJP;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = N7QW85QF8V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -342,9 +388,14 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Alslemos.PsiquesAndMore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = PsiquesAndMoreProfile;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -353,10 +404,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = PsiquesAndMore/PsiquesAndMore.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PsiquesAndMore/Preview Content\"";
-				DEVELOPMENT_TEAM = 53Z75DPZJP;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = N7QW85QF8V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -371,9 +426,14 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Alslemos.PsiquesAndMore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = PsiquesAndMoreProfile;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

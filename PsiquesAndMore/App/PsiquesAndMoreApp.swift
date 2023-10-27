@@ -1,10 +1,3 @@
-//
-//  PsiquesAndMoreApp.swift
-//  PsiquesAndMore
-//
-//  Created by Alexandre Lemos da Silva on 16/10/23.
-//
-
 import SwiftUI
 import GameKit
 
@@ -12,7 +5,7 @@ import GameKit
 struct PsiquesAndMoreApp: App {
     var body: some Scene {
         WindowGroup {
-            SplashView()
+            SplashView().ignoresSafeArea()
         }
     }
 }
