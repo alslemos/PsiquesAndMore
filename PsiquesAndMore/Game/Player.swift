@@ -3,7 +3,8 @@ import UIKit
 
 struct Player: Codable {
     var displayName: String
-    var didJump: Bool = false
+    var didMoveControl1: Bool = false
+    var didMoveControl2: Bool = false
     var movements: Movements
 }
 
