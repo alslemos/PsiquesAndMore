@@ -9,6 +9,6 @@ struct Player: Codable {
 }
 
 enum Movements: Codable, CaseIterable {
-    case upAndDown
-    case rightAndLeft
+    case upAndLeft
+    case downAndRight
 }

@@ -18,15 +18,8 @@ class GameViewController: UIViewController {
 
 
 class GameScene: SKScene {
-    private var square = SKSpriteNode()
-    private var timerLabel = SKLabelNode()
     
-    private var control1 = SKSpriteNode()
-    private var control2 = SKSpriteNode()
-    
-        
     // tempo
-    private var label = SKLabelNode()
     private var timerLabel = SKLabelNode()
     
     var virtualController: GCVirtualController?
@@ -74,49 +67,48 @@ class GameScene: SKScene {
         
         triggerCharacter()
         triggerfloor()
-        triggerComands()
+        triggerCommands()
         
         timerLabel.position = CGPoint(x: view.frame.midX, y: view.frame.maxY - 150)
         timerLabel.fontColor = .white
         timerLabel.numberOfLines = 1
         timerLabel.fontSize = 20
         
-        addChild(square)
-        addChild(label)
+        //        addChild(square)
         addChild(timerLabel)
         
-//        startTimer()
-//        setUpTapGestureRecognizer()
+        //        startTimer()
+        //        setUpTapGestureRecognizer()
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
-            let location = touch.location(in: self)
-            let nodesAtPoint = nodes(at: location)
-            
-            for node in nodesAtPoint {
-                if node == control1 {
-                    guard let localIndex = localPlayerIndex else { return }
-                    
-                    self.gameModel.players[localIndex].didMoveControl1 = true
-                    
-                    self.sendData {
-                        self.checkMovement(for: 1, with: localIndex)
-                    }
-                }
-                
-                if node == control2 {
-                    guard let localIndex = localPlayerIndex else { return }
-                    
-                    self.gameModel.players[localIndex].didMoveControl2 = true
-                    
-                    self.sendData {
-                        self.checkMovement(for: 2, with: localIndex)
-                    }
-                }
-            }
-        }
-    }
+    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    //        for touch in touches {
+    //            let location = touch.location(in: self)
+    //            let nodesAtPoint = nodes(at: location)
+    //
+    //            for node in nodesAtPoint {
+    //                if node == control1 {
+    //                    guard let localIndex = localPlayerIndex else { return }
+    //
+    //                    self.gameModel.players[localIndex].didMoveControl1 = true
+    //
+    //                    self.sendData {
+    //                        self.checkMovement(for: 1, with: localIndex)
+    //                    }
+    //                }
+    //
+    //                if node == control2 {
+    //                    guard let localIndex = localPlayerIndex else { return }
+    //
+    //                    self.gameModel.players[localIndex].didMoveControl2 = true
+    //
+    //                    self.sendData {
+    //                        self.checkMovement(for: 2, with: localIndex)
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
     
     // comecando o timer
     private func startTimer() {
@@ -143,18 +135,25 @@ class GameScene: SKScene {
     private func triggerfloor(){
         // floor
         // var floor = SKSpriteNode(imageNamed: "floor")
-       
-        floor.physicsBody = SKPhysicsBody(texture: floor.texture!,
-                                           size: floor.texture!.size())
         
+        // floor.physicsBody = SKPhysicsBody(texture: floor.texture!,
+        // size: floor.texture!.size())
+        let pb = SKPhysicsBody(texture: floor.texture!,
+                               size: floor.texture!.size())
         
-        let physicsBodyFloor = SKPhysicsBody(rectangleOf: CGSize(width: 220, height: 844))
-        physicsBodyFloor.contactTestBitMask = 0x00000001
-        physicsBodyFloor.affectedByGravity = false
-        physicsBodyFloor.allowsRotation = false
-        physicsBodyFloor.isDynamic = false;
-
-        floor.physicsBody = physicsBodyFloor
+        pb.isDynamic = false
+        pb.categoryBitMask
+        pb.contactTestBitMask
+        pb.collisionBitMask
+        
+        floor.physicsBody = pb
+        // let physicsBodyFloor = SKPhysicsBody(rectangleOf: CGSize(width: 220, height: 844))
+        // physicsBodyFloor.contactTestBitMask = 0x00000001
+        // physicsBodyFloor.affectedByGravity = false
+        // physicsBodyFloor.allowsRotation = false
+        // physicsBodyFloor.isDynamic = false;
+        
+        // floor.physicsBody = physicsBodyFloor
         floor.name = "floor"
         
         floor.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
@@ -166,30 +165,28 @@ class GameScene: SKScene {
     private func triggerCharacter(){
         square = SKSpriteNode(color: .red, size: CGSize(width: 150, height: 50))
         square.anchorPoint = CGPoint(x: 0.5, y: 0)
-    
+        
         // floor
         let physicsBodyCharacter = SKPhysicsBody(rectangleOf: CGSize(width: 150, height: 50))
         physicsBodyCharacter.contactTestBitMask = 0x00000001
-        physicsBodyCharacter.affectedByGravity = true
+        physicsBodyCharacter.affectedByGravity = false
         physicsBodyCharacter.allowsRotation = false
-        physicsBodyCharacter.isDynamic = true;
-        
+        physicsBodyCharacter.isDynamic = true
         
         square.physicsBody = physicsBodyCharacter
         square.name = "character"
         square.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
         
         self.addChild(square)
-        
     }
     
     
     
     // comecando os comandos
-    func triggerComands(){
+    func triggerCommands(){
+        print("inside trigger comands function")
         let virtualControllerConfig = GCVirtualController.Configuration()
         virtualControllerConfig.elements = [GCInputLeftTrigger, GCInputButtonX]
-        
         
         virtualController = GCVirtualController(configuration: virtualControllerConfig)
         virtualController!.connect()
@@ -198,6 +195,8 @@ class GameScene: SKScene {
     
     // pegando os valores dos comandos
     func getInputComand() {
+        guard let index = localPlayerIndex else { return }
+        
         var leftButton: GCControllerButtonInput?
         var rightButton: GCControllerButtonInput?
         var stickXAxis: GCControllerAxisInput?
@@ -219,26 +218,54 @@ class GameScene: SKScene {
                 // faz algo
             }
         }
+        
         leftButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
-            
             if pressed {
-                self.moveSpriteLeft() // subindo
-                
-                print("Botao da esquerda pressionado")
+                if self.gameModel.players[index].movements == .upAndLeft {
+                    print("Moved left")
+                    
+                    self.moveSpriteLeft()
+                    self.gameModel.players[index].didMoveControl1 = true
+                    
+                    self.sendData {
+                        print("sending movement data")
+                    }
+                } else {
+                    print("Moved right")
+                    
+                    self.moveSpriteRight()
+                    self.gameModel.players[index].didMoveControl2 = true
+                    
+                    self.sendData {
+                        print("sending movement data")
+                    }
+                }
             }
         }
         
         rightButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
-            
             if pressed {
-                
-                self.moveSpriteUP() // subindo
-                
-                print("Botao da direita pressionado")
+                if self.gameModel.players[index].movements == .upAndLeft {
+                    print("Moved up")
+                    
+                    self.moveSpriteUP()
+                    self.gameModel.players[index].didMoveControl1 = true
+                    
+                    self.sendData {
+                        print("sending movement data")
+                    }
+                } else {
+                    print("Moved down")
+                    
+                    self.moveSpriteDown()
+                    self.gameModel.players[index].didMoveControl2 = true
+                    
+                    self.sendData {
+                        print("sending movement data")
+                    }
+                }
             }
         }
-        
-        
     }
     
     // removendo os comandos da tela
@@ -253,8 +280,11 @@ class GameScene: SKScene {
         scene.removeAllActions()
         square.removeFromParent()
         timerLabel.removeFromParent()
-        control1.removeFromParent()
-        control2.removeFromParent()
+        floor.removeFromParent()
+        backgroundImage.removeFromParent()
+        
+        //        control1.removeFromParent()
+        //        control2.removeFromParent()
         removeComands()
         
         NotificationCenter.default.post(name: .restartGameNotificationName, object: nil)
@@ -264,9 +294,18 @@ class GameScene: SKScene {
     private func moveSpriteUP() {
         square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y + 50), duration: 0.2))
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.square.run(.move(to: CGPoint(x: self.square.position.x, y: self.square.position.y - 50), duration: 0.2))
-        }
+        //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        //            self.square.run(.move(to: CGPoint(x: self.square.position.x, y: self.square.position.y - 50), duration: 0.2))
+        //        }
+    }
+    
+    // moveu para baixo
+    private func moveSpriteDown() {
+        square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y - 50), duration: 0.2))
+        
+        //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        //            self.square.run(.move(to: CGPoint(x: self.square.position.x, y: self.square.position.y + 50), duration: 0.2))
+        //        }
     }
     
     // moveu para a esquerda
@@ -275,75 +314,59 @@ class GameScene: SKScene {
         
     }
     
-    // private func setUpTapGestureRecognizer() {
-    //     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        
-    //     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-    //         self.square.run(.move(to: CGPoint(x: self.square.position.x, y: self.square.position.y + 50), duration: 0.2))
-    //     }
-    // }
-    
     private func moveSpriteRight() {
         square.run(.move(to: CGPoint(x: square.position.x + 50, y: square.position.y), duration: 0.2))
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.square.run(.move(to: CGPoint(x: self.square.position.x - 50, y: self.square.position.y), duration: 0.2))
-        }
-    }
-    
-    private func moveSpriteLeft() {
-        square.run(.move(to: CGPoint(x: square.position.x - 50, y: square.position.y), duration: 0.2))
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.square.run(.move(to: CGPoint(x: self.square.position.x + 50, y: self.square.position.y), duration: 0.2))
-        }
+        //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        //            self.square.run(.move(to: CGPoint(x: self.square.position.x - 50, y: self.square.position.y), duration: 0.2))
+        //        }
     }
     
     private func checkMovement(for control: Int, with playerIndex: Int) {
-        if self.gameModel.players[playerIndex].movements == .rightAndLeft {
+        if self.gameModel.players[playerIndex].movements == .downAndRight {
             if control == 1 {
-                self.moveSpriteLeft()
-            } else {
                 self.moveSpriteRight()
+            } else {
+                self.moveSpriteDown()
             }
         } else {
             if control == 1 {
-                self.moveSpriteDown()
+                self.moveSpriteLeft()
             } else {
-                self.moveSpriteUp()
+                self.moveSpriteUP()
             }
         }
     }
     
-//    private func setUpTapGestureRecognizer() {
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-//        
-//        tapGesture.numberOfTapsRequired = 1
-//        tapGesture.numberOfTouchesRequired = 1
-//        
-//        self.view?.addGestureRecognizer(tapGesture)
-//    }
-//    
-//    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-//        if sender.state == .recognized {
-//            guard let index = localPlayerIndex else {
-//                print("found index nil")
-//                return
-//            }
-//            
-//            self.gameModel.players[index].didJump = true
-//            self.sendData {
-//                print("data sent")
-//                self.moveUp()
-//            }
-//        }
-//    }
+    //    private func setUpTapGestureRecognizer() {
+    //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+    //
+    //        tapGesture.numberOfTapsRequired = 1
+    //        tapGesture.numberOfTouchesRequired = 1
+    //
+    //        self.view?.addGestureRecognizer(tapGesture)
+    //    }
+    //
+    //    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+    //        if sender.state == .recognized {
+    //            guard let index = localPlayerIndex else {
+    //                print("found index nil")
+    //                return
+    //            }
+    //
+    //            self.gameModel.players[index].didJump = true
+    //            self.sendData {
+    //                print("data sent")
+    //                self.moveUp()
+    //            }
+    //        }
+    //    }
     
     private func savePlayers() {
         guard let remotePlayerName = match?.players.first?.displayName else { return }
         
-        let localPlayer = Player(displayName: GKLocalPlayer.local.displayName, movements: .upAndDown)
-        let remotePlayer = Player(displayName: remotePlayerName, movements: .rightAndLeft)
+        let localPlayer = Player(displayName: GKLocalPlayer.local.displayName, movements: .upAndLeft)
+        let remotePlayer = Player(displayName: remotePlayerName, movements: .downAndRight)
         
         var players = [localPlayer, remotePlayer]
         players.sort { (localPlayer, remotePlayer) -> Bool in
@@ -357,12 +380,16 @@ class GameScene: SKScene {
         
         if let index = localPlayerIndex {
             if index == 0 {
+                print("sou o player principal")
                 let movements = setMovementsForPlayer()
                 gameModel.players[0].movements = movements[0]
                 gameModel.players[1].movements = movements[1]
                 
                 sendData {
+                    print("sending game model data")
                     self.saveControls()
+                    print("triggering commands")
+                    self.triggerCommands()
                 }
             }
         }
@@ -370,8 +397,8 @@ class GameScene: SKScene {
     
     private func setMovementsForPlayer() -> [Movements] {
         var allMovements: [Movements] = Movements.allCases
-        var localPlayerMovements: Movements = .upAndDown
-        var remotePlayerMovements: Movements = .upAndDown
+        var localPlayerMovements: Movements = .upAndLeft
+        var remotePlayerMovements: Movements = .downAndRight
         
         guard let movements = allMovements.randomElement() else { return [] }
         localPlayerMovements = movements
@@ -381,39 +408,45 @@ class GameScene: SKScene {
         
         remotePlayerMovements = allMovements[0]
         
+        print("my movements: \(localPlayerMovements)")
+        print("his movements: \(remotePlayerMovements)")
+
+        
         return [localPlayerMovements, remotePlayerMovements]
     }
     
     // private func setControlNodes() {
     //     guard let view = self.view else { return }
-        
+    
     //     control1 = SKSpriteNode(texture: SKTexture(image: UIImage(systemName: controls[0])!), size: CGSize(width: 50, height: 50))
     //     control1.anchorPoint = CGPoint(x: 0.5, y: 0)
     //     control1.position = CGPoint(x: 100, y: 100)
-        
+    
     //     control2 = SKSpriteNode(texture: SKTexture(image: UIImage(systemName: controls[1])!), size: CGSize(width: 50, height: 50))
     //     control2.anchorPoint = CGPoint(x: 0.5, y: 0)
     //     control2.position = CGPoint(x: view.frame.maxX - 100, y: 100)
-        
+    
     //     addChild(control1)
     //     addChild(control2)
     // }
     
     private func saveControls() {
+        print("saving controls")
         guard let index = localPlayerIndex else { return }
         
-        if gameModel.players[index].movements == .rightAndLeft {
-            self.controls = ["arrow.left", "arrow.right"]
-            sendControlsData(["arrow.down", "arrow.up"])
+        if gameModel.players[index].movements == .downAndRight {
+            //            self.controls = ["arrow.left", "arrow.right"]
+            sendControlsData(.upAndLeft)
         } else {
-            self.controls = ["arrow.down", "arrow.up"]
-            sendControlsData(["arrow.left", "arrow.right"])
+            //            self.controls = ["arrow.down", "arrow.up"]
+            sendControlsData(.downAndRight)
         }
     }
     
-    private func sendControlsData(_ strings: [String]) {
+    private func sendControlsData(_ movements: Movements) {
+        print("sending controls data")
         do {
-            guard let data = try? JSONEncoder().encode(strings) else { return }
+            guard let data = try? JSONEncoder().encode(movements) else { return }
             try self.match?.sendData(toAllPlayers: data, with: .reliable)
         } catch {
             print("send controllers data failed")
@@ -425,7 +458,7 @@ class GameScene: SKScene {
         
         if let controls = self.controls, controls.count >= 2 {
             if !areControlNodesSet {
-                setControlNodes()
+                //                setControlNodes()
                 areControlNodesSet = false
             }
         }
@@ -460,20 +493,19 @@ class GameScene: SKScene {
     }
 }
 
-
-
-
 extension GameScene: GKMatchDelegate {
     func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
         // First guard let checks if data received is the controls or the gameModel
-        guard let controls = try? JSONDecoder().decode([String].self, from: data) else {
+        guard let controls = try? JSONDecoder().decode(Movements.self, from: data) else {
             // If data is not the controls, then try decoding a gameModel
             guard let model = GameModel.decode(data: data) else { return }
             gameModel = model
             return
         }
-
+        
         // If data is the controls, then update player's controls
-        self.controls = controls
+        guard let index = localPlayerIndex else { return }
+        gameModel.players[index].movements = controls
+        self.triggerCommands()
     }
 }
