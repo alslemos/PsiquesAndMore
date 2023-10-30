@@ -17,7 +17,6 @@ class GameViewController: UIViewController {
 }
 
 
-
 class GameScene: SKScene {
         
     // tempo
@@ -103,8 +102,6 @@ class GameScene: SKScene {
     private func triggerfloor(){
         // floor
         // var floor = SKSpriteNode(imageNamed: "floor")
-       
-        
        
         floor.physicsBody = SKPhysicsBody(texture: floor.texture!,
                                            size: floor.texture!.size())
@@ -220,7 +217,6 @@ class GameScene: SKScene {
         
         NotificationCenter.default.post(name: .restartGameNotificationName, object: nil)
     }
-    
     
     // moveu para cima
     private func moveSpriteUP() {
