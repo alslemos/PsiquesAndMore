@@ -67,7 +67,7 @@ class GameScene: SKScene {
         
         triggerCharacter()
         triggerfloor()
-        triggerCommands()
+//        triggerCommands()
         
         timerLabel.position = CGPoint(x: view.frame.midX, y: view.frame.maxY - 150)
         timerLabel.fontColor = .white
@@ -190,11 +190,13 @@ class GameScene: SKScene {
         
         virtualController = GCVirtualController(configuration: virtualControllerConfig)
         virtualController!.connect()
-        getInputComand()
+        getInputCommand()
     }
     
     // pegando os valores dos comandos
-    func getInputComand() {
+    func getInputCommand() {
+        print("inside get input command function")
+        
         guard let index = localPlayerIndex else { return }
         
         var leftButton: GCControllerButtonInput?
@@ -222,7 +224,7 @@ class GameScene: SKScene {
         leftButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
             if pressed {
                 if self.gameModel.players[index].movements == .upAndLeft {
-                    print("Moved left")
+                    print("Clicked left")
                     
                     self.moveSpriteLeft()
                     self.gameModel.players[index].didMoveControl1 = true
@@ -231,10 +233,10 @@ class GameScene: SKScene {
                         print("sending movement data")
                     }
                 } else {
-                    print("Moved right")
+                    print("Clicked right")
                     
                     self.moveSpriteRight()
-                    self.gameModel.players[index].didMoveControl2 = true
+                    self.gameModel.players[index].didMoveControl1 = true
                     
                     self.sendData {
                         print("sending movement data")
@@ -246,16 +248,16 @@ class GameScene: SKScene {
         rightButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
             if pressed {
                 if self.gameModel.players[index].movements == .upAndLeft {
-                    print("Moved up")
+                    print("Clicked up")
                     
                     self.moveSpriteUP()
-                    self.gameModel.players[index].didMoveControl1 = true
+                    self.gameModel.players[index].didMoveControl2 = true
                     
                     self.sendData {
                         print("sending movement data")
                     }
                 } else {
-                    print("Moved down")
+                    print("Clicked down")
                     
                     self.moveSpriteDown()
                     self.gameModel.players[index].didMoveControl2 = true
@@ -292,6 +294,7 @@ class GameScene: SKScene {
     
     // moveu para cima
     private func moveSpriteUP() {
+        print("moving up")
         square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y + 50), duration: 0.2))
         
         //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -301,6 +304,7 @@ class GameScene: SKScene {
     
     // moveu para baixo
     private func moveSpriteDown() {
+        print("moving down")
         square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y - 50), duration: 0.2))
         
         //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -310,11 +314,13 @@ class GameScene: SKScene {
     
     // moveu para a esquerda
     private func moveSpriteLeft() {
+        print("moving left")
         square.run(.move(to: CGPoint(x: square.position.x - 10, y: square.position.y), duration: 0.2))
         
     }
     
     private func moveSpriteRight() {
+        print("moving right")
         square.run(.move(to: CGPoint(x: square.position.x + 50, y: square.position.y), duration: 0.2))
         
         //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -410,7 +416,6 @@ class GameScene: SKScene {
         
         print("my movements: \(localPlayerMovements)")
         print("his movements: \(remotePlayerMovements)")
-
         
         return [localPlayerMovements, remotePlayerMovements]
     }
@@ -504,8 +509,8 @@ extension GameScene: GKMatchDelegate {
         }
         
         // If data is the controls, then update player's controls
-        guard let index = localPlayerIndex else { return }
-        gameModel.players[index].movements = controls
+        guard let localIndex = localPlayerIndex else { return }
+        gameModel.players[localIndex].movements = controls
         self.triggerCommands()
     }
 }
