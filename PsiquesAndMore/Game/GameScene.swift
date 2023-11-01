@@ -122,10 +122,12 @@ class GameScene: SKScene {
         print("inside trigger comands function")
         let virtualControllerConfig = GCVirtualController.Configuration()
         virtualControllerConfig.elements = [GCInputLeftTrigger, GCInputButtonX]
-        
         virtualController = GCVirtualController(configuration: virtualControllerConfig)
         virtualController!.connect()
         getInputCommand()
+        
+    
+        
     }
     
     // comecando o timer
@@ -163,7 +165,11 @@ class GameScene: SKScene {
         
         if let buttons = virtualController!.controller?.extendedGamepad {
             leftButton = buttons.leftTrigger
+            leftButton?.sfSymbolsName = "arrow.up.and.down.and.sparkles"
+            
+            
             rightButton = buttons.buttonX
+//            leftButton?.sfSymbolsName = "person.and.arrow.left.and.arrow.right"
             stickXAxis = buttons.leftThumbstick.xAxis
         }
         
@@ -183,6 +189,7 @@ class GameScene: SKScene {
             if pressed {
                 if self.gameModel.players[index].movements == .upAndLeft {
                     print("Clicked left")
+                    leftButton?.sfSymbolsName = "arrowshape.left"
                     
                     self.moveSpriteLeft()
                     self.gameModel.players[index].didMoveControl1 = true
@@ -192,7 +199,7 @@ class GameScene: SKScene {
                     }
                 } else {
                     print("Clicked right")
-                    
+                    leftButton?.sfSymbolsName = "arrowshape.right"
                     self.moveSpriteRight()
                     self.gameModel.players[index].didMoveControl1 = true
                     
@@ -206,8 +213,8 @@ class GameScene: SKScene {
         rightButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
             if pressed {
                 if self.gameModel.players[index].movements == .upAndLeft {
-                    print("Clicked up")
-                    
+                    print("Clicked up") //arrow.up
+                    rightButton?.sfSymbolsName = "arrow.up"
                     self.moveSpriteUP()
                     self.gameModel.players[index].didMoveControl2 = true
                     
@@ -216,7 +223,7 @@ class GameScene: SKScene {
                     }
                 } else {
                     print("Clicked down")
-                    
+                    rightButton?.sfSymbolsName = "arrow.down"
                     self.moveSpriteDown()
                     self.gameModel.players[index].didMoveControl2 = true
                     

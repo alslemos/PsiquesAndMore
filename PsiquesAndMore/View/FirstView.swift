@@ -12,9 +12,9 @@ struct FirstView: View {
     @State var showInstructions: Bool = false
     
     var scene: SKScene {
-        let scene = GameScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        scene.matchManager = matchManager
-        scene.match = matchManager.match
+        let scene = GameScene2(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        //scene.matchManager = matchManager
+        //scene.match = matchManager.match
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .fill
         return scene
@@ -22,7 +22,7 @@ struct FirstView: View {
     
     var body: some View {
         ZStack {
-            if matchManager.isGamePresented {
+            if true || matchManager.isGamePresented {
                 VStack {
                     SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
                 }
@@ -32,7 +32,7 @@ struct FirstView: View {
                     // link para o jogo, com imagem, sem texto
                     VStack {
                         Button {
-                            matchManager.startMatchmaking()
+                           // matchManager.startMatchmaking()
                         } label: {
                             Image("playButton")
                         }
