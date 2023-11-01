@@ -30,6 +30,10 @@ class GameScene: SKScene {
     // fundo
     private var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
     
+    // pause button
+    
+    var pauseButton: SKSpriteNode?
+    
     // personagem
     var velocityX: CGFloat = 0.0
     var velocityY: CGFloat = 0.0
@@ -67,6 +71,7 @@ class GameScene: SKScene {
         
         triggerCharacter()
         triggerfloor()
+        setupPauseButton()
 //        triggerCommands()
         
         timerLabel.position = CGPoint(x: view.frame.midX, y: view.frame.maxY - 150)
@@ -109,6 +114,23 @@ class GameScene: SKScene {
     //            }
     //        }
     //    }
+    
+    // touchesBegan oficial
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            
+            if let pauseButton = pauseButton {
+                if pauseButton.contains(touch.location(in: self)) {
+                    
+                    NotificationCenter.default.post(name: .pauseGameNotificationName, object: nil)
+                    print("DEBUG: pause game")
+                    
+                }
+            }
+        }
+    }
+    
     
     // comecando o timer
     private func startTimer() {

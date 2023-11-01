@@ -110,6 +110,7 @@ class OldGameScene: SKScene, SKPhysicsContactDelegate {
             if(touchedNode.name == "restart") {
                 restart()
             }
+            
         }
     }
     

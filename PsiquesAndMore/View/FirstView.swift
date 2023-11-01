@@ -6,10 +6,20 @@ import GameKit
 struct FirstView: View {
     @ObservedObject var matchManager: MatchManager
     
+    // NotificationCenter for view display control
+    
     let publi = NotificationCenter.default.publisher(for: .restartGameNotificationName)
-
+    let pauseGamePublisher = NotificationCenter.default.publisher(for: .pauseGameNotificationName)
+    let continueGamePublisher = NotificationCenter.default.publisher(for: .continueGameNotificationName)
+    let playAgainPublisher = NotificationCenter.default.publisher(for: .playAgainGameNotificationName)
+    let goToMenuPublisher = NotificationCenter.default.publisher(for: .goToMenuGameNotificationName)
+    
+    // View display control variables
+    
     @State var showCredits : Bool = false
     @State var showInstructions: Bool = false
+    @State var showPauseGameView: Bool = false
+    @State var showGameOverView: Bool = false
     
     var scene: SKScene {
         let scene = GameScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
@@ -26,6 +36,15 @@ struct FirstView: View {
                 VStack {
                     SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
                 }
+                
+                if showPauseGameView {
+                    PauseGameView()
+                }
+                
+                if showGameOverView {
+                    GameOverView()
+                }
+                
             } else {
                 NavigationStack {
                     
@@ -84,5 +103,20 @@ struct FirstView: View {
         .onReceive(publi) { _ in
             matchManager.isGamePresented = false
        }
+        
+        .onReceive(pauseGamePublisher) { _ in
+            scene.isPaused = true
+            showPauseGameView = true
+        }
+        .onReceive(continueGamePublisher) { _ in
+            scene.isPaused = false
+            showPauseGameView = false
+        }
+        .onReceive(playAgainPublisher) { _ in
+            // restart game without going to menu
+        }
+        .onReceive(goToMenuPublisher) { _ in
+            matchManager.isGamePresented = false
+        }
     }
 }
