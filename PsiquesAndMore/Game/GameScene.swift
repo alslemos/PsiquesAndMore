@@ -25,7 +25,7 @@ class GameScene: SKScene {
     var virtualController: GCVirtualController?
     
     // chao
-    private let floor = SKSpriteNode(imageNamed: "floor")
+    var floor = SKSpriteNode(imageNamed: "floor")
     
     // fundo
     private var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
@@ -298,7 +298,7 @@ class GameScene: SKScene {
     }
     
     // fim de jogo
-    private func gameOver() {
+    func gameOver() {
         guard let scene = self.scene else { return }
         
         scene.removeAllActions()

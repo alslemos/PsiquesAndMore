@@ -21,6 +21,7 @@ struct PauseGameView: View {
                 VStack(spacing: 64) {
                     Text("GAME PAUSED")
                         .font(.largeTitle)
+                        .foregroundColor(.black)
                     
                     HStack {
                         

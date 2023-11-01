@@ -21,13 +21,16 @@ struct FirstView: View {
     @State var showPauseGameView: Bool = false
     @State var showGameOverView: Bool = false
     
-    var scene: SKScene {
+    var scene: GameScene
+    
+    init(matchManager: ObservedObject<MatchManager>) {
+        self._matchManager = matchManager
         let scene = GameScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        scene.matchManager = matchManager
-        scene.match = matchManager.match
+        scene.matchManager = matchManager.wrappedValue
+        scene.match = matchManager.wrappedValue.match
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .fill
-        return scene
+        self.scene = scene
     }
     
     var body: some View {
@@ -116,6 +119,9 @@ struct FirstView: View {
             // restart game without going to menu
         }
         .onReceive(goToMenuPublisher) { _ in
+            scene.virtualController?.disconnect()
+            showPauseGameView = false
+            scene.gameOver()
             matchManager.isGamePresented = false
         }
     }
