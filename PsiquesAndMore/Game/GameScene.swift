@@ -34,6 +34,10 @@ class GameScene: SKScene {
     
     var pauseButton: SKSpriteNode?
     
+    var isGamePaused: Bool = false
+    
+    var isGoToMenuOrderGiven: Bool = false
+    
     // personagem
     var velocityX: CGFloat = 0.0
     var velocityY: CGFloat = 0.0
@@ -119,18 +123,54 @@ class GameScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            
             if let pauseButton = pauseButton {
                 if pauseButton.contains(touch.location(in: self)) {
-                    
-                    NotificationCenter.default.post(name: .pauseGameNotificationName, object: nil)
-                    print("DEBUG: pause game")
-                    
+                    notifyPausedState(for: .pauseGame) {
+                        self.sendPausedStateData()
+                    }
                 }
             }
         }
     }
     
+    private func notifyPausedState(for order: OrderGiven, _ completion: @escaping (() -> Void)) {
+        if order == .pauseGame {
+            self.isGamePaused = true
+            
+            NotificationCenter.default.post(name: .pauseGameNotificationName, object: nil)
+            print("DEBUG: pause game")
+            completion()
+        } else {
+            self.isGamePaused = false
+            
+            NotificationCenter.default.post(name: .continueGameNotificationName, object: nil)
+            print("DEBUG: continue game")
+            completion()
+        }
+    }
+    
+    func sendPausedStateData() {
+        do {
+            guard let data = try? JSONEncoder().encode(self.isGamePaused) else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+        } catch {
+            print("send paused state data failed")
+        }
+    }
+    
+    private func notifyGoToMenu() {
+        NotificationCenter.default.post(name: .goToMenuGameNotificationName, object: nil)
+        print("DEBUG: go to menu")
+    }
+    
+    func sendGoToMenuData() {
+        do {
+            guard let data = try? JSONEncoder().encode(OrderGiven.goToMenu) else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+        } catch {
+            print("send back to menu data failed")
+        }
+    }
     
     // comecando o timer
     private func startTimer() {
@@ -522,17 +562,43 @@ class GameScene: SKScene {
 
 extension GameScene: GKMatchDelegate {
     func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
-        // First guard let checks if data received is the controls or the gameModel
-        guard let controls = try? JSONDecoder().decode(Movements.self, from: data) else {
-            // If data is not the controls, then try decoding a gameModel
-            guard let model = GameModel.decode(data: data) else { return }
+        // Check if it's the game model data
+        if let model = GameModel.decode(data: data) {
             gameModel = model
-            return
         }
         
-        // If data is the controls, then update player's controls
-        guard let localIndex = localPlayerIndex else { return }
-        gameModel.players[localIndex].movements = controls
-        self.triggerCommands()
+        // Check if it's the controls data
+        if let controls = try? JSONDecoder().decode(Movements.self, from: data) {
+            guard let localIndex = localPlayerIndex else { return }
+            gameModel.players[localIndex].movements = controls
+            self.triggerCommands()
+        }
+        
+        // Check if it's the paused state data
+        if let pausedState = try? JSONDecoder().decode(Bool.self, from: data) {
+            print("paused state data received")
+            if pausedState {
+                self.isGamePaused = pausedState
+                
+                notifyPausedState(for: .pauseGame) {
+                    print("Notifying...")
+                }
+            } else {
+                self.isGamePaused = pausedState
+                
+                notifyPausedState(for: .continueGame) {
+                    print("Notifying...")
+                }
+            }
+        }
+        
+        // Check if it's the go to menu data
+        if let goToMenu = try? JSONDecoder().decode(OrderGiven.self, from: data) {
+            print("back to menu data received")
+            if goToMenu == .goToMenu {
+                self.isGoToMenuOrderGiven = true
+                self.notifyGoToMenu()
+            }
+        }
     }
 }

@@ -8,3 +8,9 @@ enum PlayerAuthState: String {
     case error = "There was an error logging into Game Center."
     case restricted = "You're not allowed to play multiplayer games!"
 }
+
+enum OrderGiven: Codable {
+    case pauseGame
+    case continueGame
+    case goToMenu
+}

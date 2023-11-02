@@ -113,6 +113,12 @@ struct FirstView: View {
         }
         .onReceive(continueGamePublisher) { _ in
             scene.isPaused = false
+            
+            if scene.isGamePaused {
+                scene.isGamePaused = false
+                scene.sendPausedStateData()
+            }
+            
             showPauseGameView = false
         }
         .onReceive(playAgainPublisher) { _ in
@@ -120,6 +126,18 @@ struct FirstView: View {
         }
         .onReceive(goToMenuPublisher) { _ in
             scene.virtualController?.disconnect()
+            
+            // Check if both players know about the go to menu order
+            // before sending data to remote player
+            
+            // In this case, just one of the players know about
+            // the go to menu order
+            if !scene.isGoToMenuOrderGiven {
+                scene.sendGoToMenuData()
+            } else {
+                scene.isGoToMenuOrderGiven = false
+            }
+            
             showPauseGameView = false
             scene.gameOver()
             matchManager.isGamePresented = false
