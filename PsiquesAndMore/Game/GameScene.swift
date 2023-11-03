@@ -39,7 +39,7 @@ class GameScene: SKScene {
     var virtualController: GCVirtualController?
     
     // chao
-//    var floor = SKSpriteNode(imageNamed: "floor")
+    // var floor = SKSpriteNode(imageNamed: "floor")
     
     // fundo
     private var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
@@ -54,7 +54,7 @@ class GameScene: SKScene {
     // personagem
     var velocityX: CGFloat = 0.0
     var velocityY: CGFloat = 0.0
-    private var square = SKSpriteNode()
+    var square = SKSpriteNode()
     
     // logica do jogo
     var matchManager: MatchManager?
@@ -103,9 +103,11 @@ class GameScene: SKScene {
         
         savePlayers()
         
-        triggerCharacter()
+// triggerCharacter()
 //        triggerfloor()
+        
         setupPauseButton()
+        setupCharacter()
     }
     
     private func moveBackground() {
@@ -227,25 +229,6 @@ class GameScene: SKScene {
 //        self.addChild(floor)
 //        
 //    }
-    
-    // comecando o chao
-    private func triggerCharacter(){
-        square = SKSpriteNode(color: .red, size: CGSize(width: 150, height: 50))
-        square.anchorPoint = CGPoint(x: 0.5, y: 0)
-        
-        // floor
-        let physicsBodyCharacter = SKPhysicsBody(rectangleOf: CGSize(width: 150, height: 50))
-        physicsBodyCharacter.contactTestBitMask = 0x00000001
-        physicsBodyCharacter.affectedByGravity = false
-        physicsBodyCharacter.allowsRotation = false
-        physicsBodyCharacter.isDynamic = true
-        
-        square.physicsBody = physicsBodyCharacter
-        square.name = "character"
-        square.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
-        
-        self.addChild(square)
-    }
     
     // comecando os comandos
     func triggerCommands() {
