@@ -15,11 +15,31 @@ class GameViewController: UIViewController {
 }
 
 class GameScene: SKScene {
+    private var rectangle = SKSpriteNode()
+    
+    // Don't forget to cancel this afterwards
+    private var cancellables = Set<AnyCancellable>()
+    
+    var verticalThresholdPoint: CGFloat = 0
+    var rectangleWidth: CGFloat = 0
+    var rectangleHeigth: CGFloat = 0
+    var rotationAngle: CGFloat = 0
+    
+    var squareYPosition: CGFloat = 0
+    
+    var backgroundSpeed: CGFloat! {
+        didSet {
+            rectangle.removeAllActions()
+            moveBackground()
+        }
+    }
+    
+    var gameDuration: Int = 60
     
     var virtualController: GCVirtualController?
     
     // chao
-    var floor = SKSpriteNode(imageNamed: "floor")
+//    var floor = SKSpriteNode(imageNamed: "floor")
     
     // fundo
     private var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
@@ -64,11 +84,91 @@ class GameScene: SKScene {
         gameModel = GameModel()
         match?.delegate = self
         
+        verticalThresholdPoint = view.frame.height * 0.58
+        rectangleWidth = sqrt((verticalThresholdPoint * verticalThresholdPoint) + (view.frame.width * view.frame.width))
+        rotationAngle = asin(verticalThresholdPoint / rectangleWidth)
+        rectangleHeigth = sin(rotationAngle) * view.frame.width
+
+        rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "agoraVai")!), size: CGSize(width: rectangleWidth * 2, height: rectangleHeigth))
+        rectangle.name = "floor"
+        rectangle.anchorPoint = CGPoint(x: 0.5, y: 1)
+        rectangle.position = CGPoint(x: view.frame.width, y: 0)
+        rectangle.zRotation = -(rotationAngle)
+        
+        addChild(rectangle)
+        
+        backgroundSpeed = 0
+        
+        createSubscriptions()
+        
         savePlayers()
         
         triggerCharacter()
-        triggerfloor()
+//        triggerfloor()
         setupPauseButton()
+    }
+    
+    private func moveBackground() {
+        let deltaX = 30.0
+        let deltaY = deltaX * Double(tan(.pi - rotationAngle))
+    
+        let moveAction = SKAction.move(by: CGVector(dx: -(deltaX * backgroundSpeed), dy: -(deltaY * backgroundSpeed)), duration: 1)
+        
+        rectangle.run(SKAction.repeatForever(moveAction))
+    }
+    
+    // MARK: - Combine functions
+    private func createSubscriptions() {
+        backgroundPositionUpdater()
+        velocityUpdater()
+        timerTracker()
+    }
+    
+    private func backgroundPositionUpdater() {
+        guard let view = self.view else { return }
+        
+        let publisher = Timer.publish(every: 0.001, on: .main, in: .common)
+            .autoconnect()
+        let subscription = publisher
+        
+        subscription
+            .map { _ in
+                return self.rectangle.position
+            }
+            .sink { position in
+                if position.x <= 0 {
+                    self.rectangle.position = CGPoint(x: view.frame.width, y: 0)
+                }
+            }.store(in: &cancellables)
+    }
+    
+    private func velocityUpdater() {
+        let publisher = Timer.publish(every: 0.001, on: .main, in: .common)
+            .autoconnect()
+        let subscription = publisher
+        
+        subscription
+            .throttle(for: .seconds(1), scheduler: DispatchQueue.main, latest: true)
+            .sink { _ in
+                self.backgroundSpeed += 1
+            }.store(in: &cancellables)
+    }
+    
+    private func timerTracker() {
+        let publisher = Timer.publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+        let subscription = publisher
+        
+        subscription
+            .scan(0) { count, _ in
+                return count + 1
+            }
+            .sink { count in
+                if count >= self.gameDuration {
+                    print("time's up")
+                    // perform game over
+                }
+            }.store(in: &cancellables)
     }
     
     func notifyPausedState(for order: OrderGiven, _ completion: @escaping (() -> Void)) {
@@ -111,22 +211,22 @@ class GameScene: SKScene {
     }
     
     // comecando o chao
-    private func triggerfloor(){
-        let pb = SKPhysicsBody(texture: floor.texture!,
-                               size: floor.texture!.size())
-        
-        pb.isDynamic = false
-        pb.categoryBitMask
-        pb.contactTestBitMask
-        pb.collisionBitMask
-        
-        floor.physicsBody = pb
-        floor.name = "floor"
-        
-        floor.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
-        self.addChild(floor)
-        
-    }
+//    private func triggerfloor(){
+//        let pb = SKPhysicsBody(texture: floor.texture!,
+//                               size: floor.texture!.size())
+//        
+//        pb.isDynamic = false
+//        pb.categoryBitMask
+//        pb.contactTestBitMask
+//        pb.collisionBitMask
+//        
+//        floor.physicsBody = pb
+//        floor.name = "floor"
+//        
+//        floor.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
+//        self.addChild(floor)
+//        
+//    }
     
     // comecando o chao
     private func triggerCharacter(){
@@ -322,7 +422,7 @@ class GameScene: SKScene {
         
         scene.removeAllActions()
         square.removeFromParent()
-        floor.removeFromParent()
+        rectangle.removeFromParent()
         backgroundImage.removeFromParent()
         removeComands()
         
