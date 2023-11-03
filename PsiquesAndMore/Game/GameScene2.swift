@@ -60,6 +60,9 @@ class GameScene2: SKScene {
             heartPath.addLine(to: CGPoint(x: 150, y: 20))
             heartPath.close()
             
+            
+            
+            
             return heartPath
         }
         
