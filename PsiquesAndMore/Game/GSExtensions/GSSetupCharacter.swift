@@ -10,8 +10,6 @@ import SpriteKit
 
 extension GameScene {
     func setupCharacter(){
-        var square = SKSpriteNode()
-        
         square = SKSpriteNode(color: .red, size: CGSize(width: 150, height: 50))
         square.anchorPoint = CGPoint(x: 0.5, y: 0)
         

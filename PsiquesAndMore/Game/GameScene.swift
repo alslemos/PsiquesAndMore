@@ -15,15 +15,17 @@ class GameViewController: UIViewController {
 }
 
 class GameScene: SKScene {
-    private var rectangle = SKSpriteNode()
+    var rectangle = SKSpriteNode()
     
     // Don't forget to cancel this afterwards
     private var cancellables = Set<AnyCancellable>()
     
+    // propriedades do floor setup, tem de ir para lá
     var verticalThresholdPoint: CGFloat = 0
     var rectangleWidth: CGFloat = 0
     var rectangleHeigth: CGFloat = 0
     var rotationAngle: CGFloat = 0
+    // propriedades do floor setup, tem de ir para lá
     
     var squareYPosition: CGFloat = 0
     
@@ -84,18 +86,18 @@ class GameScene: SKScene {
         gameModel = GameModel()
         match?.delegate = self
         
-        verticalThresholdPoint = view.frame.height * 0.58
-        rectangleWidth = sqrt((verticalThresholdPoint * verticalThresholdPoint) + (view.frame.width * view.frame.width))
-        rotationAngle = asin(verticalThresholdPoint / rectangleWidth)
-        rectangleHeigth = sin(rotationAngle) * view.frame.width
-
-        rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "agoraVai")!), size: CGSize(width: rectangleWidth * 2, height: rectangleHeigth))
-        rectangle.name = "floor"
-        rectangle.anchorPoint = CGPoint(x: 0.5, y: 1)
-        rectangle.position = CGPoint(x: view.frame.width, y: 0)
-        rectangle.zRotation = -(rotationAngle)
-        
-        addChild(rectangle)
+//        verticalThresholdPoint = view.frame.height * 0.58
+//        rectangleWidth = sqrt((verticalThresholdPoint * verticalThresholdPoint) + (view.frame.width * view.frame.width))
+//        rotationAngle = asin(verticalThresholdPoint / rectangleWidth)
+//        rectangleHeigth = sin(rotationAngle) * view.frame.width
+//
+//        rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "agoraVai")!), size: CGSize(width: rectangleWidth * 2, height: rectangleHeigth))
+//        rectangle.name = "floor"
+//        rectangle.anchorPoint = CGPoint(x: 0.5, y: 1)
+//        rectangle.position = CGPoint(x: view.frame.width, y: 0)
+//        rectangle.zRotation = -(rotationAngle)
+//        
+//        addChild(rectangle)
         
         backgroundSpeed = 0
         
@@ -108,6 +110,7 @@ class GameScene: SKScene {
         
         setupPauseButton()
         setupCharacter()
+        setupFloor()
     }
     
     private func moveBackground() {
