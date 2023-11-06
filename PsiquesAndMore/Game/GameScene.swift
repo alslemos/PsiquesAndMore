@@ -5,42 +5,49 @@ import SpriteKit
 import Combine
 
 
-
-class GameViewController: UIViewController {
-    // Virtual Onscreen Controller
-    private var _virtualController: Any?
-    @available(iOS 15.0, *)
-    public var virtualController: GCVirtualController? {
-        get { return self._virtualController as? GCVirtualController }
-        set { self._virtualController = newValue }
-    }
-}
-
-
 class GameScene: SKScene {
+    var rectangle = SKSpriteNode()
     
-    // tempo
-    private var timerLabel = SKLabelNode()
+    // Don't forget to cancel this afterwards
+    private var cancellables = Set<AnyCancellable>()
+    
+    // unica propriedade que n dá mt para tirar
+    var rotationAngle: CGFloat = 0
+    
+    var squareYPosition: CGFloat = 0
+    
+    var backgroundSpeed: CGFloat! {
+        didSet {
+            rectangle.removeAllActions()
+            moveBackground()
+        }
+    }
+    
+    var gameDuration: Int = 60
     
     var virtualController: GCVirtualController?
-    
-    // chao
-    private let floor = SKSpriteNode(imageNamed: "floor")
     
     // fundo
     private var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
     
+    // pause button
+    var pauseButton: SKSpriteNode?
+    
+    var isGamePaused: Bool = false
+    
+    var isGoToMenuOrderGiven: Bool = false
+    
     // personagem
     var velocityX: CGFloat = 0.0
     var velocityY: CGFloat = 0.0
-    private var square = SKSpriteNode()
+    var square = SKSpriteNode()
     
     // logica do jogo
     var matchManager: MatchManager?
     
     var match: GKMatch?
     
-    private var gameModel: GameModel! {
+    var gameModel: GameModel! {
         didSet {
             updateUI()
         }
@@ -63,272 +70,129 @@ class GameScene: SKScene {
         gameModel = GameModel()
         match?.delegate = self
         
+        
+        // inicializacao dos elementos
+        setupPauseButton()
+        setupCharacter()
+        setupFloor()
+        
+        backgroundSpeed = 0   // isso aqui tem chance de dar ruim
+        createSubscriptions()
         savePlayers()
-        
-        triggerCharacter()
-        triggerfloor()
-//        triggerCommands()
-        
-        timerLabel.position = CGPoint(x: view.frame.midX, y: view.frame.maxY - 150)
-        timerLabel.fontColor = .white
-        timerLabel.numberOfLines = 1
-        timerLabel.fontSize = 20
-        
-        //        addChild(square)
-        addChild(timerLabel)
-        
-        //        startTimer()
-        //        setUpTapGestureRecognizer()
     }
     
-    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    //        for touch in touches {
-    //            let location = touch.location(in: self)
-    //            let nodesAtPoint = nodes(at: location)
-    //
-    //            for node in nodesAtPoint {
-    //                if node == control1 {
-    //                    guard let localIndex = localPlayerIndex else { return }
-    //
-    //                    self.gameModel.players[localIndex].didMoveControl1 = true
-    //
-    //                    self.sendData {
-    //                        self.checkMovement(for: 1, with: localIndex)
-    //                    }
-    //                }
-    //
-    //                if node == control2 {
-    //                    guard let localIndex = localPlayerIndex else { return }
-    //
-    //                    self.gameModel.players[localIndex].didMoveControl2 = true
-    //
-    //                    self.sendData {
-    //                        self.checkMovement(for: 2, with: localIndex)
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
+   
     
-    // comecando o timer
-    private func startTimer() {
-        let timer = Timer.publish(every: 1, on: .main, in: .common)
+    // MARK: - Combine functions
+    private func createSubscriptions() {
+        backgroundPositionUpdater()
+        velocityUpdater()
+        timerTracker()
+    }
+    
+    private func backgroundPositionUpdater() {
+        guard let view = self.view else { return }
+        
+        let publisher = Timer.publish(every: 0.001, on: .main, in: .common)
             .autoconnect()
+        let subscription = publisher
         
-        let subscription = timer
-            .scan(0, { count, _ in
+        subscription
+            .map { _ in
+                return self.rectangle.position
+            }
+            .sink { position in
+                if position.x <= 0 {
+                    self.rectangle.position = CGPoint(x: view.frame.width, y: 0)
+                }
+            }.store(in: &cancellables)
+    }
+    
+    private func velocityUpdater() {
+        let publisher = Timer.publish(every: 0.001, on: .main, in: .common)
+            .autoconnect()
+        let subscription = publisher
+        
+        subscription
+            .throttle(for: .seconds(1), scheduler: DispatchQueue.main, latest: true)
+            .sink { _ in
+                self.backgroundSpeed += 1
+            }.store(in: &cancellables)
+    }
+    
+    private func timerTracker() {
+        let publisher = Timer.publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+        let subscription = publisher
+        
+        subscription
+            .scan(0) { count, _ in
                 return count + 1
-            })
-            .sink { completion in
-                print("data stream completion \(completion)")
-            } receiveValue: { timeStamp in
-                self.timerLabel.text = "\(timeStamp)"
             }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-            self.gameOver()
-            subscription.cancel()
-        }
-    }
-    
-    // comecando o chao
-    private func triggerfloor(){
-        // floor
-        // var floor = SKSpriteNode(imageNamed: "floor")
-        
-        // floor.physicsBody = SKPhysicsBody(texture: floor.texture!,
-        // size: floor.texture!.size())
-        let pb = SKPhysicsBody(texture: floor.texture!,
-                               size: floor.texture!.size())
-        
-        pb.isDynamic = false
-        pb.categoryBitMask
-        pb.contactTestBitMask
-        pb.collisionBitMask
-        
-        floor.physicsBody = pb
-        // let physicsBodyFloor = SKPhysicsBody(rectangleOf: CGSize(width: 220, height: 844))
-        // physicsBodyFloor.contactTestBitMask = 0x00000001
-        // physicsBodyFloor.affectedByGravity = false
-        // physicsBodyFloor.allowsRotation = false
-        // physicsBodyFloor.isDynamic = false;
-        
-        // floor.physicsBody = physicsBodyFloor
-        floor.name = "floor"
-        
-        floor.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
-        self.addChild(floor)
-        
-    }
-    
-    // comecando o chao
-    private func triggerCharacter(){
-        square = SKSpriteNode(color: .red, size: CGSize(width: 150, height: 50))
-        square.anchorPoint = CGPoint(x: 0.5, y: 0)
-        
-        // floor
-        let physicsBodyCharacter = SKPhysicsBody(rectangleOf: CGSize(width: 150, height: 50))
-        physicsBodyCharacter.contactTestBitMask = 0x00000001
-        physicsBodyCharacter.affectedByGravity = false
-        physicsBodyCharacter.allowsRotation = false
-        physicsBodyCharacter.isDynamic = true
-        
-        square.physicsBody = physicsBodyCharacter
-        square.name = "character"
-        square.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
-        
-        self.addChild(square)
-    }
-    
-    
-    
-    // comecando os comandos
-    func triggerCommands(){
-        print("inside trigger comands function")
-        let virtualControllerConfig = GCVirtualController.Configuration()
-        virtualControllerConfig.elements = [GCInputLeftTrigger, GCInputButtonX]
-        
-        virtualController = GCVirtualController(configuration: virtualControllerConfig)
-        virtualController!.connect()
-        getInputCommand()
-    }
-    
-    // pegando os valores dos comandos
-    func getInputCommand() {
-        print("inside get input command function")
-        
-        guard let index = localPlayerIndex else { return }
-        
-        var leftButton: GCControllerButtonInput?
-        var rightButton: GCControllerButtonInput?
-        var stickXAxis: GCControllerAxisInput?
-        
-        if let buttons = virtualController!.controller?.extendedGamepad {
-            leftButton = buttons.leftTrigger
-            rightButton = buttons.buttonX
-            stickXAxis = buttons.leftThumbstick.xAxis
-        }
-        
-        // nao usando ainda
-        stickXAxis?.valueChangedHandler = {
-            ( _ button: GCControllerAxisInput, _ value: Float) -> Void in
-            print(value)
-            
-            // faz algo com essa info
-            
-            if value == 0.0 {
-                // faz algo
-            }
-        }
-        
-        leftButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
-            if pressed {
-                if self.gameModel.players[index].movements == .upAndLeft {
-                    print("Clicked left")
-                    
-                    self.moveSpriteLeft()
-                    self.gameModel.players[index].didMoveControl1 = true
-                    
-                    self.sendData {
-                        print("sending movement data")
-                    }
-                } else {
-                    print("Clicked right")
-                    
-                    self.moveSpriteRight()
-                    self.gameModel.players[index].didMoveControl1 = true
-                    
-                    self.sendData {
-                        print("sending movement data")
-                    }
+            .sink { count in
+                if count >= self.gameDuration {
+                    print("time's up")
+                    // perform game over
                 }
-            }
-        }
-        
-        rightButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
-            if pressed {
-                if self.gameModel.players[index].movements == .upAndLeft {
-                    print("Clicked up")
-                    
-                    self.moveSpriteUP()
-                    self.gameModel.players[index].didMoveControl2 = true
-                    
-                    self.sendData {
-                        print("sending movement data")
-                    }
-                } else {
-                    print("Clicked down")
-                    
-                    self.moveSpriteDown()
-                    self.gameModel.players[index].didMoveControl2 = true
-                    
-                    self.sendData {
-                        print("sending movement data")
-                    }
-                }
-            }
+            }.store(in: &cancellables)
+    }
+    
+    func notifyPausedState(for order: OrderGiven, _ completion: @escaping (() -> Void)) {
+        if order == .pauseGame {
+            self.isGamePaused = true
+            
+            NotificationCenter.default.post(name: .pauseGameNotificationName, object: nil)
+            print("DEBUG: pause game")
+            completion()
+        } else {
+            self.isGamePaused = false
+            
+            NotificationCenter.default.post(name: .continueGameNotificationName, object: nil)
+            print("DEBUG: continue game")
+            completion()
         }
     }
     
-    // removendo os comandos da tela
-    func removeComands(){
-        virtualController?.disconnect()
+    func sendPausedStateData() {
+        do {
+            guard let data = try? JSONEncoder().encode(self.isGamePaused) else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+        } catch {
+            print("send paused state data failed")
+        }
     }
+    
+    func notifyGoToMenu() {
+        NotificationCenter.default.post(name: .goToMenuGameNotificationName, object: nil)
+        print("DEBUG: go to menu")
+    }
+    
+    func sendGoToMenuData() {
+        do {
+            guard let data = try? JSONEncoder().encode(OrderGiven.goToMenu) else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+        } catch {
+            print("send back to menu data failed")
+        }
+    }
+    
+  
     
     // fim de jogo
-    private func gameOver() {
+    func gameOver() {
         guard let scene = self.scene else { return }
         
         scene.removeAllActions()
         square.removeFromParent()
-        timerLabel.removeFromParent()
-        floor.removeFromParent()
+        rectangle.removeFromParent()
         backgroundImage.removeFromParent()
-        
-        //        control1.removeFromParent()
-        //        control2.removeFromParent()
         removeComands()
         
         NotificationCenter.default.post(name: .restartGameNotificationName, object: nil)
     }
+
     
-    // moveu para cima
-    private func moveSpriteUP() {
-        print("moving up")
-        square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y + 50), duration: 0.2))
-        
-        //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-        //            self.square.run(.move(to: CGPoint(x: self.square.position.x, y: self.square.position.y - 50), duration: 0.2))
-        //        }
-    }
-    
-    // moveu para baixo
-    private func moveSpriteDown() {
-        print("moving down")
-        square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y - 50), duration: 0.2))
-        
-        //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-        //            self.square.run(.move(to: CGPoint(x: self.square.position.x, y: self.square.position.y + 50), duration: 0.2))
-        //        }
-    }
-    
-    // moveu para a esquerda
-    private func moveSpriteLeft() {
-        print("moving left")
-        square.run(.move(to: CGPoint(x: square.position.x - 10, y: square.position.y), duration: 0.2))
-        
-    }
-    
-    private func moveSpriteRight() {
-        print("moving right")
-        square.run(.move(to: CGPoint(x: square.position.x + 50, y: square.position.y), duration: 0.2))
-        
-        //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-        //            self.square.run(.move(to: CGPoint(x: self.square.position.x - 50, y: self.square.position.y), duration: 0.2))
-        //        }
-    }
-    
-    private func checkMovement(for control: Int, with playerIndex: Int) {
+    func checkMovement(for control: Int, with playerIndex: Int) {
         if self.gameModel.players[playerIndex].movements == .downAndRight {
             if control == 1 {
                 self.moveSpriteRight()
@@ -344,31 +208,7 @@ class GameScene: SKScene {
         }
     }
     
-    //    private func setUpTapGestureRecognizer() {
-    //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-    //
-    //        tapGesture.numberOfTapsRequired = 1
-    //        tapGesture.numberOfTouchesRequired = 1
-    //
-    //        self.view?.addGestureRecognizer(tapGesture)
-    //    }
-    //
-    //    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-    //        if sender.state == .recognized {
-    //            guard let index = localPlayerIndex else {
-    //                print("found index nil")
-    //                return
-    //            }
-    //
-    //            self.gameModel.players[index].didJump = true
-    //            self.sendData {
-    //                print("data sent")
-    //                self.moveUp()
-    //            }
-    //        }
-    //    }
-    
-    private func savePlayers() {
+    func savePlayers() {
         guard let remotePlayerName = match?.players.first?.displayName else { return }
         
         let localPlayer = Player(displayName: GKLocalPlayer.local.displayName, movements: .upAndLeft)
@@ -395,7 +235,7 @@ class GameScene: SKScene {
                     print("sending game model data")
                     self.saveControls()
                     print("triggering commands")
-                    self.triggerCommands()
+                    self.setupCommands()
                 }
             }
         }
@@ -420,30 +260,13 @@ class GameScene: SKScene {
         return [localPlayerMovements, remotePlayerMovements]
     }
     
-    // private func setControlNodes() {
-    //     guard let view = self.view else { return }
-    
-    //     control1 = SKSpriteNode(texture: SKTexture(image: UIImage(systemName: controls[0])!), size: CGSize(width: 50, height: 50))
-    //     control1.anchorPoint = CGPoint(x: 0.5, y: 0)
-    //     control1.position = CGPoint(x: 100, y: 100)
-    
-    //     control2 = SKSpriteNode(texture: SKTexture(image: UIImage(systemName: controls[1])!), size: CGSize(width: 50, height: 50))
-    //     control2.anchorPoint = CGPoint(x: 0.5, y: 0)
-    //     control2.position = CGPoint(x: view.frame.maxX - 100, y: 100)
-    
-    //     addChild(control1)
-    //     addChild(control2)
-    // }
-    
     private func saveControls() {
         print("saving controls")
         guard let index = localPlayerIndex else { return }
         
         if gameModel.players[index].movements == .downAndRight {
-            //            self.controls = ["arrow.left", "arrow.right"]
             sendControlsData(.upAndLeft)
         } else {
-            //            self.controls = ["arrow.down", "arrow.up"]
             sendControlsData(.downAndRight)
         }
     }
@@ -485,7 +308,7 @@ class GameScene: SKScene {
         }
     }
     
-    private func sendData(completion: @escaping (() -> Void)) {
+     func sendData(completion: @escaping (() -> Void)) {
         guard let match = match else { return }
         
         do {
@@ -495,22 +318,5 @@ class GameScene: SKScene {
         } catch {
             print("Send data failed")
         }
-    }
-}
-
-extension GameScene: GKMatchDelegate {
-    func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
-        // First guard let checks if data received is the controls or the gameModel
-        guard let controls = try? JSONDecoder().decode(Movements.self, from: data) else {
-            // If data is not the controls, then try decoding a gameModel
-            guard let model = GameModel.decode(data: data) else { return }
-            gameModel = model
-            return
-        }
-        
-        // If data is the controls, then update player's controls
-        guard let localIndex = localPlayerIndex else { return }
-        gameModel.players[localIndex].movements = controls
-        self.triggerCommands()
     }
 }

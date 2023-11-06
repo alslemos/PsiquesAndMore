@@ -6,18 +6,31 @@ import GameKit
 struct FirstView: View {
     @ObservedObject var matchManager: MatchManager
     
+    // NotificationCenter for view display control
+    
     let publi = NotificationCenter.default.publisher(for: .restartGameNotificationName)
-
+    let pauseGamePublisher = NotificationCenter.default.publisher(for: .pauseGameNotificationName)
+    let continueGamePublisher = NotificationCenter.default.publisher(for: .continueGameNotificationName)
+    let playAgainPublisher = NotificationCenter.default.publisher(for: .playAgainGameNotificationName)
+    let goToMenuPublisher = NotificationCenter.default.publisher(for: .goToMenuGameNotificationName)
+    
+    // View display control variables
+    
     @State var showCredits : Bool = false
     @State var showInstructions: Bool = false
+    @State var showPauseGameView: Bool = false
+    @State var showGameOverView: Bool = false
     
-    var scene: SKScene {
+    var scene: GameScene
+    
+    init(matchManager: ObservedObject<MatchManager>) {
+        self._matchManager = matchManager
         let scene = GameScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        scene.matchManager = matchManager
-        scene.match = matchManager.match
+        scene.matchManager = matchManager.wrappedValue
+        scene.match = matchManager.wrappedValue.match
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .fill
-        return scene
+        self.scene = scene
     }
     
     var body: some View {
@@ -26,6 +39,15 @@ struct FirstView: View {
                 VStack {
                     SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
                 }
+                
+                if showPauseGameView {
+                    PauseGameView()
+                }
+                
+                if showGameOverView {
+                    GameOverView()
+                }
+                
             } else {
                 NavigationStack {
                     
@@ -84,5 +106,41 @@ struct FirstView: View {
         .onReceive(publi) { _ in
             matchManager.isGamePresented = false
        }
+        
+        .onReceive(pauseGamePublisher) { _ in
+            scene.isPaused = true
+            showPauseGameView = true
+        }
+        .onReceive(continueGamePublisher) { _ in
+            scene.isPaused = false
+            
+            if scene.isGamePaused {
+                scene.isGamePaused = false
+                scene.sendPausedStateData()
+            }
+            
+            showPauseGameView = false
+        }
+        .onReceive(playAgainPublisher) { _ in
+            // restart game without going to menu
+        }
+        .onReceive(goToMenuPublisher) { _ in
+            scene.virtualController?.disconnect()
+            
+            // Check if both players know about the go to menu order
+            // before sending data to remote player
+            
+            // In this case, just one of the players know about
+            // the go to menu order
+            if !scene.isGoToMenuOrderGiven {
+                scene.sendGoToMenuData()
+            } else {
+                scene.isGoToMenuOrderGiven = false
+            }
+            
+            showPauseGameView = false
+            scene.gameOver()
+            matchManager.isGamePresented = false
+        }
     }
 }

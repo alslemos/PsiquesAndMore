@@ -7,12 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C452ED52AF2BAF2001F696B /* PauseGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C452ED42AF2BAF2001F696B /* PauseGameView.swift */; };
+		1C452ED72AF2BB07001F696B /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C452ED62AF2BB07001F696B /* GameOverView.swift */; };
+		1C452ED92AF2C3BD001F696B /* GSSetupPauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C452ED82AF2C3BD001F696B /* GSSetupPauseButton.swift */; };
 		6806C3E12AEAF70D00EDED8E /* MatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E02AEAF70D00EDED8E /* MatchManager.swift */; };
 		6806C3E32AEAF84900EDED8E /* MatchManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E22AEAF84900EDED8E /* MatchManager+Extensions.swift */; };
 		6806C3E62AEAF94300EDED8E /* PlayerAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E52AEAF94300EDED8E /* PlayerAuthState.swift */; };
 		6806C3E82AEB034C00EDED8E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E72AEB034C00EDED8E /* GameScene.swift */; };
 		6806C3EA2AEB03CA00EDED8E /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E92AEB03CA00EDED8E /* GameModel.swift */; };
 		6806C3EC2AEB03EF00EDED8E /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3EB2AEB03EF00EDED8E /* Player.swift */; };
+		685A59712AF58ECE0026A307 /* GSTouchesBegan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685A59702AF58ECE0026A307 /* GSTouchesBegan.swift */; };
+		E7C558072AF5A82200F07740 /* GSSetupCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C558062AF5A82200F07740 /* GSSetupCharacter.swift */; };
+		E7C558092AF92A2B00F07740 /* GSSetupFloor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C558082AF92A2B00F07740 /* GSSetupFloor.swift */; };
+		E7C5580B2AF92EEA00F07740 /* GSSetupCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C5580A2AF92EEA00F07740 /* GSSetupCommands.swift */; };
+		E7C5580D2AF93B4700F07740 /* GSGKMatchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C5580C2AF93B4700F07740 /* GSGKMatchDelegate.swift */; };
 		E7D119372ADE077C00ECA9BE /* PsiquesAndMoreApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D119362ADE077C00ECA9BE /* PsiquesAndMoreApp.swift */; };
 		E7D1193B2ADE077E00ECA9BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7D1193A2ADE077E00ECA9BE /* Assets.xcassets */; };
 		E7D1193E2ADE077E00ECA9BE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7D1193D2ADE077E00ECA9BE /* Preview Assets.xcassets */; };
@@ -25,6 +33,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C452ED42AF2BAF2001F696B /* PauseGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseGameView.swift; sourceTree = "<group>"; };
+		1C452ED62AF2BB07001F696B /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
+		1C452ED82AF2C3BD001F696B /* GSSetupPauseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupPauseButton.swift; sourceTree = "<group>"; };
 		6806C3E02AEAF70D00EDED8E /* MatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchManager.swift; sourceTree = "<group>"; };
 		6806C3E22AEAF84900EDED8E /* MatchManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatchManager+Extensions.swift"; sourceTree = "<group>"; };
 		6806C3E52AEAF94300EDED8E /* PlayerAuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerAuthState.swift; sourceTree = "<group>"; };
@@ -32,7 +43,12 @@
 		6806C3E92AEB03CA00EDED8E /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		6806C3EB2AEB03EF00EDED8E /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		6806C3ED2AEB08F000EDED8E /* PsiquesAndMore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PsiquesAndMore.entitlements; sourceTree = "<group>"; };
+		685A59702AF58ECE0026A307 /* GSTouchesBegan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTouchesBegan.swift; sourceTree = "<group>"; };
 		E752F4C52AEC305600AC7DB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E7C558062AF5A82200F07740 /* GSSetupCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupCharacter.swift; sourceTree = "<group>"; };
+		E7C558082AF92A2B00F07740 /* GSSetupFloor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupFloor.swift; sourceTree = "<group>"; };
+		E7C5580A2AF92EEA00F07740 /* GSSetupCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupCommands.swift; sourceTree = "<group>"; };
+		E7C5580C2AF93B4700F07740 /* GSGKMatchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSGKMatchDelegate.swift; sourceTree = "<group>"; };
 		E7D119332ADE077C00ECA9BE /* PsiquesAndMore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PsiquesAndMore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7D119362ADE077C00ECA9BE /* PsiquesAndMoreApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsiquesAndMoreApp.swift; sourceTree = "<group>"; };
 		E7D1193A2ADE077E00ECA9BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -72,6 +88,19 @@
 			path = Misc;
 			sourceTree = "<group>";
 		};
+		685A59722AF58F170026A307 /* GSExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				685A59702AF58ECE0026A307 /* GSTouchesBegan.swift */,
+				1C452ED82AF2C3BD001F696B /* GSSetupPauseButton.swift */,
+				E7C558062AF5A82200F07740 /* GSSetupCharacter.swift */,
+				E7C558082AF92A2B00F07740 /* GSSetupFloor.swift */,
+				E7C5580A2AF92EEA00F07740 /* GSSetupCommands.swift */,
+				E7C5580C2AF93B4700F07740 /* GSGKMatchDelegate.swift */,
+			);
+			path = GSExtensions;
+			sourceTree = "<group>";
+		};
 		E7D1192A2ADE077C00ECA9BE = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +131,8 @@
 				E7D119602AE9E60300ECA9BE /* View */,
 				E7D1193A2ADE077E00ECA9BE /* Assets.xcassets */,
 				E7D1193C2ADE077E00ECA9BE /* Preview Content */,
+				1C452ED42AF2BAF2001F696B /* PauseGameView.swift */,
+				1C452ED62AF2BB07001F696B /* GameOverView.swift */,
 			);
 			path = PsiquesAndMore;
 			sourceTree = "<group>";
@@ -136,6 +167,7 @@
 		E7D119692AE9E8F500ECA9BE /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				685A59722AF58F170026A307 /* GSExtensions */,
 				E7D119672AE9E8E100ECA9BE /* OldGameScene.swift */,
 				6806C3E72AEB034C00EDED8E /* GameScene.swift */,
 				6806C3E92AEB03CA00EDED8E /* GameModel.swift */,
@@ -232,17 +264,25 @@
 			files = (
 				E7D119662AE9E6D400ECA9BE /* NotificationCenter+Extensions.swift in Sources */,
 				E7D1196C2AE9EB7700ECA9BE /* InstructionsView.swift in Sources */,
+				685A59712AF58ECE0026A307 /* GSTouchesBegan.swift in Sources */,
 				6806C3E62AEAF94300EDED8E /* PlayerAuthState.swift in Sources */,
 				E7D119622AE9E62600ECA9BE /* FirstView.swift in Sources */,
 				E7D1196E2AE9EB8400ECA9BE /* CreditsView.swift in Sources */,
+				1C452ED52AF2BAF2001F696B /* PauseGameView.swift in Sources */,
+				E7C558072AF5A82200F07740 /* GSSetupCharacter.swift in Sources */,
 				6806C3EC2AEB03EF00EDED8E /* Player.swift in Sources */,
 				6806C3EA2AEB03CA00EDED8E /* GameModel.swift in Sources */,
+				1C452ED92AF2C3BD001F696B /* GSSetupPauseButton.swift in Sources */,
 				6806C3E82AEB034C00EDED8E /* GameScene.swift in Sources */,
 				E7D119682AE9E8E100ECA9BE /* OldGameScene.swift in Sources */,
+				1C452ED72AF2BB07001F696B /* GameOverView.swift in Sources */,
+				E7C5580D2AF93B4700F07740 /* GSGKMatchDelegate.swift in Sources */,
 				6806C3E12AEAF70D00EDED8E /* MatchManager.swift in Sources */,
 				E7D119372ADE077C00ECA9BE /* PsiquesAndMoreApp.swift in Sources */,
 				6806C3E32AEAF84900EDED8E /* MatchManager+Extensions.swift in Sources */,
+				E7C5580B2AF92EEA00F07740 /* GSSetupCommands.swift in Sources */,
 				E7D119712AE9EE8100ECA9BE /* SplashView.swift in Sources */,
+				E7C558092AF92A2B00F07740 /* GSSetupFloor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,7 +438,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -437,7 +477,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
