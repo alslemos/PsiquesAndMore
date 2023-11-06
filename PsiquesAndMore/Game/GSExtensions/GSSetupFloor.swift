@@ -9,7 +9,14 @@ import Foundation
 import SpriteKit
 
 extension GameScene {
+    
+    
     func setupFloor(){
+        var verticalThresholdPoint: CGFloat = 0
+        var rectangleWidth: CGFloat = 0
+        var rectangleHeigth: CGFloat = 0
+        var rotationAngle: CGFloat = 0
+        
         verticalThresholdPoint = (self.view?.frame.height)! * 0.58
         
         rectangleWidth = sqrt((verticalThresholdPoint * verticalThresholdPoint) +
@@ -29,6 +36,15 @@ extension GameScene {
         
         addChild(rectangle)
     }
+    
+     func moveBackground() {
+        let deltaX = 30.0
+        let deltaY = deltaX * Double(tan(.pi - rotationAngle))
+    
+        let moveAction = SKAction.move(by: CGVector(dx: -(deltaX * backgroundSpeed), dy: -(deltaY * backgroundSpeed)), duration: 1)
+        
+        rectangle.run(SKAction.repeatForever(moveAction))
+    }
+    
 }
 
-// self.view?.frame.midX)!

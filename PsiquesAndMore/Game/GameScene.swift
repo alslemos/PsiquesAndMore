@@ -11,12 +11,8 @@ class GameScene: SKScene {
     // Don't forget to cancel this afterwards
     private var cancellables = Set<AnyCancellable>()
     
-    // propriedades do floor setup, tem de ir para lá
-    var verticalThresholdPoint: CGFloat = 0
-    var rectangleWidth: CGFloat = 0
-    var rectangleHeigth: CGFloat = 0
+    // unica propriedade que n dá mt para tirar
     var rotationAngle: CGFloat = 0
-    // propriedades do floor setup, tem de ir para lá
     
     var squareYPosition: CGFloat = 0
     
@@ -30,9 +26,6 @@ class GameScene: SKScene {
     var gameDuration: Int = 60
     
     var virtualController: GCVirtualController?
-    
-    // chao
-    // var floor = SKSpriteNode(imageNamed: "floor")
     
     // fundo
     private var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
@@ -78,28 +71,19 @@ class GameScene: SKScene {
         match?.delegate = self
         
         
-        backgroundSpeed = 0
-        
-        createSubscriptions()
-        
-        savePlayers()
-        
-// triggerCharacter()
-//        triggerfloor()
-        
+        // inicializacao dos elementos
         setupPauseButton()
         setupCharacter()
         setupFloor()
-    }
-    
-    private func moveBackground() {
-        let deltaX = 30.0
-        let deltaY = deltaX * Double(tan(.pi - rotationAngle))
-    
-        let moveAction = SKAction.move(by: CGVector(dx: -(deltaX * backgroundSpeed), dy: -(deltaY * backgroundSpeed)), duration: 1)
+        setupCommands()
+
         
-        rectangle.run(SKAction.repeatForever(moveAction))
+        backgroundSpeed = 0   // isso aqui tem chance de dar ruim
+        createSubscriptions()
+        savePlayers()
     }
+    
+   
     
     // MARK: - Combine functions
     private func createSubscriptions() {
@@ -211,30 +195,7 @@ class GameScene: SKScene {
         
         NotificationCenter.default.post(name: .restartGameNotificationName, object: nil)
     }
-    
-    // moveu para cima
-     func moveSpriteUP() {
-        print("moving up")
-        square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y + 50), duration: 0.2))
-    }
-    
-    // moveu para baixo
-     func moveSpriteDown() {
-        print("moving down")
-        square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y - 50), duration: 0.2))
-    }
-    
-    // moveu para a esquerda
-     func moveSpriteLeft() {
-        print("moving left")
-        square.run(.move(to: CGPoint(x: square.position.x - 10, y: square.position.y), duration: 0.2))
-        
-    }
-    
-     func moveSpriteRight() {
-        print("moving right")
-        square.run(.move(to: CGPoint(x: square.position.x + 50, y: square.position.y), duration: 0.2))
-    }
+
     
     private func checkMovement(for control: Int, with playerIndex: Int) {
         if self.gameModel.players[playerIndex].movements == .downAndRight {

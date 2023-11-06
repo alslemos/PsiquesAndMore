@@ -25,4 +25,28 @@ extension GameScene {
         
         self.addChild(square)
     }
+    
+    func moveSpriteUP() {
+       print("moving up")
+       square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y + 50), duration: 0.2))
+   }
+   
+   // moveu para baixo
+    func moveSpriteDown() {
+       print("moving down")
+       square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y - 50), duration: 0.2))
+   }
+   
+   // moveu para a esquerda
+    func moveSpriteLeft() {
+       print("moving left")
+       square.run(.move(to: CGPoint(x: square.position.x - 10, y: square.position.y), duration: 0.2))
+       
+   }
+   
+    func moveSpriteRight() {
+       print("moving right")
+       square.run(.move(to: CGPoint(x: square.position.x + 50, y: square.position.y), duration: 0.2))
+   }
+   
 }
