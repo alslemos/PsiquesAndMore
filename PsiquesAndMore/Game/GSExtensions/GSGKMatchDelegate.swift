@@ -9,7 +9,6 @@ import Foundation
 import GameKit
 
 
-
 extension GameScene: GKMatchDelegate {
     func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
         // Check if it's the game model data

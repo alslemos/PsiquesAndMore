@@ -18,7 +18,7 @@ extension GameScene {
         physicsBodyCharacter.affectedByGravity = false
         physicsBodyCharacter.allowsRotation = false
         physicsBodyCharacter.isDynamic = true
-        physicsBodyCharacter.affectedByGravity = true // jesus
+        physicsBodyCharacter.affectedByGravity = false // Jesus
         
         square.physicsBody = physicsBodyCharacter
         square.name = "character"

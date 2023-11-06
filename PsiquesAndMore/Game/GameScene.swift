@@ -194,7 +194,7 @@ class GameScene: SKScene {
     }
 
     
-    private func checkMovement(for control: Int, with playerIndex: Int) {
+    func checkMovement(for control: Int, with playerIndex: Int) {
         if self.gameModel.players[playerIndex].movements == .downAndRight {
             if control == 1 {
                 self.moveSpriteRight()
@@ -210,7 +210,7 @@ class GameScene: SKScene {
         }
     }
     
-    private func savePlayers() {
+    func savePlayers() {
         guard let remotePlayerName = match?.players.first?.displayName else { return }
         
         let localPlayer = Player(displayName: GKLocalPlayer.local.displayName, movements: .upAndLeft)
