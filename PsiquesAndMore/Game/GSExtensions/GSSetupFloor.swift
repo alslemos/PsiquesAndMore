@@ -15,7 +15,6 @@ extension GameScene {
         var verticalThresholdPoint: CGFloat = 0
         var rectangleWidth: CGFloat = 0
         var rectangleHeigth: CGFloat = 0
-        var rotationAngle: CGFloat = 0
         
         verticalThresholdPoint = (self.view?.frame.height)! * 0.58
         

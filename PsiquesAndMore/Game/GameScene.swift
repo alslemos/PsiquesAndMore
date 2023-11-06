@@ -75,8 +75,6 @@ class GameScene: SKScene {
         setupPauseButton()
         setupCharacter()
         setupFloor()
-        setupCommands()
-
         
         backgroundSpeed = 0   // isso aqui tem chance de dar ruim
         createSubscriptions()
