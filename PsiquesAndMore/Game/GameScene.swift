@@ -4,15 +4,6 @@ import GameKit
 import SpriteKit
 import Combine
 
-class GameViewController: UIViewController {
-    // Virtual Onscreen Controller
-    private var _virtualController: Any?
-    @available(iOS 15.0, *)
-    public var virtualController: GCVirtualController? {
-        get { return self._virtualController as? GCVirtualController }
-        set { self._virtualController = newValue }
-    }
-}
 
 class GameScene: SKScene {
     var rectangle = SKSpriteNode()
@@ -63,7 +54,7 @@ class GameScene: SKScene {
     
     var match: GKMatch?
     
-    private var gameModel: GameModel! {
+    var gameModel: GameModel! {
         didSet {
             updateUI()
         }
@@ -86,18 +77,6 @@ class GameScene: SKScene {
         gameModel = GameModel()
         match?.delegate = self
         
-//        verticalThresholdPoint = view.frame.height * 0.58
-//        rectangleWidth = sqrt((verticalThresholdPoint * verticalThresholdPoint) + (view.frame.width * view.frame.width))
-//        rotationAngle = asin(verticalThresholdPoint / rectangleWidth)
-//        rectangleHeigth = sin(rotationAngle) * view.frame.width
-//
-//        rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "agoraVai")!), size: CGSize(width: rectangleWidth * 2, height: rectangleHeigth))
-//        rectangle.name = "floor"
-//        rectangle.anchorPoint = CGPoint(x: 0.5, y: 1)
-//        rectangle.position = CGPoint(x: view.frame.width, y: 0)
-//        rectangle.zRotation = -(rotationAngle)
-//        
-//        addChild(rectangle)
         
         backgroundSpeed = 0
         
@@ -215,188 +194,6 @@ class GameScene: SKScene {
         }
     }
     
-    // comecando o chao
-//    private func triggerfloor(){
-//        let pb = SKPhysicsBody(texture: floor.texture!,
-//                               size: floor.texture!.size())
-//        
-//        pb.isDynamic = false
-//        pb.categoryBitMask
-//        pb.contactTestBitMask
-//        pb.collisionBitMask
-//        
-//        floor.physicsBody = pb
-//        floor.name = "floor"
-//        
-//        floor.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
-//        self.addChild(floor)
-//        
-//    }
-    
-    // comecando os comandos
-    func triggerCommands() {
-        print("inside trigger comands function")
-        let virtualControllerConfig = GCVirtualController.Configuration()
-        virtualControllerConfig.elements = [GCInputLeftTrigger, GCInputButtonX]
-        
-        virtualController = GCVirtualController(configuration: virtualControllerConfig)
-        virtualController!.connect()
-        getInputCommand()
-    }
-    
-    // pegando os valores dos comandos
-    func getInputCommand() {
-           let left = createHeartBezierPath1()
-           let right = createHeartBezierPath2()
-           
-           print("inside get input command function")
-           
-           guard let index = localPlayerIndex else { return }
-           
-           var leftButton: GCControllerButtonInput?
-           var rightButton: GCControllerButtonInput?
-           var stickXAxis: GCControllerAxisInput?
-           
-           func createHeartBezierPath1() -> UIBezierPath {
-               let heartPath = UIBezierPath()
-               
-               // Define the main heart shape
-               heartPath.move(to: CGPoint(x: -10, y: -20))
-               heartPath.addCurve(to: CGPoint(x: -75, y: -75),
-                                  controlPoint1: CGPoint(x: 150, y: 110),
-                                  controlPoint2: CGPoint(x: 125, y: 75))
-               heartPath.addCurve(to: CGPoint(x: 0, y: 140),
-                                  controlPoint1: CGPoint(x: 25, y: 75),
-                                  controlPoint2: CGPoint(x: 0, y: 110))
-               heartPath.addLine(to: CGPoint(x: 150, y: 260))
-               heartPath.addLine(to: CGPoint(x: 300, y: 140))
-               heartPath.addLine(to: CGPoint(x: 150, y: 20))
-               heartPath.close()
-               
-               return heartPath
-           }
-           
-           func createHeartBezierPath2() -> UIBezierPath {
-               let heartPath = UIBezierPath()
-               
-               // Define the main heart shape
-               heartPath.move(to: CGPoint(x: 100, y: 40))
-               heartPath.addCurve(to: CGPoint(x: 75, y: 75),
-                                  controlPoint1: CGPoint(x: 150, y: 110),
-                                  controlPoint2: CGPoint(x: 125, y: 75))
-               heartPath.addCurve(to: CGPoint(x: 0, y: 140),
-                                  controlPoint1: CGPoint(x: 25, y: 75),
-                                  controlPoint2: CGPoint(x: 0, y: 110))
-               heartPath.addLine(to: CGPoint(x: 150, y: 260))
-               heartPath.addLine(to: CGPoint(x: 300, y: 140))
-               heartPath.addLine(to: CGPoint(x: 150, y: 20))
-               heartPath.close()
-               
-               return heartPath
-               
-           }
-
-           // Usage
-           
-           
-           if let virtualController, let controller = virtualController.controller, let extendedGamepad = controller.extendedGamepad {
-               let element = GCInputButtonX
-               
-               virtualController.updateConfiguration(forElement: element) { currentConfiguration in
-                   currentConfiguration.path = right
-                   return currentConfiguration
-               }
-           }
-           
-           if let virtualController, let controller = virtualController.controller, let extendedGamepad = controller.extendedGamepad {
-               let element = GCInputLeftTrigger
-               
-               virtualController.updateConfiguration(forElement: element) { currentConfiguration in
-                   currentConfiguration.path = left
-                   return currentConfiguration
-               }
-           }
-           
-          
-           
-           if let buttons = virtualController!.controller?.extendedGamepad {
-               leftButton = buttons.leftTrigger
-               leftButton?.sfSymbolsName = "arrow.up.and.down.and.sparkles"
-   
-   
-               rightButton = buttons.buttonX
-               rightButton!.sfSymbolsName = "square.and.arrow.up"
-               rightButton!.unmappedSfSymbolsName = "square.and.arrow.up"
-   
-               virtualController!.updateConfiguration(forElement: GCInputButtonX) { configuration in
-                   return configuration
-               }
-   
-               stickXAxis = buttons.leftThumbstick.xAxis
-           }
-           
-            //nao usando ainda
-           stickXAxis?.valueChangedHandler = {
-               ( _ button: GCControllerAxisInput, _ value: Float) -> Void in
-               print(value)
-   
-               // faz algo com essa info
-   
-               if value == 0.0 {
-                   // faz algo
-               }
-           }
-           
-           leftButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
-               if pressed {
-                   if self.gameModel.players[index].movements == .upAndLeft {
-                       print("Clicked left")
-                       leftButton?.sfSymbolsName = "arrowshape.left"
-   
-                       self.moveSpriteLeft()
-                       self.gameModel.players[index].didMoveControl1 = true
-   
-                       self.sendData {
-                           print("sending movement data")
-                       }
-                   } else {
-                       print("Clicked right")
-                       leftButton?.sfSymbolsName = "arrowshape.right"
-                       self.moveSpriteRight()
-                       self.gameModel.players[index].didMoveControl1 = true
-   
-                       self.sendData {
-                           print("sending movement data")
-                       }
-                   }
-               }
-           }
-           
-           rightButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
-               if pressed {
-                   if self.gameModel.players[index].movements == .upAndLeft {
-                       print("Clicked up") //arrow.up
-                       rightButton?.sfSymbolsName = "arrow.up"
-                       self.moveSpriteUP()
-                       self.gameModel.players[index].didMoveControl2 = true
-   
-                       self.sendData {
-                           print("sending movement data")
-                       }
-                   } else {
-                       print("Clicked down")
-                       rightButton?.sfSymbolsName = "arrow.down"
-                       self.moveSpriteDown()
-                       self.gameModel.players[index].didMoveControl2 = true
-   
-                       self.sendData {
-                           print("sending movement data")
-                       }
-                   }
-               }
-           }
-       }
-    
     // removendo os comandos da tela
     func removeComands(){
         virtualController?.disconnect()
@@ -416,25 +213,25 @@ class GameScene: SKScene {
     }
     
     // moveu para cima
-    private func moveSpriteUP() {
+     func moveSpriteUP() {
         print("moving up")
         square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y + 50), duration: 0.2))
     }
     
     // moveu para baixo
-    private func moveSpriteDown() {
+     func moveSpriteDown() {
         print("moving down")
         square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y - 50), duration: 0.2))
     }
     
     // moveu para a esquerda
-    private func moveSpriteLeft() {
+     func moveSpriteLeft() {
         print("moving left")
         square.run(.move(to: CGPoint(x: square.position.x - 10, y: square.position.y), duration: 0.2))
         
     }
     
-    private func moveSpriteRight() {
+     func moveSpriteRight() {
         print("moving right")
         square.run(.move(to: CGPoint(x: square.position.x + 50, y: square.position.y), duration: 0.2))
     }
@@ -482,7 +279,7 @@ class GameScene: SKScene {
                     print("sending game model data")
                     self.saveControls()
                     print("triggering commands")
-                    self.triggerCommands()
+                    self.setupCommands()
                 }
             }
         }
@@ -555,7 +352,7 @@ class GameScene: SKScene {
         }
     }
     
-    private func sendData(completion: @escaping (() -> Void)) {
+     func sendData(completion: @escaping (() -> Void)) {
         guard let match = match else { return }
         
         do {
@@ -579,7 +376,7 @@ extension GameScene: GKMatchDelegate {
         if let controls = try? JSONDecoder().decode(Movements.self, from: data) {
             guard let localIndex = localPlayerIndex else { return }
             gameModel.players[localIndex].movements = controls
-            self.triggerCommands()
+            self.setupCommands()
         }
         
         // Check if it's the paused state data
