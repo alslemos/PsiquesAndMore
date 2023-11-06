@@ -138,6 +138,11 @@ extension GameScene {
             }
         }
     }
+    
+    func removeComands(){
+        virtualController?.disconnect()
+    }
+    
 }
 
 func createHeartBezierPath1() -> UIBezierPath {
