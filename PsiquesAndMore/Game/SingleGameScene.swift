@@ -52,14 +52,32 @@ class SingleGameScene: SKScene {
     
     var areControlNodesSet: Bool = false
     
+    var startDate: Date? = nil
+    
     override func didMove(to view: SKView) {
         setupPauseButton()
         setupCharacter()
         setupFloor()
         
+        setStartDate()
+        
         backgroundSpeed = 0
         createSubscriptions()
         savePlayer()
+    }
+    
+    func setStartDate() {
+        startDate = Date.now
+        print("date: \(startDate)")
+        
+        guard let date = startDate else { return }
+        
+        let calendar = Calendar.current
+        let seconds = calendar.component(.second, from: date)
+        let minutes = calendar.component(.minute, from: date)
+        
+        print("minutes: \(minutes)")
+        print("seconds: \(seconds)")
     }
     
     func savePlayer() {

@@ -70,22 +70,93 @@ class GameScene: SKScene {
     var localPlayerIndex: Int?
     var remotePlayerIndex: Int?
     
+    var startDate: Date? = nil
+    
+    var startGameSubscription: AnyCancellable?
+    
+    var didGameStart: Bool! {
+        didSet {
+            startGame()
+        }
+    }
+    
+    var startTime = SKLabelNode()
+    
     override func didMove(to view: SKView) {
         gameModel = GameModel()
         match?.delegate = self
         
+        startTime.position = CGPoint(x: view.frame.midX, y: view.frame.midY + 100)
+        addChild(startTime)
         
-        // inicializacao dos elementos
-        setupPauseButton()
-        setupCharacter()
-        setupFloor()
-        
-        backgroundSpeed = 0   // isso aqui tem chance de dar ruim
-        createSubscriptions()
-        savePlayers()
+        didGameStart = false
+        checkPlayerIndex()
     }
     
-   
+    func startGame() {
+        if didGameStart {
+            self.startGameSubscription = nil
+            self.isPaused = false
+            self.setupPauseButton()
+            self.setupCharacter()
+            self.setupFloor()
+            
+            self.backgroundSpeed = 0
+            self.createSubscriptions()
+            self.savePlayers()
+            
+            guard let date = startDate else { return }
+            
+            self.startTime.text = "\(date)"
+        } else {
+            self.isPaused = true
+        }
+    }
+    
+    func checkPlayerIndex() {
+        guard let remotePlayerName = match?.players.first?.displayName else { return }
+        
+        let localPlayer = Player(displayName: GKLocalPlayer.local.displayName, movements: .upAndLeft)
+        let remotePlayer = Player(displayName: remotePlayerName, movements: .downAndRight)
+        
+        var players = [localPlayer, remotePlayer]
+        players.sort { (localPlayer, remotePlayer) -> Bool in
+            localPlayer.displayName < remotePlayer.displayName
+        }
+        
+        self.localPlayerIndex = players.firstIndex { $0.displayName == localPlayer.displayName }
+        self.remotePlayerIndex = players.firstIndex { $0.displayName == remotePlayer.displayName }
+        
+        guard let localIndex = self.localPlayerIndex else { return }
+        
+        if localIndex == 0 {
+            getStartDate {
+                self.startGamePublisher()
+            }
+        }
+    }
+    
+    func getStartDate(_ completion: @escaping () -> ()) {
+        startDate = Date.now
+        print("date: \(startDate)")
+        
+        guard let date = startDate else { return }
+        
+        sendStartData(date) {
+            completion()
+        }
+    }
+    
+    func sendStartData(_ date: Date, _ completion: @escaping () -> ()) {
+        print("sending start date data")
+        do {
+            guard let data = try? JSONEncoder().encode(date) else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+            completion()
+        } catch {
+            print("send start date data failed")
+        }
+    }
     
     // MARK: - Combine functions
     private func createSubscriptions() {
@@ -95,13 +166,35 @@ class GameScene: SKScene {
         obstacleSpawner()
     }
     
+    func startGamePublisher() {
+        print("starting game publisher")
+        startGameSubscription = Timer.publish(every: 0.001, on: .main, in: .common)
+            .autoconnect()
+            .map { _ in
+                return self.startDate
+            }
+            .sink { startDate in
+                guard let date = startDate else { return }
+                
+                let calendar = Calendar.current
+                let startSeconds = calendar.component(.second, from: date)
+                let startMinutes = calendar.component(.minute, from: date)
+                
+                let currentDate = Date.now
+                let currentSeconds = calendar.component(.second, from: currentDate)
+                let currentMinutes = calendar.component(.minute, from: currentDate)
+                
+                if currentMinutes == startMinutes && currentSeconds == startSeconds + 4 {
+                    self.didGameStart = true
+                }
+            }
+    }
+    
     private func obstacleSpawner() {
         print("DEBUG: inside obstacleSpawner")
         let publisher = Timer.publish(every: 2, on: .main, in: .common)
             .autoconnect()
         let subscription = publisher
-        
-        
         
         subscription
             .map { _ in
