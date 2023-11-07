@@ -42,6 +42,10 @@ class GameScene: SKScene {
     var velocityY: CGFloat = 0.0
     var square = SKSpriteNode()
     
+    // obstáculos
+    
+    var obstacle = SKSpriteNode()
+    
     // logica do jogo
     var matchManager: MatchManager?
     
@@ -88,6 +92,21 @@ class GameScene: SKScene {
         backgroundPositionUpdater()
         velocityUpdater()
         timerTracker()
+    }
+    
+    private func obstacleSpawner() {
+        let publisher = Timer.publish(every: 10, on: .main, in: .common)
+            .autoconnect()
+        let subscription = publisher
+        
+        subscription
+            .map { _ in
+                self.setupObstacle()
+                return self.obstacle
+            }
+            .sink { obstacle in
+                self.moveObstacle(time: 1.0, positionOffsetX: 10, positionOffsetY: 10)
+            }.store(in: &cancellables)
     }
     
     private func backgroundPositionUpdater() {
