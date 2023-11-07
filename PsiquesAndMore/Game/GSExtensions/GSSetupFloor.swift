@@ -33,7 +33,14 @@ extension GameScene {
         rectangle.position = CGPoint(x: (self.view?.frame.width)!, y: 0)
         rectangle.zRotation = -(rotationAngle)
         
-        addChild(rectangle)
+        
+        let pb = SKPhysicsBody(texture: rectangle.texture!,
+                                       size: rectangle.texture!.size())
+        pb.isDynamic = false
+        pb.node?.physicsBody?.friction = 0.0
+        rectangle.physicsBody = pb
+        
+        self.addChild(rectangle)
     }
     
      func moveBackground() {

@@ -10,19 +10,19 @@ import SpriteKit
 
 extension GameScene {
     func setupCharacter(){
-        square = SKSpriteNode(color: .red, size: CGSize(width: 150, height: 50))
-        square.anchorPoint = CGPoint(x: 0.5, y: 0)
+        print("Disparando personagem")
         
-        let physicsBodyCharacter = SKPhysicsBody(rectangleOf: CGSize(width: 150, height: 50))
-        physicsBodyCharacter.contactTestBitMask = 0x00000001
-        physicsBodyCharacter.affectedByGravity = false
-        physicsBodyCharacter.allowsRotation = false
-        physicsBodyCharacter.isDynamic = true
-        physicsBodyCharacter.affectedByGravity = false // Jesus
+        let pb = SKPhysicsBody(rectangleOf: CGSize(width: 30, height: 30))
         
-        square.physicsBody = physicsBodyCharacter
-        square.name = "character"
-        square.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
+//      pb.contactTestBitMask = 0x00000001
+        pb.allowsRotation = false
+        pb.isDynamic = true
+//      pb.node?.physicsBody?.mass = 16.0
+        pb.node?.physicsBody?.friction = 0.0
+        
+        square.physicsBody = pb
+        square.name = "square"
+        square.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)! + 100)
         
         self.addChild(square)
     }
@@ -49,5 +49,20 @@ extension GameScene {
        print("moving right")
        square.run(.move(to: CGPoint(x: square.position.x + 50, y: square.position.y), duration: 0.2))
    }
+    
+    func moveMountainUp() {
+       print("moveMountainUp")
+        square.run(.move(to: CGPoint(x: square.position.x - 20, y: square.position.y), duration: 0.2))
+   }
+    
+    // talvez tenha de ir para a GameScene
+    // alterar o valor pelo publisher do combine! 
+    override func update(_ currentTime: TimeInterval) {
+           square.physicsBody?.applyForce(CGVector(dx: 10, dy: 0))
+        
+        //    self.moveMountainUp() // trying to do the tk74
+        
+           // vai aumentar
+       }
    
 }

@@ -40,7 +40,7 @@ class GameScene: SKScene {
     // personagem
     var velocityX: CGFloat = 0.0
     var velocityY: CGFloat = 0.0
-    var square = SKSpriteNode()
+    var square = SKSpriteNode(imageNamed: "personagem")
     
     // logica do jogo
     var matchManager: MatchManager?
