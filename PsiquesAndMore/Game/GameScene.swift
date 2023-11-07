@@ -92,12 +92,16 @@ class GameScene: SKScene {
         backgroundPositionUpdater()
         velocityUpdater()
         timerTracker()
+        obstacleSpawner()
     }
     
     private func obstacleSpawner() {
-        let publisher = Timer.publish(every: 10, on: .main, in: .common)
+        print("DEBUG: inside obstacleSpawner")
+        let publisher = Timer.publish(every: 2, on: .main, in: .common)
             .autoconnect()
         let subscription = publisher
+        
+        
         
         subscription
             .map { _ in
@@ -105,7 +109,15 @@ class GameScene: SKScene {
                 return self.obstacle
             }
             .sink { obstacle in
-                self.moveObstacle(time: 1.0, positionOffsetX: 10, positionOffsetY: 10)
+                self.moveObstacle(time: Double.random(in: 0.5...2.0), positionOffsetX: 0.0, positionOffsetY: Double.random(in: 0.0...400.0), completion: {
+                    print("DEBUG: inside closure")
+                    print("\(self.view?.frame.maxX ?? 0)")
+                    print("\(self.view?.frame.maxY ?? 0)")
+                    if let child = self.childNode(withName: "obstacle") as? SKSpriteNode {
+                        print("DEBUG: child node exists")
+                        child.removeFromParent()
+                    }
+                })
             }.store(in: &cancellables)
     }
     

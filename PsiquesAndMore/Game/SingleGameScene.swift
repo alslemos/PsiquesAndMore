@@ -42,6 +42,10 @@ class SingleGameScene: SKScene {
     var velocityY: CGFloat = 0.0
     var square = SKSpriteNode()
     
+    // obstacle
+    
+    var obstacle = SKSpriteNode()
+    
     var isControlSet: Bool = false
     
     var controls: Movements? = nil
@@ -248,6 +252,33 @@ class SingleGameScene: SKScene {
         backgroundPositionUpdater()
         velocityUpdater()
         timerTracker()
+        obstacleSpawner()
+    }
+    
+    private func obstacleSpawner() {
+        print("DEBUG: inside obstacleSpawner")
+        let publisher = Timer.publish(every: 2, on: .main, in: .common)
+            .autoconnect()
+        let subscription = publisher
+        
+        
+        
+        subscription
+            .map { _ in
+                self.setupObstacle()
+                return self.obstacle
+            }
+            .sink { obstacle in
+                self.moveObstacle(time: Double.random(in: 0.5...2.0), positionOffsetX: 0.0, positionOffsetY: Double.random(in: 0.0...400.0), completion: {
+                    print("DEBUG: inside closure")
+                    print("\(self.view?.frame.maxX ?? 0)")
+                    print("\(self.view?.frame.maxY ?? 0)")
+                    if let child = self.childNode(withName: "obstacle") as? SKSpriteNode {
+                        print("DEBUG: child node exists")
+                        child.removeFromParent()
+                    }
+                })
+            }.store(in: &cancellables)
     }
     
     private func backgroundPositionUpdater() {
@@ -363,3 +394,38 @@ class SingleGameScene: SKScene {
         
     }
 }
+
+//
+extension SingleGameScene {
+    
+    func setupObstacle() {
+        let obstacle = SKSpriteNode(color: .blue, size: CGSize(width: 50, height: 50))
+        obstacle.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        
+        let physicsBodyObstacle = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
+        physicsBodyObstacle.contactTestBitMask = 0x00000001
+        physicsBodyObstacle.affectedByGravity = false
+        physicsBodyObstacle.allowsRotation = false
+        physicsBodyObstacle.isDynamic = true
+        obstacle.physicsBody = physicsBodyObstacle
+        obstacle.position = CGPoint(x: (self.view?.frame.maxX) ?? 0 + 100, y: (self.view?.frame.midY) ?? 0)
+        obstacle.name = "obstacle"
+        self.obstacle = obstacle
+        self.addChild(obstacle)
+    }
+    
+    func moveObstacle(time: Double, positionOffsetX: Double, positionOffsetY: Double, completion: @escaping () -> Void) {
+        let moveAction = SKAction.move(to: CGPoint(
+            x: (self.view?.frame.minX ?? 0) + positionOffsetX - 100,
+            y: (self.view?.frame.midY ?? 0) + positionOffsetY + ((self.view?.frame.height ?? 0.0) * 0.50)),
+            duration: time)
+        obstacle.run(moveAction)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + time + 1.0) {
+            completion()
+        }
+
+    }
+    
+}
+//

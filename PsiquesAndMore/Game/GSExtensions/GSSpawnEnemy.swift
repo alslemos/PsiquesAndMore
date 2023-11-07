@@ -21,17 +21,22 @@ extension GameScene {
         physicsBodyObstacle.isDynamic = true
         obstacle.physicsBody = physicsBodyObstacle
         obstacle.position = CGPoint(x: (self.view?.frame.maxX) ?? 0 + 100, y: (self.view?.frame.midY) ?? 0)
-        
+        obstacle.name = "obstacle"
         self.obstacle = obstacle
         self.addChild(obstacle)
     }
     
-    func moveObstacle(time: Double, positionOffsetX: CGFloat, positionOffsetY: CGFloat) {
+    func moveObstacle(time: Double, positionOffsetX: Double, positionOffsetY: Double, completion: @escaping () -> Void) {
         let moveAction = SKAction.move(to: CGPoint(
-            x: (self.view?.frame.minX) ?? 0 + positionOffsetX,
-            y: (self.view?.frame.midY) ?? 0 + positionOffsetY),
+            x: (self.view?.frame.minX ?? 0) + positionOffsetX - 100,
+            y: (self.view?.frame.midY ?? 0) + positionOffsetY + ((self.view?.frame.height ?? 0.0) * 0.50)),
             duration: time)
         obstacle.run(moveAction)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + time + 1.0) {
+            completion()
+        }
+
     }
     
 }
