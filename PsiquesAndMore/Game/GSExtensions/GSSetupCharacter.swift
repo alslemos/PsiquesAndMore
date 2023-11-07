@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 
 extension GameScene {
-    func setupCharacter(){
+    func setupCharacter() {
         square = SKSpriteNode(color: .red, size: CGSize(width: 150, height: 50))
         square.anchorPoint = CGPoint(x: 0.5, y: 0)
         
@@ -25,29 +25,36 @@ extension GameScene {
         square.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
         
         self.addChild(square)
+        createLimits()
     }
     
     func moveSpriteUP() {
-       print("moving up")
-       square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y + 50), duration: 0.2))
-   }
-   
-   // moveu para baixo
+        print("moving up")
+        square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y + 50), duration: 0.2))
+    }
+    
+    // moveu para baixo
     func moveSpriteDown() {
-       print("moving down")
-       square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y - 50), duration: 0.2))
-   }
-   
-   // moveu para a esquerda
+        print("moving down")
+        square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y - 50), duration: 0.2))
+    }
+    
+    // moveu para a esquerda
     func moveSpriteLeft() {
-       print("moving left")
-       square.run(.move(to: CGPoint(x: square.position.x - 10, y: square.position.y), duration: 0.2))
-       
-   }
-   
+        print("moving left")
+        square.run(.move(to: CGPoint(x: square.position.x - 50, y: square.position.y), duration: 0.2))
+    }
+    
     func moveSpriteRight() {
-       print("moving right")
-       square.run(.move(to: CGPoint(x: square.position.x + 50, y: square.position.y), duration: 0.2))
-   }
-   
+        print("moving right")
+        square.run(.move(to: CGPoint(x: square.position.x + 50, y: square.position.y), duration: 0.2))
+    }
+    
+    func createLimits() {
+        guard let view = self.view else { return }
+        
+        let maxXConstraint = SKConstraint.positionX(SKRange(upperLimit: view.frame.width))
+        let minXConstraint = SKConstraint.positionX(SKRange(lowerLimit: view.frame.width * 0.17))
+        square.constraints = [minXConstraint, maxXConstraint]
+    }
 }

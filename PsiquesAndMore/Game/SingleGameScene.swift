@@ -44,7 +44,7 @@ class SingleGameScene: SKScene {
     
     var isControlSet: Bool = false
     
-    var controls: Movements? = nil
+    var controls: Movements? = .downAndRight
     
     var areControlNodesSet: Bool = false
     
@@ -56,13 +56,22 @@ class SingleGameScene: SKScene {
         backgroundSpeed = 0
         createSubscriptions()
         savePlayer()
+        createLimits()
+    }
+    
+    func createLimits() {
+        guard let view = self.view else { return }
+        
+        let maxXConstraint = SKConstraint.positionX(SKRange(upperLimit: view.frame.width))
+        let minXConstraint = SKConstraint.positionX(SKRange(lowerLimit: view.frame.width * 0.17))
+        square.constraints = [minXConstraint, maxXConstraint]
     }
     
     func savePlayer() {
-        var allMovements: [Movements] = Movements.allCases
-        
-        guard let movements = allMovements.randomElement() else { return }
-        controls = movements
+//        var allMovements: [Movements] = Movements.allCases
+//        
+//        guard let movements = allMovements.randomElement() else { return }
+//        controls = movements
         
         setupCommands()
     }
@@ -201,8 +210,8 @@ class SingleGameScene: SKScene {
     }
     
     func setupCharacter(){
-        square = SKSpriteNode(color: .red, size: CGSize(width: 150, height: 50))
-        square.anchorPoint = CGPoint(x: 0.5, y: 0)
+        square = SKSpriteNode(color: .red, size: CGSize(width: 30, height: 30))
+//        square.anchorPoint = CGPoint(x: 0.5, y: 0)
         
         let physicsBodyCharacter = SKPhysicsBody(rectangleOf: CGSize(width: 150, height: 50))
         physicsBodyCharacter.contactTestBitMask = 0x00000001
@@ -213,7 +222,7 @@ class SingleGameScene: SKScene {
         
         square.physicsBody = physicsBodyCharacter
         square.name = "character"
-        square.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
+        square.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)! + 100)
         
         self.addChild(square)
     }
@@ -232,7 +241,7 @@ class SingleGameScene: SKScene {
    // moveu para a esquerda
     func moveSpriteLeft() {
        print("moving left")
-       square.run(.move(to: CGPoint(x: square.position.x - 10, y: square.position.y), duration: 0.2))
+       square.run(.move(to: CGPoint(x: square.position.x - 50, y: square.position.y), duration: 0.2))
        
    }
    
