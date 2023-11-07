@@ -24,7 +24,7 @@ struct FirstView: View {
         ZStack {
             if true || matchManager.isGamePresented {
                 VStack {
-                    SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
+                    SpriteView(scene: scene, debugOptions: .showsPhysics).ignoresSafeArea().navigationBarBackButtonHidden(true)
                 }
             } else {
                 NavigationStack {

@@ -8,16 +8,54 @@ class GameScene2: SKScene {
     // tempo
     
     var virtualController: GCVirtualController?
+    //var square = SKSpriteNode()
+    
+    private var square = SKSpriteNode(imageNamed: "personagem")
     
     private var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
+    // chao
+    private let floor = SKSpriteNode(imageNamed: "floor")
+    
     
     override func didMove(to view: SKView) {
         triggerCommands()
+        triggerFloor()
+        triggerCharacter()
+    
     }
     
+    override func update(_ currentTime: TimeInterval) {
+        square.physicsBody?.applyForce(CGVector(dx: 1, dy: 0))
+        // vai aumentar
+    }
     /// criando elementos visuais
     ///
     ///
+    
+    // personagem
+    
+  
+    func triggerCharacter(){
+        print("Disparou personagem")
+        
+        let pb = SKPhysicsBody(rectangleOf: CGSize(width: 30, height: 30))// SKPhysicsBody(texture: square.texture!, size: square.texture!.size())
+       
+//        square.anchorPoint = CGPoint(x: 0.0, y: 0)
+        
+       
+        pb.contactTestBitMask = 0x00000001
+        pb.allowsRotation = false
+        pb.isDynamic = true
+//        pb.node?.physicsBody?.mass = 16.0
+        pb.node?.physicsBody?.friction = 0.0
+        
+        square.physicsBody = pb
+        square.name = "square"
+        square.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)! + 100)
+        
+        self.addChild(square)
+    }
+    
     
     // comecando os comandos
     func triggerCommands(){
@@ -29,6 +67,25 @@ class GameScene2: SKScene {
         getInputCommand()
     }
     
+    
+    private func triggerFloor(){
+        // floor
+        let pb = SKPhysicsBody(texture: floor.texture!,
+                               size: floor.texture!.size())
+        
+        pb.isDynamic = false
+        pb.node?.physicsBody?.friction = 0.0
+        
+        // pb.categoryBitMask
+        // pb.contactTestBitMask
+        // pb.collisionBitMask
+        
+        floor.physicsBody = pb
+        floor.name = "floor"
+        
+        floor.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
+        self.addChild(floor)
+    }
     
     ///
     // pegando os valores dos comandos

@@ -100,6 +100,8 @@ class GameScene: SKScene {
     }
     
     // comecando o chao
+    // personagem
+   
     func triggerCharacter(){
         square = SKSpriteNode(color: .red, size: CGSize(width: 150, height: 50))
         square.anchorPoint = CGPoint(x: 0.5, y: 0)
