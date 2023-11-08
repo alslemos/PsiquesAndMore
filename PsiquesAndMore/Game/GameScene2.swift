@@ -9,7 +9,7 @@ class GameScene2: SKScene {
     
     var virtualController: GCVirtualController?
     //var square = SKSpriteNode()
-    private var CharacterVelocity: Int = 5
+    private var CharacterVelocity: Int = 0
     
     private var square = SKSpriteNode(imageNamed: "personagem")
     
@@ -56,6 +56,7 @@ class GameScene2: SKScene {
         pb.isDynamic = true
 //        pb.node?.physicsBody?.mass = 16.0
         pb.node?.physicsBody?.friction = 0.0
+        pb.node?.physicsBody?.affectedByGravity = true
         
         square.physicsBody = pb
         square.name = "square"
@@ -125,9 +126,6 @@ class GameScene2: SKScene {
             heartPath.addLine(to: CGPoint(x: 150, y: 20))
             heartPath.close()
             
-            
-            
-            
             return heartPath
         }
         
@@ -176,85 +174,38 @@ class GameScene2: SKScene {
         
        
         
-//        if let buttons = virtualController!.controller?.extendedGamepad {
-//            leftButton = buttons.leftTrigger
-//            leftButton?.sfSymbolsName = "arrow.up.and.down.and.sparkles"
-//            
-//            
-//            rightButton = buttons.buttonX
-//            rightButton!.sfSymbolsName = "square.and.arrow.up"
-//            rightButton!.unmappedSfSymbolsName = "square.and.arrow.up"
-//            
-//            virtualController!.updateConfiguration(forElement: GCInputButtonX) { configuration in
-//                return configuration
-//            }
-//            
-//            stickXAxis = buttons.leftThumbstick.xAxis
-//        }
+        if let buttons = virtualController!.controller?.extendedGamepad {
+            leftButton = buttons.leftTrigger
+            leftButton?.sfSymbolsName = "arrow.up.and.down.and.sparkles"
+            
+            
+            rightButton = buttons.buttonX
+            rightButton!.sfSymbolsName = "square.and.arrow.up"
+            rightButton!.unmappedSfSymbolsName = "square.and.arrow.up"
+            
+            virtualController!.updateConfiguration(forElement: GCInputButtonX) { configuration in
+                return configuration
+            }
+            
+            stickXAxis = buttons.leftThumbstick.xAxis
+        }
         
-        // nao usando ainda
-//        stickXAxis?.valueChangedHandler = {
-//            ( _ button: GCControllerAxisInput, _ value: Float) -> Void in
-//            print(value)
-//            
-//            // faz algo com essa info
-//            
-//            if value == 0.0 {
-//                // faz algo
-//            }
-//        }
+
+     
         
-//        leftButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
-//            if pressed {
-//                if self.gameModel.players[index].movements == .upAndLeft {
-//                    print("Clicked left")
-//                    leftButton?.sfSymbolsName = "arrowshape.left"
-//                    
-//                    self.moveSpriteLeft()
-//                    self.gameModel.players[index].didMoveControl1 = true
-//                    
-//                    self.sendData {
-//                        print("sending movement data")
-//                    }
-//                } else {
-//                    print("Clicked right")
-//                    leftButton?.sfSymbolsName = "arrowshape.right"
-//                    self.moveSpriteRight()
-//                    self.gameModel.players[index].didMoveControl1 = true
-//                    
-//                    self.sendData {
-//                        print("sending movement data")
-//                    }
-//                }
-//            }
-//        }
+        leftButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
+           
+            
+            if pressed {
+              
+                print("pressionou, pulou ")
+                self.square.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 15))
+            
+            }
+        }
         
-//        rightButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
-//            if pressed {
-//                if self.gameModel.players[index].movements == .upAndLeft {
-//                    print("Clicked up") //arrow.up
-//                    rightButton?.sfSymbolsName = "arrow.up"
-//                    self.moveSpriteUP()
-//                    self.gameModel.players[index].didMoveControl2 = true
-//                    
-//                    self.sendData {
-//                        print("sending movement data")
-//                    }
-//                } else {
-//                    print("Clicked down")
-//                    rightButton?.sfSymbolsName = "arrow.down"
-//                    self.moveSpriteDown()
-//                    self.gameModel.players[index].didMoveControl2 = true
-//                    
-//                    self.sendData {
-//                        print("sending movement data")
-//                    }
-//                }
-//            }
-//        }
+
     }
-    
-    
     
     // removendo os comandos da tela
     private func removeComands(){
