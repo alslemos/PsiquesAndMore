@@ -46,6 +46,7 @@ class GameScene: SKScene {
     // obstáculos
     
     var obstacle = SKSpriteNode()
+    var rock = SKSpriteNode()
     
     // logica do jogo
     var matchManager: MatchManager?
@@ -72,6 +73,7 @@ class GameScene: SKScene {
     var remotePlayerIndex: Int?
     
     var obstaclesMovements: [ObstacleMovement] = []
+    var rocksMovements: [RockMovement] = []
     
     override func didMove(to view: SKView) {
         gameModel = GameModel()
@@ -93,6 +95,26 @@ class GameScene: SKScene {
         timerTracker()
     }
     
+    func rockSpawner() {
+        print("DEBUG: inside rockSpawner")
+        
+        let rocksPublisher: Publishers.Sequence<[RockMovement], Never> = rocksMovements.publisher
+        
+        let timer = Timer.publish(every: 2, on: .main, in: .common)
+            .autoconnect()
+        
+        let subscription = rocksPublisher.zip(timer)
+        
+        subscription
+            .map { _ in
+                
+            }
+            .sink { _ in
+                
+            }
+        
+    }
+    
     func obstacleSpawner() {
         print("DEBUG: inside obstacleSpawner")
         
@@ -108,8 +130,6 @@ class GameScene: SKScene {
                 self.setupObstacle {
                     self.moveObstacle(obstacleMovement: obstacleMovement) {
                         print("DEBUG: inside closure")
-                        print("\(self.view?.frame.maxX ?? 0)")
-                        print("\(self.view?.frame.maxY ?? 0)")
                         
                         if let child = self.childNode(withName: "obstacle") as? SKSpriteNode {
                             print("DEBUG: child node exists")

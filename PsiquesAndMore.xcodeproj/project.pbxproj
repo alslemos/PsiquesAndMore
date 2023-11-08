@@ -11,6 +11,7 @@
 		1C452ED72AF2BB07001F696B /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C452ED62AF2BB07001F696B /* GameOverView.swift */; };
 		1C452ED92AF2C3BD001F696B /* GSSetupPauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C452ED82AF2C3BD001F696B /* GSSetupPauseButton.swift */; };
 		1C6B5C062AFAA3AA00F66A5E /* GSSpawnEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6B5C052AFAA3AA00F66A5E /* GSSpawnEnemy.swift */; };
+		1C6B5C0C2AFC0E1500F66A5E /* GSSpawnFallingRock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6B5C0B2AFC0E1500F66A5E /* GSSpawnFallingRock.swift */; };
 		6806C3E12AEAF70D00EDED8E /* MatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E02AEAF70D00EDED8E /* MatchManager.swift */; };
 		6806C3E32AEAF84900EDED8E /* MatchManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E22AEAF84900EDED8E /* MatchManager+Extensions.swift */; };
 		6806C3E62AEAF94300EDED8E /* PlayerAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E52AEAF94300EDED8E /* PlayerAuthState.swift */; };
@@ -39,6 +40,7 @@
 		1C452ED62AF2BB07001F696B /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
 		1C452ED82AF2C3BD001F696B /* GSSetupPauseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupPauseButton.swift; sourceTree = "<group>"; };
 		1C6B5C052AFAA3AA00F66A5E /* GSSpawnEnemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSpawnEnemy.swift; sourceTree = "<group>"; };
+		1C6B5C0B2AFC0E1500F66A5E /* GSSpawnFallingRock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSpawnFallingRock.swift; sourceTree = "<group>"; };
 		6806C3E02AEAF70D00EDED8E /* MatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchManager.swift; sourceTree = "<group>"; };
 		6806C3E22AEAF84900EDED8E /* MatchManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatchManager+Extensions.swift"; sourceTree = "<group>"; };
 		6806C3E52AEAF94300EDED8E /* PlayerAuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerAuthState.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				E7C5580A2AF92EEA00F07740 /* GSSetupCommands.swift */,
 				E7C5580C2AF93B4700F07740 /* GSGKMatchDelegate.swift */,
 				1C6B5C052AFAA3AA00F66A5E /* GSSpawnEnemy.swift */,
+				1C6B5C0B2AFC0E1500F66A5E /* GSSpawnFallingRock.swift */,
 			);
 			path = GSExtensions;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				6806C3E12AEAF70D00EDED8E /* MatchManager.swift in Sources */,
 				1C6B5C062AFAA3AA00F66A5E /* GSSpawnEnemy.swift in Sources */,
 				685A59742AFAA3AD0026A307 /* SingleGameScene.swift in Sources */,
+				1C6B5C0C2AFC0E1500F66A5E /* GSSpawnFallingRock.swift in Sources */,
 				E7D119372ADE077C00ECA9BE /* PsiquesAndMoreApp.swift in Sources */,
 				6806C3E32AEAF84900EDED8E /* MatchManager+Extensions.swift in Sources */,
 				E7C5580B2AF92EEA00F07740 /* GSSetupCommands.swift in Sources */,
