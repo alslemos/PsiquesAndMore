@@ -65,6 +65,7 @@ extension GameScene {
         square.run(.move(to: CGPoint(x: square.position.x - 20, y: square.position.y + 15), duration: 0.2))
     }
     
+    
     // talvez tenha de ir para a GameScene
     // alterar o valor pelo publisher do combine!
     override func update(_ currentTime: TimeInterval) {
