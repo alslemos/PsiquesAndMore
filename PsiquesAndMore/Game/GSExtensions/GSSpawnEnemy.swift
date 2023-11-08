@@ -10,7 +10,7 @@ import SpriteKit
 
 extension GameScene {
     
-    func setupObstacle() {
+    func setupObstacle(_ completion: @escaping () -> ()) {
         let obstacle = SKSpriteNode(color: .blue, size: CGSize(width: 50, height: 50))
         obstacle.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
@@ -24,16 +24,18 @@ extension GameScene {
         obstacle.name = "obstacle"
         self.obstacle = obstacle
         self.addChild(obstacle)
+        completion()
     }
     
-    func moveObstacle(time: Double, positionOffsetX: Double, positionOffsetY: Double, completion: @escaping () -> Void) {
+    func moveObstacle(fooAndFred: FooAndFred, positionOffsetX: Double = 0.0, completion: @escaping () -> Void) {
+        
         let moveAction = SKAction.move(to: CGPoint(
             x: (self.view?.frame.minX ?? 0) + positionOffsetX - 100,
-            y: (self.view?.frame.midY ?? 0) + positionOffsetY + ((self.view?.frame.height ?? 0.0) * 0.50)),
-            duration: time)
+            y: (self.view?.frame.midY ?? 0) + fooAndFred.foo + ((self.view?.frame.height ?? 0.0) * 0.50)),
+                                       duration: fooAndFred.fred)
         obstacle.run(moveAction)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + time + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + fooAndFred.fred + 1.0) {
             completion()
         }
 
