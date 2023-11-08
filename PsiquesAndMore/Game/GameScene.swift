@@ -65,13 +65,13 @@ class GameScene: SKScene {
         }
     }
     
-    var areControlNodesSet: Bool = false
-    
+    // players info
     var localPlayerIndex: Int?
     var remotePlayerIndex: Int?
+    var players: [Player] = []
     
+    // start date
     var startDate: Date? = nil
-    
     var startGameSubscription: AnyCancellable?
     
     var didGameStart: Bool! {
@@ -80,36 +80,54 @@ class GameScene: SKScene {
         }
     }
     
+    // debug: show start date on screen
     var startTime = SKLabelNode()
     
     override func didMove(to view: SKView) {
         gameModel = GameModel()
         match?.delegate = self
         
+        // debug: show start date on screen
+        startTime.text = "Loading..."
         startTime.position = CGPoint(x: view.frame.midX, y: view.frame.midY + 100)
         addChild(startTime)
         
         didGameStart = false
-        checkPlayerIndex()
+    }
+    
+    func setGame(_ completion: @escaping () -> ()) {
+        self.setupPauseButton()
+        self.setupCharacter()
+        self.setupFloor()
+        self.savePlayers {
+            completion()
+        }
     }
     
     func startGame() {
         if didGameStart {
+            // deallocate start game subscription
             self.startGameSubscription = nil
+            
+            // continue game
             self.isPaused = false
-            self.setupPauseButton()
-            self.setupCharacter()
-            self.setupFloor()
             
             self.backgroundSpeed = 0
             self.createSubscriptions()
-            self.savePlayers()
             
+            // debug: show start date on screen
             guard let date = startDate else { return }
             
-            self.startTime.text = "\(date)"
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "HH:mm:ss"
+            
+            let dateString = dateFormatter.string(from: date)
+            
+            self.startTime.text = "game started at \(dateString)"
         } else {
             self.isPaused = true
+            
+            checkPlayerIndex()
         }
     }
     
@@ -119,7 +137,7 @@ class GameScene: SKScene {
         let localPlayer = Player(displayName: GKLocalPlayer.local.displayName, movements: .upAndLeft)
         let remotePlayer = Player(displayName: remotePlayerName, movements: .downAndRight)
         
-        var players = [localPlayer, remotePlayer]
+        self.players = [localPlayer, remotePlayer]
         players.sort { (localPlayer, remotePlayer) -> Bool in
             localPlayer.displayName < remotePlayer.displayName
         }
@@ -127,11 +145,11 @@ class GameScene: SKScene {
         self.localPlayerIndex = players.firstIndex { $0.displayName == localPlayer.displayName }
         self.remotePlayerIndex = players.firstIndex { $0.displayName == remotePlayer.displayName }
         
-        guard let localIndex = self.localPlayerIndex else { return }
-        
-        if localIndex == 0 {
+        if let index = self.localPlayerIndex, index == 0 {
             getStartDate {
-                self.startGamePublisher()
+                self.setGame {
+                    self.startGamePublisher()
+                }
             }
         }
     }
@@ -163,11 +181,11 @@ class GameScene: SKScene {
         backgroundPositionUpdater()
         velocityUpdater()
         timerTracker()
-        obstacleSpawner()
     }
     
     func startGamePublisher() {
         print("starting game publisher")
+        
         startGameSubscription = Timer.publish(every: 0.001, on: .main, in: .common)
             .autoconnect()
             .map { _ in
@@ -184,34 +202,10 @@ class GameScene: SKScene {
                 let currentSeconds = calendar.component(.second, from: currentDate)
                 let currentMinutes = calendar.component(.minute, from: currentDate)
                 
-                if currentMinutes == startMinutes && currentSeconds == startSeconds + 4 {
+                if currentMinutes == startMinutes && currentSeconds == startSeconds + 4 {                    
                     self.didGameStart = true
                 }
             }
-    }
-    
-    private func obstacleSpawner() {
-        print("DEBUG: inside obstacleSpawner")
-        let publisher = Timer.publish(every: 2, on: .main, in: .common)
-            .autoconnect()
-        let subscription = publisher
-        
-        subscription
-            .map { _ in
-                self.setupObstacle()
-                return self.obstacle
-            }
-            .sink { obstacle in
-                self.moveObstacle(time: Double.random(in: 0.5...2.0), positionOffsetX: 0.0, positionOffsetY: Double.random(in: 0.0...400.0), completion: {
-                    print("DEBUG: inside closure")
-                    print("\(self.view?.frame.maxX ?? 0)")
-                    print("\(self.view?.frame.maxY ?? 0)")
-                    if let child = self.childNode(withName: "obstacle") as? SKSpriteNode {
-                        print("DEBUG: child node exists")
-                        child.removeFromParent()
-                    }
-                })
-            }.store(in: &cancellables)
     }
     
     private func backgroundPositionUpdater() {
@@ -332,36 +326,25 @@ class GameScene: SKScene {
         }
     }
     
-    func savePlayers() {
-        guard let remotePlayerName = match?.players.first?.displayName else { return }
+    func savePlayers(_ completion: @escaping () -> ()) {
+        self.gameModel.players = self.players
         
-        let localPlayer = Player(displayName: GKLocalPlayer.local.displayName, movements: .upAndLeft)
-        let remotePlayer = Player(displayName: remotePlayerName, movements: .downAndRight)
-        
-        var players = [localPlayer, remotePlayer]
-        players.sort { (localPlayer, remotePlayer) -> Bool in
-            localPlayer.displayName < remotePlayer.displayName
-        }
-        
-        self.localPlayerIndex = players.firstIndex { $0.displayName == localPlayer.displayName }
-        self.remotePlayerIndex = players.firstIndex { $0.displayName == remotePlayer.displayName }
-        
-        self.gameModel.players = players
-        
-        if let index = localPlayerIndex {
-            if index == 0 {
-                print("sou o player principal")
-                let movements = setMovementsForPlayer()
-                gameModel.players[0].movements = movements[0]
-                gameModel.players[1].movements = movements[1]
+        if let index = self.localPlayerIndex, index == 0 {
+            let movements = setMovementsForPlayer()
+            gameModel.players[0].movements = movements[0]
+            gameModel.players[1].movements = movements[1]
+            
+            sendData {
+                print("sending game model data")
+                self.saveControls()
                 
-                sendData {
-                    print("sending game model data")
-                    self.saveControls()
-                    print("triggering commands")
-                    self.setupCommands()
-                }
+                print("triggering commands")
+                self.setupCommands()
+                
+                completion()
             }
+        } else {
+            completion()
         }
     }
     
@@ -407,13 +390,6 @@ class GameScene: SKScene {
     
     private func updateUI() {
         guard self.gameModel.players.count >= 2 else { return }
-        
-        if let controls = self.controls, controls.count >= 2 {
-            if !areControlNodesSet {
-                //                setControlNodes()
-                areControlNodesSet = false
-            }
-        }
         
         guard let remoteIndex = remotePlayerIndex else { return }
         
