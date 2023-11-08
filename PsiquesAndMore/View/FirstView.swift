@@ -33,6 +33,7 @@ struct FirstView: View {
         scene.match = matchManager.wrappedValue.match
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .fill
+        scene.view?.showsPhysics = true
         self.scene = scene
         
         let singleScene = SingleGameScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))

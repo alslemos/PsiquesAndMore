@@ -54,7 +54,6 @@ extension GameScene {
     }
     
     func moveObstacle(obstacleMovement: ObstacleMovement, completion: @escaping () -> Void) {
-        
         let moveAction = SKAction.move(to: CGPoint(
             x: (self.view?.frame.minX ?? 0) + obstacleMovement.offsetX - 100,
             y: (self.view?.frame.midY ?? 0) + obstacleMovement.offsetY + ((self.view?.frame.height ?? 0.0) * 0.50)),

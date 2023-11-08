@@ -7,6 +7,8 @@ import Combine
 class GameScene: SKScene {
     var rectangle = SKSpriteNode()
     
+    var characterVelocity: Int = 0
+    
     // Don't forget to cancel this afterwards
     private var cancellables = Set<AnyCancellable>()
     
@@ -39,7 +41,7 @@ class GameScene: SKScene {
     // personagem
     var velocityX: CGFloat = 0.0
     var velocityY: CGFloat = 0.0
-    var square = SKSpriteNode()
+    var square = SKSpriteNode(imageNamed: "personagem")
     
     // obstáculos
     

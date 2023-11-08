@@ -25,7 +25,7 @@ extension GameScene {
         
         rectangleHeigth = sin(rotationAngle) * (self.view?.frame.width)!
 
-        rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "agoraVai")!), 
+        rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "agoraVai")!),
                                  size: CGSize(width: rectangleWidth * 2, height: rectangleHeigth))
       
         rectangle.name = "floor"
@@ -33,7 +33,14 @@ extension GameScene {
         rectangle.position = CGPoint(x: (self.view?.frame.width)!, y: 0)
         rectangle.zRotation = -(rotationAngle)
         
-        addChild(rectangle)
+        
+        let pb = SKPhysicsBody(texture: rectangle.texture!,
+                                       size: rectangle.texture!.size())
+        pb.isDynamic = false
+        pb.node?.physicsBody?.friction = 0.0
+        rectangle.physicsBody = pb
+        
+        self.addChild(rectangle)
     }
     
      func moveBackground() {
@@ -46,4 +53,6 @@ extension GameScene {
     }
     
 }
+
+
 
