@@ -26,7 +26,7 @@ class GameScene: SKScene {
     private let floor = SKSpriteNode(imageNamed: "floor")
     
     // fundo
-    private var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
+    private var jorge = SKSpriteNode(imageNamed: "backgroundImage")
     
     // personagem
     var velocityX: CGFloat = 0.0
@@ -60,15 +60,21 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         match?.delegate = self
-        
         gameModel = GameModel()
+        triggerJorge()
         savePlayers()
         triggerCharacter()
         triggerFloor()
+        
+       
     }
     
     /// criando elementos visuais
     ///
+    ///
+     func triggerJorge(){
+        print("JORGE")
+    }
     ///
     // comecando o chao
     private func triggerFloor(){
@@ -316,7 +322,7 @@ class GameScene: SKScene {
         square.removeFromParent()
         timerLabel.removeFromParent()
         floor.removeFromParent()
-        backgroundImage.removeFromParent()
+        jorge.removeFromParent()
         removeComands()
         
         NotificationCenter.default.post(name: .restartGameNotificationName, object: nil)

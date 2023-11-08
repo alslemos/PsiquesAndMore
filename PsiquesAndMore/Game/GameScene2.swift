@@ -17,13 +17,23 @@ class GameScene2: SKScene {
     // chao
     private let floor = SKSpriteNode(imageNamed: "floor")
     
+    private var timerLabel = SKLabelNode()
+    
+    var pauseButton: SKSpriteNode?
+    var heartArray: SKSpriteNode?
     
     override func didMove(to view: SKView) {
         triggerCommands()
         triggerFloor()
         triggerCharacter()
+        triggerBackground()
+        setupPauseButton()
+        triggerTimer()
+        triggerLives()
     
     }
+    
+    
     
     override func update(_ currentTime: TimeInterval) {
         square.physicsBody?.applyForce(CGVector(dx: CharacterVelocity, dy: 0))
@@ -40,8 +50,52 @@ class GameScene2: SKScene {
     ///
     ///
     
-    // personagem
+    func triggerTimer(){
+//        timerLabel.position = CGPoint(x: label.position.x, y: label.position.y - 50)
+        
+        
+        
+        timerLabel.position = CGPoint(
+            x: self.frame.midX,
+                y: self.frame.maxY - 64)
+        
+               timerLabel.fontColor = .white
+               timerLabel.numberOfLines = 1
+               timerLabel.fontSize = 20
+        timerLabel.zPosition = 1
+        addChild(timerLabel)
+        
+        startTimer()
+    }
     
+    
+    func startTimer(){
+        let timer = Timer.publish(every: 1, on: .main, in: .common)
+                   .autoconnect()
+               
+               let subscription = timer
+                   .scan(0, { count, _ in
+                       return count + 1
+                   })
+                   .sink { completion in
+                       print("data stream completion \(completion)")
+                   } receiveValue: { timeStamp in
+                       self.timerLabel.text = "\(timeStamp)"
+                   }
+               
+               DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
+                  
+                   subscription.cancel()
+               }
+    }
+    
+    // personagem
+    func triggerBackground(){
+        backgroundImage.zPosition = 0
+        backgroundImage.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+
+        addChild(backgroundImage)
+    }
   
     func triggerCharacter(){
         print("Disparou personagem")
@@ -58,6 +112,7 @@ class GameScene2: SKScene {
         pb.node?.physicsBody?.friction = 0.0
         pb.node?.physicsBody?.affectedByGravity = true
         
+        square.zPosition = 1
         square.physicsBody = pb
         square.name = "square"
         square.position = CGPoint(x: (self.view?.frame.minX)! + 50, y: (self.view?.frame.midY)! + 100)
@@ -77,6 +132,44 @@ class GameScene2: SKScene {
     }
     
     
+    func setupPauseButton() {
+            let pauseButton = SKSpriteNode(texture: SKTexture(image: UIImage(systemName: "pause.fill") ?? UIImage()))
+            pauseButton.size = CGSize(
+                width: 32,
+                height: 32)
+        
+        
+            pauseButton.position = CGPoint(
+                x: self.frame.maxX - 64,
+                y: self.frame.maxY - 64)
+            pauseButton.zPosition = 50
+            pauseButton.name = "pauseButton"
+        pauseButton.zPosition = 1
+           
+            addChild(pauseButton)
+        }
+    
+    func triggerLives() {
+        //heartArray
+        print("Nas vidas manorlo")
+        
+        let heartButton = SKSpriteNode(texture: SKTexture(image: UIImage(systemName: "heart.fill") ?? UIImage()))
+        heartButton.size = CGSize(
+            width: 32,
+            height: 32)
+    
+    
+        heartButton.position = CGPoint(
+            x: self.frame.minX + 30,
+            y: self.frame.maxY - 64)
+        heartButton.zPosition = 50
+        heartButton.name = "pauseButton"
+    heartButton.zPosition = 1
+       
+        addChild(heartButton)
+    }
+    
+    
     private func triggerFloor(){
         // floor
         let pb = SKPhysicsBody(texture: floor.texture!,
@@ -88,7 +181,7 @@ class GameScene2: SKScene {
         // pb.categoryBitMask
         // pb.contactTestBitMask
         // pb.collisionBitMask
-        
+        floor.zPosition = 1
         floor.physicsBody = pb
         floor.name = "floor"
         
