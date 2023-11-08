@@ -12,7 +12,6 @@ extension GameScene {
     
     
     func setupFloor(){
-        var verticalThresholdPoint: CGFloat = 0
         var rectangleWidth: CGFloat = 0
         var rectangleHeigth: CGFloat = 0
         
@@ -29,13 +28,14 @@ extension GameScene {
                                  size: CGSize(width: rectangleWidth * 2, height: rectangleHeigth))
       
         rectangle.name = "floor"
-        rectangle.anchorPoint = CGPoint(x: 0.5, y: 1)
-        rectangle.position = CGPoint(x: (self.view?.frame.width)!, y: 0)
+        rectangle.anchorPoint = CGPoint(x: 0, y: 1)
+        rectangle.position = CGPoint(x: 0, y: verticalThresholdPoint)
         rectangle.zRotation = -(rotationAngle)
         
         
-        let pb = SKPhysicsBody(texture: rectangle.texture!,
-                                       size: rectangle.texture!.size())
+//        let pb = SKPhysicsBody(texture: rectangle.texture!,
+//                                       size: rectangle.texture!.size())
+        let pb = SKPhysicsBody(rectangleOf: rectangle.size, center: CGPoint(x: rectangleWidth, y: -(rectangleHeigth / 2)))
         pb.isDynamic = false
         pb.node?.physicsBody?.friction = 0.0
         rectangle.physicsBody = pb

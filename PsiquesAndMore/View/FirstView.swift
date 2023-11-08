@@ -33,7 +33,6 @@ struct FirstView: View {
         scene.match = matchManager.wrappedValue.match
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .fill
-        scene.view?.showsPhysics = true
         self.scene = scene
         
         let singleScene = SingleGameScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
@@ -49,7 +48,7 @@ struct FirstView: View {
                     if showSingleScene {
                         SpriteView(scene: singleScene).ignoresSafeArea().navigationBarBackButtonHidden(true)
                     } else {
-                        SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
+                        SpriteView(scene: scene, debugOptions: .showsPhysics).ignoresSafeArea().navigationBarBackButtonHidden(true)
                     }
                 }
                 

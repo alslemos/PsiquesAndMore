@@ -12,14 +12,16 @@ extension GameScene {
     func setupCharacter() {
         print("Disparando personagem")
         
-        let pb = SKPhysicsBody(rectangleOf: CGSize(width: 30, height: 30))
+        let pb = SKPhysicsBody(rectangleOf: CGSize(width: 30, height: 30), center: CGPoint(x: 0, y: square.frame.height / 2))
         
         //      pb.contactTestBitMask = 0x00000001
         pb.allowsRotation = false
         pb.isDynamic = true
+        pb.affectedByGravity = true
         //      pb.node?.physicsBody?.mass = 16.0
         pb.node?.physicsBody?.friction = 0.0
         
+        square.anchorPoint = CGPoint(x: 0.5, y: 0)
         square.physicsBody = pb
         square.name = "square"
         square.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)! + 100)

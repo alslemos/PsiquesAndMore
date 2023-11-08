@@ -12,8 +12,9 @@ class GameScene: SKScene {
     // Don't forget to cancel this afterwards
     private var cancellables = Set<AnyCancellable>()
     
-    // unica propriedade que n dá mt para tirar
+    // unicas propriedades que n dá mt para tirar
     var rotationAngle: CGFloat = 0
+    var verticalThresholdPoint: CGFloat = 0
     
     var squareYPosition: CGFloat = 0
     
@@ -142,8 +143,8 @@ class GameScene: SKScene {
                 return self.rectangle.position
             }
             .sink { position in
-                if position.x <= 0 {
-                    self.rectangle.position = CGPoint(x: view.frame.width, y: 0)
+                if position.x <= -(view.frame.width) {
+                    self.rectangle.position = CGPoint(x: 0, y: self.verticalThresholdPoint)
                 }
             }.store(in: &cancellables)
     }
