@@ -9,6 +9,7 @@ class GameScene2: SKScene {
     
     var virtualController: GCVirtualController?
     //var square = SKSpriteNode()
+    private var CharacterVelocity: Int = 5
     
     private var square = SKSpriteNode(imageNamed: "personagem")
     
@@ -25,7 +26,14 @@ class GameScene2: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        square.physicsBody?.applyForce(CGVector(dx: 1, dy: 0))
+        square.physicsBody?.applyForce(CGVector(dx: CharacterVelocity, dy: 0))
+        
+        if Int.random(in: 0...20) > 19 {
+            CharacterVelocity += 1
+            print(CharacterVelocity)
+        }
+        
+      
         // vai aumentar
     }
     /// criando elementos visuais
@@ -51,7 +59,7 @@ class GameScene2: SKScene {
         
         square.physicsBody = pb
         square.name = "square"
-        square.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)! + 100)
+        square.position = CGPoint(x: (self.view?.frame.minX)! + 50, y: (self.view?.frame.midY)! + 100)
         
         self.addChild(square)
     }
@@ -83,7 +91,7 @@ class GameScene2: SKScene {
         floor.physicsBody = pb
         floor.name = "floor"
         
-        floor.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
+        floor.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.minY)! + 100 )
         self.addChild(floor)
     }
     
