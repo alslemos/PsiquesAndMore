@@ -4,11 +4,6 @@ import GameKit
 import SpriteKit
 import Combine
 
-struct FooAndFred: Codable {
-    var foo: Double
-    var fred: Double
-}
-
 class GameScene: SKScene {
     var rectangle = SKSpriteNode()
     
@@ -74,122 +69,19 @@ class GameScene: SKScene {
     var localPlayerIndex: Int?
     var remotePlayerIndex: Int?
     
-    var startDate: Date? = nil
-    
-    var startGameSubscription: AnyCancellable?
-    
-    var didGameStart: Bool! {
-        didSet {
-            startGame()
-        }
-    }
-    
-    var startTime = SKLabelNode()
-    
-    var fooAndFred: [FooAndFred] = []
+    var obstaclesMovements: [ObstacleMovement] = []
     
     override func didMove(to view: SKView) {
         gameModel = GameModel()
         match?.delegate = self
         
-        startTime.position = CGPoint(x: view.frame.midX, y: view.frame.midY + 100)
-        addChild(startTime)
+        self.setupPauseButton()
+        self.setupCharacter()
+        self.setupFloor()
         
-        didGameStart = false
-        checkPlayerIndex()
-    }
-    
-    func createFooAndFredArray(_ completion: @escaping () -> ()) {
-        for _ in 0..<30 {
-            let foo = Double.random(in: 0.0...400.0)
-            let fred = Double.random(in: 0.5...2.0)
-            
-            let ff = FooAndFred(foo: foo, fred: fred)
-            
-            fooAndFred.append(ff)
-        }
-        
-        sendFooAndFredData(fooAndFred)
-        completion()
-    }
-    
-    func sendFooAndFredData(_ fooAndFred: [FooAndFred]) {
-        print("sending foo and fred data")
-        do {
-            guard let data = try? JSONEncoder().encode(fooAndFred) else { return }
-            try self.match?.sendData(toAllPlayers: data, with: .reliable)
-
-        } catch {
-            print("send foo and fred data failed")
-        }
-    }
-    
-    func startGame() {
-        if didGameStart {
-            self.startGameSubscription = nil
-            self.isPaused = false
-            self.setupPauseButton()
-            self.setupCharacter()
-            self.setupFloor()
-            
-            self.backgroundSpeed = 0
-            self.createSubscriptions()
-            self.savePlayers()
-            
-            guard let date = startDate else { return }
-            
-            self.startTime.text = "\(date)"
-        } else {
-            self.isPaused = true
-        }
-    }
-    
-    func checkPlayerIndex() {
-        guard let remotePlayerName = match?.players.first?.displayName else { return }
-        
-        let localPlayer = Player(displayName: GKLocalPlayer.local.displayName, movements: .upAndLeft)
-        let remotePlayer = Player(displayName: remotePlayerName, movements: .downAndRight)
-        
-        var players = [localPlayer, remotePlayer]
-        players.sort { (localPlayer, remotePlayer) -> Bool in
-            localPlayer.displayName < remotePlayer.displayName
-        }
-        
-        self.localPlayerIndex = players.firstIndex { $0.displayName == localPlayer.displayName }
-        self.remotePlayerIndex = players.firstIndex { $0.displayName == remotePlayer.displayName }
-        
-        guard let localIndex = self.localPlayerIndex else { return }
-        
-        if localIndex == 0 {
-            getStartDate {
-                self.startGamePublisher()
-                self.createFooAndFredArray {
-                    self.obstacleSpawner()
-                }
-            }
-        }
-    }
-    
-    func getStartDate(_ completion: @escaping () -> ()) {
-        startDate = Date.now
-        print("date: \(startDate)")
-        
-        guard let date = startDate else { return }
-        
-        sendStartData(date) {
-            completion()
-        }
-    }
-    
-    func sendStartData(_ date: Date, _ completion: @escaping () -> ()) {
-        print("sending start date data")
-        do {
-            guard let data = try? JSONEncoder().encode(date) else { return }
-            try self.match?.sendData(toAllPlayers: data, with: .reliable)
-            completion()
-        } catch {
-            print("send start date data failed")
-        }
+        self.backgroundSpeed = 0
+        self.createSubscriptions()
+        self.savePlayers()
     }
     
     // MARK: - Combine functions
@@ -199,46 +91,24 @@ class GameScene: SKScene {
         timerTracker()
     }
     
-    func startGamePublisher() {
-        print("starting game publisher")
-        startGameSubscription = Timer.publish(every: 0.001, on: .main, in: .common)
-            .autoconnect()
-            .map { _ in
-                return self.startDate
-            }
-            .sink { startDate in
-                guard let date = startDate else { return }
-                
-                let calendar = Calendar.current
-                let startSeconds = calendar.component(.second, from: date)
-                let startMinutes = calendar.component(.minute, from: date)
-                
-                let currentDate = Date.now
-                let currentSeconds = calendar.component(.second, from: currentDate)
-                let currentMinutes = calendar.component(.minute, from: currentDate)
-                
-                if currentMinutes == startMinutes && currentSeconds == startSeconds + 4 {
-                    self.didGameStart = true
-                }
-            }
-    }
-    
     func obstacleSpawner() {
-        let fooBank: Publishers.Sequence<[FooAndFred], Never> = fooAndFred.publisher
-        
         print("DEBUG: inside obstacleSpawner")
+        
+        let obstaclesPublisher: Publishers.Sequence<[ObstacleMovement], Never> = obstaclesMovements.publisher
+        
         let timer = Timer.publish(every: 2, on: .main, in: .common)
             .autoconnect()
         
-        let subscription = fooBank.zip(timer)
+        let subscription = obstaclesPublisher.zip(timer)
         
         subscription
-            .tryMap { fooAndFredItem, _ in
+            .tryMap { obstacleMovement, _ in
                 self.setupObstacle {
-                    self.moveObstacle(fooAndFred: fooAndFredItem) {
+                    self.moveObstacle(obstacleMovement: obstacleMovement) {
                         print("DEBUG: inside closure")
                         print("\(self.view?.frame.maxX ?? 0)")
                         print("\(self.view?.frame.maxY ?? 0)")
+                        
                         if let child = self.childNode(withName: "obstacle") as? SKSpriteNode {
                             print("DEBUG: child node exists")
                             child.removeFromParent()
@@ -254,7 +124,7 @@ class GameScene: SKScene {
                         print("completion with failure: \(error.localizedDescription)")
                 }
             } receiveValue: { _ in
-                print("obstacle sent")
+                print("obstacle movement sent")
             }.store(in: &cancellables)
     }
     
@@ -402,8 +272,14 @@ class GameScene: SKScene {
                 sendData {
                     print("sending game model data")
                     self.saveControls()
+                    
                     print("triggering commands")
                     self.setupCommands()
+                    
+                    print("creating obstacles array")
+                    self.createObstaclesArray {
+                        self.obstacleSpawner()
+                    }
                 }
             }
         }

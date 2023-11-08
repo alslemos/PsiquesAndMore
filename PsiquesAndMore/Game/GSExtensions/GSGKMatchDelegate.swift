@@ -50,17 +50,10 @@ extension GameScene: GKMatchDelegate {
             }
         }
         
-        // Check if it's the start date data
-        if let startDate = try? JSONDecoder().decode(Date.self, from: data) {
-            print("start date data received")
-            self.startDate = startDate
-            startGamePublisher()
-        }
-        
-        // Check if it's the foo and fred data
-        if let fooAndFred = try? JSONDecoder().decode([FooAndFred].self, from: data) {
-            print("foo and fred data received")
-            self.fooAndFred = fooAndFred
+        // Check if it's the obstacles movements data
+        if let obstaclesMovements = try? JSONDecoder().decode([ObstacleMovement].self, from: data) {
+            print("obstacles movements data received")
+            self.obstaclesMovements = obstaclesMovements
             self.obstacleSpawner()
         }
     }
