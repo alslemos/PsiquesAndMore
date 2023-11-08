@@ -10,6 +10,8 @@ import SpriteKit
 
 extension GameScene {
     func setupCharacter(){
+     
+        
         print("Disparando personagem")
         
         let pb = SKPhysicsBody(rectangleOf: CGSize(width: 30, height: 30))
@@ -52,17 +54,21 @@ extension GameScene {
     
     func moveMountainUp() {
        print("moveMountainUp")
-        square.run(.move(to: CGPoint(x: square.position.x - 20, y: square.position.y), duration: 0.2))
+        square.run(.move(to: CGPoint(x: square.position.x - 20, y: square.position.y + 15), duration: 0.2))
    }
     
     // talvez tenha de ir para a GameScene
     // alterar o valor pelo publisher do combine! 
     override func update(_ currentTime: TimeInterval) {
-           square.physicsBody?.applyForce(CGVector(dx: 10, dy: 0))
-        
-        //    self.moveMountainUp() // trying to do the tk74
-        
-           // vai aumentar
-       }
+            square.physicsBody?.applyForce(CGVector(dx: CharacterVelocity, dy: 0))
+            
+            if Int.random(in: 0...20) > 19 {
+                CharacterVelocity += 1
+                print(CharacterVelocity)
+            }
+            
+            // moveMountainUp()
+            // vai aumentar
+        }
    
 }

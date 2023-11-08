@@ -7,6 +7,7 @@ import Combine
 
 class GameScene: SKScene {
     var rectangle = SKSpriteNode()
+    var CharacterVelocity: Int = 5
     
     // Don't forget to cancel this afterwards
     private var cancellables = Set<AnyCancellable>()
