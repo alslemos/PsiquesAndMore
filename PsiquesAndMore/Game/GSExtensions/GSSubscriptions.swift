@@ -65,9 +65,11 @@ extension GameScene {
         
         subscription
             .sink { _ in
-                if self.spawnObstacleDelay > 0 {
-                    self.spawnObstacleDelay -= 0.25
-                    self.fred()
+                if !self.isPaused {
+                    if self.spawnObstacleDelay > 0 {
+                        self.spawnObstacleDelay -= 0.25
+                        self.fred()
+                    }
                 }
             }.store(in: &cancellables)
     }
@@ -127,9 +129,11 @@ extension GameScene {
         
         subscription
             .sink { _ in
-                if self.spawnRockDelay > 0 {
-                    self.spawnRockDelay -= 0.25
-                    self.fred1()
+                if !self.isPaused {
+                    if self.spawnRockDelay > 0 {
+                        self.spawnRockDelay -= 0.25
+                        self.fred1()
+                    }
                 }
             }.store(in: &cancellables)
     }
