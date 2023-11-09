@@ -15,14 +15,14 @@ extension GameScene {
         var rectangleWidth: CGFloat = 0
         var rectangleHeigth: CGFloat = 0
         
-        verticalThresholdPoint = (self.view?.frame.height)! * 0.58
+        verticalThresholdPoint = (viewFrame.height) * 0.58
         
         rectangleWidth = sqrt((verticalThresholdPoint * verticalThresholdPoint) +
-                              ((self.view?.frame.width)! * (self.view?.frame.width)!))
+                              ((viewFrame.width) * (viewFrame.width)))
         
         rotationAngle = asin(verticalThresholdPoint / rectangleWidth)
         
-        rectangleHeigth = sin(rotationAngle) * (self.view?.frame.width)!
+        rectangleHeigth = sin(rotationAngle) * (viewFrame.width)
 
         rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "agoraVai")!),
                                  size: CGSize(width: rectangleWidth * 2, height: rectangleHeigth))

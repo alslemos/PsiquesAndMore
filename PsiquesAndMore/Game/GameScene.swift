@@ -5,6 +5,8 @@ import SpriteKit
 import SwiftUI
 
 class GameScene: SKScene {
+    var viewFrame: CGRect = CGRect()
+    
     var rectangle = SKSpriteNode()
     
     var characterVelocity: Int = 0
@@ -50,6 +52,9 @@ class GameScene: SKScene {
     var obstacle = SKSpriteNode()
     let spawnObstacleDelay: TimeInterval = 2
     
+    var rock = SKSpriteNode()
+    let spawnRockDelay: TimeInterval = 5
+    
     // logica do jogo
     var matchManager: MatchManager?
     
@@ -61,7 +66,7 @@ class GameScene: SKScene {
     var players: [Player] = []
     
     var obstaclesMovements: [ObstacleMovement] = []
-    
+    var rocksMovements: [RockMovement] = []
     var startDate: Date? = nil
     
     var didGameStart: Bool! {
@@ -74,6 +79,8 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         match?.delegate = self
+        
+        viewFrame = view.frame
         
         didGameStart = false
     }

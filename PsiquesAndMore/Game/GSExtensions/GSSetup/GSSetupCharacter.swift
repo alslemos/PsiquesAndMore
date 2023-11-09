@@ -46,24 +46,22 @@ extension GameScene {
     }
     
     func createLimits() {
-        guard let view = self.view else { return }
-        
-        let maxLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: view.frame.height))
+        let maxLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: viewFrame.height))
         maxLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
-        maxLimitNode.position = CGPoint(x: view.frame.width, y: 0)
+        maxLimitNode.position = CGPoint(x: viewFrame.width, y: 0)
         
-        let maxLimitBody = SKPhysicsBody(rectangleOf: maxLimitNode.size, center: CGPoint(x: square.frame.width / 2, y: view.frame.height / 2))
+        let maxLimitBody = SKPhysicsBody(rectangleOf: maxLimitNode.size, center: CGPoint(x: square.frame.width / 2, y: viewFrame.height / 2))
         maxLimitBody.allowsRotation = false
         maxLimitBody.isDynamic = false
         maxLimitBody.affectedByGravity = false
         
         maxLimitNode.physicsBody = maxLimitBody
         
-        let minLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: view.frame.height))
+        let minLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: viewFrame.height))
         minLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
-        minLimitNode.position = CGPoint(x: view.frame.width * 0.1, y: 0)
+        minLimitNode.position = CGPoint(x: viewFrame.width * 0.1, y: 0)
         
-        let minLimitBody = SKPhysicsBody(rectangleOf: minLimitNode.size, center: CGPoint(x: square.frame.width / 2, y: view.frame.height / 2))
+        let minLimitBody = SKPhysicsBody(rectangleOf: minLimitNode.size, center: CGPoint(x: square.frame.width / 2, y: viewFrame.height / 2))
         minLimitBody.allowsRotation = false
         minLimitBody.isDynamic = false
         minLimitBody.affectedByGravity = false

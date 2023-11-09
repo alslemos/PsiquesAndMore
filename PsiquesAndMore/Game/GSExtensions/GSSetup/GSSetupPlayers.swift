@@ -45,6 +45,9 @@ extension GameScene {
                 print("sending obstacles movements")
                 self.sendObstaclesMovements(self.obstaclesMovements)
                 
+                print("sending rocks movements")
+                self.sendRocksMovements(self.rocksMovements)
+                
                 completion()
             }
         } else {

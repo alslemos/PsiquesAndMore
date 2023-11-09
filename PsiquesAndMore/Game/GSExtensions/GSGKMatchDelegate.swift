@@ -75,6 +75,12 @@ extension GameScene: GKMatchDelegate {
             self.obstaclesMovements = obstaclesMovements
         }
         
+        // Check if it's the rocks movements data
+        if let rocksMovements = try? JSONDecoder().decode([RockMovement].self, from: data) {
+            print("obstacles movements data received")
+            self.rocksMovements = rocksMovements
+        }
+        
         // Check if it's the start date data
         if let startDate = try? JSONDecoder().decode(Date.self, from: data) {
             print("start date data received")

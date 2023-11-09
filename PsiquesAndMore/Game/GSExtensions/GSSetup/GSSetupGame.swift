@@ -16,6 +16,7 @@ extension GameScene {
         self.setupBackground()
         self.setupTimer()
         self.createObstaclesArray()
+        self.createRocksArray()
         self.savePlayers {
             completion()
         }

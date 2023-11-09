@@ -15,6 +15,7 @@ extension GameScene {
         backgroundPositionUpdater()
         velocityUpdater()
         obstacleSpawner()
+        rockSpawner()
     }
     
     func obstacleSpawner() {
@@ -54,6 +55,46 @@ extension GameScene {
                     }
                 }
             }.store(in: &cancellables)
+    }
+    
+    func rockSpawner() {
+        print("DEBUG: inside rockSpawner")
+        
+        let timer = Timer.publish(every: self.spawnRockDelay, on: .main, in: .common)
+            .autoconnect()
+        
+        let subscription = timer
+        
+        var lastRockMovement: Int = 0
+        
+        subscription
+            .scan(-1) { count, _ in
+                if !self.isPaused {
+                    lastRockMovement = count
+                    
+                    return count + 1
+                } else {
+                    return count
+                }
+            }
+            .sink { count in
+                print("rock counter: \(count)")
+                
+                print("last rock counter: \(lastRockMovement)")
+                
+                if (count < (self.gameDuration / Int(self.spawnRockDelay)) && count != lastRockMovement) {
+                    let rockMovement = self.rocksMovements[count]
+                    
+                    self.setupRock {
+                        self.moveRock(rockMovement: rockMovement) {
+                            if let child = self.childNode(withName: "rock") as? SKSpriteNode {
+                                child.removeFromParent()
+                            }
+                        }
+                    }
+                }
+            }.store(in: &cancellables)
+        
     }
     
     private func backgroundPositionUpdater() {
