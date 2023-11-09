@@ -80,6 +80,8 @@ extension GameScene {
     }
     
     func rockSpawner() {
+        
+        print("DEBUG: inside rockSpawner")
         var lastRockMovement: Int = 0
         
         spawnRocksSubscription = Timer.publish(every: self.spawnRockDelay, on: .main, in: .common)
@@ -105,7 +107,7 @@ extension GameScene {
                 if count != lastRockMovement {
                     let rockMovement = self.rocksMovements[self.currentRockMovement % self.rocksMovements.count]
                     
-                    self.setupObstacle {
+                    self.setupRock {
                         self.moveRock(rockMovement: rockMovement) {
                             if let child = self.childNode(withName: "rock") as? SKSpriteNode {
                                 child.removeFromParent()

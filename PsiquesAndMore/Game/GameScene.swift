@@ -53,7 +53,7 @@ class GameScene: SKScene {
     var spawnObstacleDelay: TimeInterval = 2
     
     var rock = SKSpriteNode()
-    var spawnRockDelay: TimeInterval = 5
+    var spawnRockDelay: TimeInterval = 2
     
     // logica do jogo
     var matchManager: MatchManager?

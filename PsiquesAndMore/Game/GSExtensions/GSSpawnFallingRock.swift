@@ -32,6 +32,8 @@ extension GameScene {
     
     func setupRock(_ completion: @escaping () -> Void) {
         
+        print("inside setupRock")
+        
         let rock = SKSpriteNode(color: .gray, size: CGSize(width: 60, height: 50))
         rock.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
