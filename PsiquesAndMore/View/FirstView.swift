@@ -8,7 +8,7 @@ struct FirstView: View {
     
     // NotificationCenter for view display control
     
-    let publi = NotificationCenter.default.publisher(for: .restartGameNotificationName)
+    let gameOverPublisher = NotificationCenter.default.publisher(for: .restartGameNotificationName)
     let pauseGamePublisher = NotificationCenter.default.publisher(for: .pauseGameNotificationName)
     let continueGamePublisher = NotificationCenter.default.publisher(for: .continueGameNotificationName)
     let playAgainPublisher = NotificationCenter.default.publisher(for: .playAgainGameNotificationName)
@@ -22,9 +22,6 @@ struct FirstView: View {
     @State var showGameOverView: Bool = false
     
     var scene: GameScene
-    var singleScene: SingleGameScene
-    
-    @State private var showSingleScene: Bool = false
     
     init(matchManager: ObservedObject<MatchManager>) {
         self._matchManager = matchManager
@@ -34,22 +31,13 @@ struct FirstView: View {
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .fill
         self.scene = scene
-        
-        let singleScene = SingleGameScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        singleScene.anchorPoint = CGPoint(x: 0, y: 0)
-        singleScene.scaleMode = .fill
-        self.singleScene = singleScene
     }
     
     var body: some View {
         ZStack {
             if matchManager.isGamePresented {
                 VStack {
-                    if showSingleScene {
-                        SpriteView(scene: singleScene).ignoresSafeArea().navigationBarBackButtonHidden(true)
-                    } else {
-                        SpriteView(scene: scene, debugOptions: .showsPhysics).ignoresSafeArea().navigationBarBackButtonHidden(true)
-                    }
+                    SpriteView(scene: scene, debugOptions: .showsPhysics).ignoresSafeArea().navigationBarBackButtonHidden(true)
                 }
                 
                 if showPauseGameView {
@@ -85,7 +73,6 @@ struct FirstView: View {
                     VStack {
                          Button("Jogar") {
                              matchManager.isGamePresented = true
-                             showSingleScene = true
                          }
                     }
                     
@@ -116,63 +103,58 @@ struct FirstView: View {
                 }.ignoresSafeArea()
             }
         }
-        .onReceive(publi) { _ in
-            matchManager.isGamePresented = false
+        .onReceive(gameOverPublisher) { _ in
+            showGameOverView = true
+            scene.isPaused = true
        }
         
         .onReceive(pauseGamePublisher) { _ in
-            if showSingleScene {
-                singleScene.isPaused = true
-                showPauseGameView = true
-            } else {
-                scene.isPaused = true
-                showPauseGameView = true
-            }
+            scene.isPaused = true
+            showPauseGameView = true
         }
         .onReceive(continueGamePublisher) { _ in
-            if showSingleScene {
-                singleScene.isPaused = false
-                
-                showPauseGameView = false
-            } else {
-                scene.isPaused = false
-                
-                if scene.isGamePaused {
-                    scene.isGamePaused = false
-                    scene.sendPausedStateData()
+            if !scene.isContinueOrderGiven {
+                scene.sendContinueGameData {
+                    scene.isContinueOrderGiven = true
                 }
-                
-                showPauseGameView = false
+            } else {
+                scene.isContinueOrderGiven = false
             }
+            
+            scene.isPaused = false
+            self.showPauseGameView = false
         }
         .onReceive(playAgainPublisher) { _ in
-            // restart game without going to menu
+            if !scene.isPlayAgainOrderGiven {
+                scene.sendPlayAgainData {
+                    scene.isPlayAgainOrderGiven = true
+                }
+            } else {
+                scene.isGoToMenuOrderGiven = false
+            }
+            
+            showGameOverView = false
+            scene.isPaused = false
+            scene.restartGame()
         }
         .onReceive(goToMenuPublisher) { _ in
-            if showSingleScene {
-                singleScene.virtualController?.disconnect()
-                
-                showPauseGameView = false
-                singleScene.gameOver()
-                matchManager.isGamePresented = false
-            } else {
-                scene.virtualController?.disconnect()
-                
-                // Check if both players know about the go to menu order
-                // before sending data to remote player
-                
-                // In this case, just one of the players know about
-                // the go to menu order
-                if !scene.isGoToMenuOrderGiven {
-                    scene.sendGoToMenuData()
-                } else {
-                    scene.isGoToMenuOrderGiven = false
+            scene.virtualController?.disconnect()
+            
+            if !scene.isGoToMenuOrderGiven {
+                scene.sendGoToMenuData {
+                    scene.isGoToMenuOrderGiven = true
                 }
-                
-                showPauseGameView = false
-                scene.gameOver()
-                matchManager.isGamePresented = false
+            } else {
+                scene.isGoToMenuOrderGiven = false
             }
+            
+            showPauseGameView = false
+            
+            scene.gameOver {
+                print("bye bye")
+            }
+            
+            matchManager.isGamePresented = false
         }
     }
 }

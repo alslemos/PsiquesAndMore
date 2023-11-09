@@ -11,7 +11,7 @@ import SpriteKit
 extension GameScene {
     
     func createObstaclesArray(_ completion: @escaping () -> ()) {
-        for _ in 0..<30 {
+        for _ in 0..<(self.gameDuration / Int(self.spawnObstacleDelay)) {
             let offsetY = Double.random(in: 0.0...400.0)
             let time = Double.random(in: 0.5...2.0)
             

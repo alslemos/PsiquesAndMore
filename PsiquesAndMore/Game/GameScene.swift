@@ -10,7 +10,7 @@ class GameScene: SKScene {
     var characterVelocity: Int = 0
     
     // Don't forget to cancel this afterwards
-    private var cancellables = Set<AnyCancellable>()
+    var cancellables = Set<AnyCancellable>()
     
     // unicas propriedades que n dá mt para tirar
     var rotationAngle: CGFloat = 0
@@ -26,7 +26,7 @@ class GameScene: SKScene {
         }
     }
     
-    var gameDuration: Int = 60
+    var gameDuration: Int = 10
     
     var virtualController: GCVirtualController?
     
@@ -36,8 +36,8 @@ class GameScene: SKScene {
     // pause button
     var pauseButton: SKSpriteNode?
     
-    var isGamePaused: Bool = false
-    
+    var isPlayAgainOrderGiven: Bool = false
+    var isContinueOrderGiven: Bool = false
     var isGoToMenuOrderGiven: Bool = false
     
     // personagem
@@ -48,6 +48,7 @@ class GameScene: SKScene {
     // obstáculos
     
     var obstacle = SKSpriteNode()
+    let spawnObstacleDelay: TimeInterval = 2
     
     // logica do jogo
     var matchManager: MatchManager?
@@ -95,43 +96,44 @@ class GameScene: SKScene {
     private func createSubscriptions() {
         backgroundPositionUpdater()
         velocityUpdater()
-        timerTracker()
     }
     
     func obstacleSpawner() {
         print("DEBUG: inside obstacleSpawner")
         
-        let obstaclesPublisher: Publishers.Sequence<[ObstacleMovement], Never> = obstaclesMovements.publisher
-        
-        let timer = Timer.publish(every: 2, on: .main, in: .common)
+        let timer = Timer.publish(every: self.spawnObstacleDelay, on: .main, in: .common)
             .autoconnect()
         
-        let subscription = obstaclesPublisher.zip(timer)
+        let subscription = timer
+        
+        var lastObstacleMovement: Int = 0
         
         subscription
-            .tryMap { obstacleMovement, _ in
-                self.setupObstacle {
-                    self.moveObstacle(obstacleMovement: obstacleMovement) {
-                        print("DEBUG: inside closure")
-                        print("\(self.view?.frame.maxX ?? 0)")
-                        print("\(self.view?.frame.maxY ?? 0)")
-                        
-                        if let child = self.childNode(withName: "obstacle") as? SKSpriteNode {
-                            print("DEBUG: child node exists")
-                            child.removeFromParent()
+            .scan(-1) { count, _ in
+                if !self.isPaused {
+                    lastObstacleMovement = count
+
+                    return count + 1
+                } else {
+                    return count
+                }
+            }
+            .sink { count in
+                print("obstacle counter: \(count)")
+                
+                print("last obstacle counter: \(lastObstacleMovement)")
+                
+                if (count < (self.gameDuration / Int(self.spawnObstacleDelay)) && count != lastObstacleMovement) {
+                    let obstacleMovement = self.obstaclesMovements[count]
+                    
+                    self.setupObstacle {
+                        self.moveObstacle(obstacleMovement: obstacleMovement) {
+                            if let child = self.childNode(withName: "obstacle") as? SKSpriteNode {
+                                child.removeFromParent()
+                            }
                         }
                     }
                 }
-            }
-            .sink { completion in
-                switch completion {
-                    case .finished:
-                        print("completion: finished")
-                    case .failure(let error):
-                        print("completion with failure: \(error.localizedDescription)")
-                }
-            } receiveValue: { _ in
-                print("obstacle movement sent")
             }.store(in: &cancellables)
     }
     
@@ -165,45 +167,33 @@ class GameScene: SKScene {
             }.store(in: &cancellables)
     }
     
-    private func timerTracker() {
-        let publisher = Timer.publish(every: 1, on: .main, in: .common)
-            .autoconnect()
-        let subscription = publisher
-        
-        subscription
-            .scan(0) { count, _ in
-                return count + 1
-            }
-            .sink { count in
-                if count >= self.gameDuration {
-                    print("time's up")
-                    // perform game over
-                }
-            }.store(in: &cancellables)
+    func notifyPauseGame() {
+        NotificationCenter.default.post(name: .pauseGameNotificationName, object: nil)
+        print("DEBUG: pause game")
     }
     
-    func notifyPausedState(for order: OrderGiven, _ completion: @escaping (() -> Void)) {
-        if order == .pauseGame {
-            self.isGamePaused = true
-            
-            NotificationCenter.default.post(name: .pauseGameNotificationName, object: nil)
-            print("DEBUG: pause game")
+    func sendPauseGameData(_ completion: @escaping () -> ()) {
+        do {
+            guard let data = try? JSONEncoder().encode("pauseGame") else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
             completion()
-        } else {
-            self.isGamePaused = false
-            
-            NotificationCenter.default.post(name: .continueGameNotificationName, object: nil)
-            print("DEBUG: continue game")
-            completion()
+        } catch {
+            print("send pause game data failed")
         }
     }
     
-    func sendPausedStateData() {
+    func notifyContinueGame() {
+        NotificationCenter.default.post(name: .continueGameNotificationName, object: nil)
+        print("DEBUG: continue game")
+    }
+    
+    func sendContinueGameData(_ completion: @escaping () -> ()) {
         do {
-            guard let data = try? JSONEncoder().encode(self.isGamePaused) else { return }
+            guard let data = try? JSONEncoder().encode("continueGame") else { return }
             try self.match?.sendData(toAllPlayers: data, with: .reliable)
+            completion()
         } catch {
-            print("send paused state data failed")
+            print("send continue game data failed")
         }
     }
     
@@ -212,31 +202,79 @@ class GameScene: SKScene {
         print("DEBUG: go to menu")
     }
     
-    func sendGoToMenuData() {
+    func sendGoToMenuData(_ completion: @escaping () -> ()) {
         do {
-            guard let data = try? JSONEncoder().encode(OrderGiven.goToMenu) else { return }
+            guard let data = try? JSONEncoder().encode("goToMenu") else { return }
             try self.match?.sendData(toAllPlayers: data, with: .reliable)
+            completion()
         } catch {
             print("send back to menu data failed")
         }
     }
     
-  
+    func notifyGameOver() {
+        NotificationCenter.default.post(name: .restartGameNotificationName, object: nil)
+        print("DEBUG: game over")
+    }
     
-    // fim de jogo
-    func gameOver() {
+    func sendGameOverData(_ completion: @escaping () -> ()) {
+        do {
+            guard let data = try? JSONEncoder().encode("gameOver") else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+            completion()
+        } catch {
+            print("send game over data failed")
+        }
+    }
+    
+    func notifyPlayAgain() {
+        NotificationCenter.default.post(name: .playAgainGameNotificationName, object: nil)
+        print("DEBUG: play again")
+    }
+    
+    func sendPlayAgainData(_ completion: @escaping () -> ()) {
+        do {
+            guard let data = try? JSONEncoder().encode("playAgain") else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+            completion()
+        } catch {
+            print("send play again data failed")
+        }
+    }
+    
+    func gameOver(_ completion: @escaping () -> ()) {
         guard let scene = self.scene else { return }
         
         scene.removeAllActions()
         square.removeFromParent()
         rectangle.removeFromParent()
         backgroundImage.removeFromParent()
+        timerLabel.removeFromParent()
+        pauseButton?.removeFromParent()
         removeComands()
         
-        NotificationCenter.default.post(name: .restartGameNotificationName, object: nil)
+        for cancellable in cancellables {
+            cancellable.cancel()
+        }
+        
+        completion()
+    }
+    
+    func restartGame() {
+        self.gameOver {
+            self.setupPauseButton()
+            self.setupCharacter()
+            self.setupFloor()
+            self.setupBackground()
+            
+            self.backgroundSpeed = 0
+            self.createSubscriptions()
+            self.savePlayers()
+            
+            self.triggerTimer()
+        }
     }
 
-    
     func checkMovement(for control: Int, with playerIndex: Int) {
         if self.gameModel.players[playerIndex].movements == .downAndRight {
             if control == 1 {

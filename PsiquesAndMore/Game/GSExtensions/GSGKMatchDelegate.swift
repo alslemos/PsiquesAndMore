@@ -23,30 +23,41 @@ extension GameScene: GKMatchDelegate {
             self.setupCommands()
         }
         
-        // Check if it's the paused state data
-        if let pausedState = try? JSONDecoder().decode(Bool.self, from: data) {
-            print("paused state data received")
-            if pausedState {
-                self.isGamePaused = pausedState
-                
-                notifyPausedState(for: .pauseGame) {
-                    print("Notifying...")
-                }
-            } else {
-                self.isGamePaused = pausedState
-                
-                notifyPausedState(for: .continueGame) {
-                    print("Notifying...")
-                }
+        if let actionString = try? JSONDecoder().decode(String.self, from: data) {
+            if actionString == "pauseGame" {
+                print("pause game data received")
+                    
+                notifyPauseGame()
             }
-        }
-        
-        // Check if it's the go to menu data
-        if let goToMenu = try? JSONDecoder().decode(OrderGiven.self, from: data) {
-            print("back to menu data received")
-            if goToMenu == .goToMenu {
-                self.isGoToMenuOrderGiven = true
-                self.notifyGoToMenu()
+            
+            if actionString == "continueGame" {
+                print("continue game data received")
+                
+                isContinueOrderGiven = true
+                    
+                notifyContinueGame()
+            }
+            
+            if actionString == "goToMenu" {
+                print("go to menu data received")
+                
+                isGoToMenuOrderGiven = true
+
+                notifyGoToMenu()
+            }
+            
+            if actionString == "gameOver" {
+                print("game over data received")
+                
+                notifyGameOver()
+            }
+            
+            if actionString == "playAgain" {
+                print("play again data received")
+                
+                isPlayAgainOrderGiven = true
+                
+                notifyPlayAgain()
             }
         }
         
