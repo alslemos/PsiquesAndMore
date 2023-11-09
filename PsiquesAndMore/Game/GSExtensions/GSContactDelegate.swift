@@ -43,17 +43,21 @@ extension GameScene {
         print("chegamos na colisao")
         print("chegamos na colisao")
         
-        if (object.name?.hasPrefix("ghost")) != false  && (character.name == "square"){
+        if (object.name?.hasPrefix("square")) != false  && (character.name == "obstacle"){
             //  retirar a vida
             //  atualizar o status da personagem
             //  dar uma piscadinha na personagem
+            players[1].numberOfLives - 1
+            print(players[1].numberOfLives)
             
         }
         
-        else if object.name == "square" && ((character.name?.hasPrefix("ghost")) != nil) {
+        else if object.name == "obstacle" && ((character.name?.hasPrefix("square")) != nil) {
             //  retirar a vida
             //  atualizar o status da personagem
             //  dar uma piscadinha na personagem
+            players[1].numberOfLives - 1
+            print(players[1].numberOfLives)
         }
     }
     
