@@ -78,8 +78,10 @@ class GameScene: SKScene {
     var startGameSubscription: AnyCancellable?
     
     var spawnObstaclesSubscription: AnyCancellable?
+    var spawnRocksSubscription: AnyCancellable?
     
     var currentObstacleMovement: Int = 0
+    var currentRockMovement: Int = 0
     
     override func didMove(to view: SKView) {
         match?.delegate = self

@@ -61,6 +61,5 @@ extension GameScene {
 
 struct RockMovement: Codable {
     var offsetX: Double
-    var offsetY: Double = 0
     var time: Double
 }

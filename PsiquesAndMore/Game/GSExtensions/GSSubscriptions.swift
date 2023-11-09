@@ -15,13 +15,12 @@ extension GameScene {
         backgroundPositionUpdater()
         velocityUpdater()
         obstacleSpawner()
-//        rockSpawner()
+        rockSpawner()
         foo()
+        foo1()
     }
     
     func obstacleSpawner() {
-        print("DEBUG: inside obstacleSpawner")
-        
         var lastObstacleMovement: Int = 0
         
         spawnObstaclesSubscription = Timer.publish(every: self.spawnObstacleDelay, on: .main, in: .common)
@@ -81,19 +80,15 @@ extension GameScene {
     }
     
     func rockSpawner() {
-        print("DEBUG: inside rockSpawner")
-        
-        let timer = Timer.publish(every: self.spawnRockDelay, on: .main, in: .common)
-            .autoconnect()
-        
-        let subscription = timer
-        
         var lastRockMovement: Int = 0
         
-        subscription
+        spawnRocksSubscription = Timer.publish(every: self.spawnRockDelay, on: .main, in: .common)
+            .autoconnect()
             .scan(-1) { count, _ in
                 if !self.isPaused {
                     lastRockMovement = count
+                    
+                    self.currentRockMovement += 1
                     
                     return count + 1
                 } else {
@@ -105,10 +100,12 @@ extension GameScene {
                 
                 print("last rock counter: \(lastRockMovement)")
                 
-                if (count < (self.gameDuration / Int(self.spawnRockDelay)) && count != lastRockMovement) {
-                    let rockMovement = self.rocksMovements[count]
+                print("rock spawn delay: \(self.spawnRockDelay)")
+                
+                if count != lastRockMovement {
+                    let rockMovement = self.rocksMovements[self.currentRockMovement % self.rocksMovements.count]
                     
-                    self.setupRock {
+                    self.setupObstacle {
                         self.moveRock(rockMovement: rockMovement) {
                             if let child = self.childNode(withName: "rock") as? SKSpriteNode {
                                 child.removeFromParent()
@@ -116,8 +113,30 @@ extension GameScene {
                         }
                     }
                 }
-            }.store(in: &cancellables)
+            }
         
+    }
+    
+    func foo1() {
+        let timer = Timer.publish(every: 4, on: .main, in: .common)
+            .autoconnect()
+        
+        let subscription = timer
+        
+        subscription
+            .sink { _ in
+                if self.spawnRockDelay > 0 {
+                    self.spawnRockDelay -= 0.25
+                    self.fred1()
+                }
+            }.store(in: &cancellables)
+    }
+    
+    func fred1() {
+        if self.spawnRockDelay > 0 {
+            spawnRocksSubscription = nil
+            rockSpawner()
+        }
     }
     
     private func backgroundPositionUpdater() {

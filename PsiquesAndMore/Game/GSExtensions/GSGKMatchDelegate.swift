@@ -77,7 +77,7 @@ extension GameScene: GKMatchDelegate {
         
         // Check if it's the rocks movements data
         if let rocksMovements = try? JSONDecoder().decode([RockMovement].self, from: data) {
-            print("obstacles movements data received")
+            print("rocks movements data received")
             self.rocksMovements = rocksMovements
         }
         

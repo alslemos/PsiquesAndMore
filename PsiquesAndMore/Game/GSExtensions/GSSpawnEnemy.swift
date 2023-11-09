@@ -53,7 +53,7 @@ extension GameScene {
     
     func moveObstacle(obstacleMovement: ObstacleMovement, completion: @escaping () -> Void) {
         let moveAction = SKAction.move(to: CGPoint(
-            x: (viewFrame.minX) + obstacleMovement.offsetX - 100,
+            x: (viewFrame.minX) - 100,
             y: (viewFrame.midY) + obstacleMovement.offsetY + ((viewFrame.height) * 0.50)),
                                        duration: obstacleMovement.time)
         obstacle.run(moveAction)
@@ -65,7 +65,6 @@ extension GameScene {
 }
 
 struct ObstacleMovement: Codable {
-    var offsetX: Double = 0
     var offsetY: Double
     var time: Double
 }

@@ -10,6 +10,9 @@ import Foundation
 extension GameScene {
     func startGame() {
         if didGameStart {
+            print("DEBUG: \(self.obstaclesMovements)")
+            print("DEBUG: \(self.rocksMovements)")
+
             // deallocate start game subscription
             self.startGameSubscription = nil
 
@@ -41,6 +44,7 @@ extension GameScene {
         }
         
         spawnObstaclesSubscription = nil
+        spawnRocksSubscription = nil
         
         completion()
     }
