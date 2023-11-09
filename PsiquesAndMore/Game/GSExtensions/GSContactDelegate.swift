@@ -10,6 +10,33 @@ import SpriteKit
 
 extension GameScene {
     
+    func didBegin(_ contact: SKPhysicsContact) {
+        let controle: Int = 3
+           guard let nodeA = contact.bodyA.node else { return }
+           guard let nodeB = contact.bodyB.node else { return }
+            
+           if controle != 1 {   #warning ("aqui posso mudar para contains")
+               if nodeA.name == "obstacle" {
+                   print("nodeB.name == character")
+                   collisionBetween(between: nodeA, object: nodeB)
+               } else if nodeB.name == "character" {
+                   print("nodeB.name == character")
+                   collisionBetween(between: nodeB, object: nodeA)
+               }
+               else if nodeB.name == "square" {
+                   print("nodeB.name == ghost")
+                   collisionBetween(between: nodeB, object: nodeA)
+               }
+               else if nodeA.name == "square" {
+                   print("nodeA.name == gcharacter")
+                   collisionBetween(between: nodeB, object: nodeA)
+               }
+           } else {
+              
+           }
+       }
+    
+    
     func collisionBetween(between character: SKNode, object: SKNode){
         print("chegamos na colisao")
         
