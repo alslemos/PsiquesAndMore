@@ -17,6 +17,7 @@ class GameScene: SKScene {
     var verticalThresholdPoint: CGFloat = 0
     
     var squareYPosition: CGFloat = 0
+    var timerLabel = SKLabelNode()
     
     var backgroundSpeed: CGFloat! {
         didSet {
@@ -86,6 +87,8 @@ class GameScene: SKScene {
         self.backgroundSpeed = 0
         self.createSubscriptions()
         self.savePlayers()
+        
+        self.triggerTimer()
     }
     
     // MARK: - Combine functions
