@@ -24,6 +24,8 @@ extension GameScene {
         self.remotePlayerIndex = players.firstIndex { $0.displayName == remotePlayer.displayName }
 
         if let index = self.localPlayerIndex, index == 0 {
+            print("debug: sou o player principal")
+            
             getStartDate {
                 self.setGame {
                     self.startGamePublisher()
@@ -43,10 +45,10 @@ extension GameScene {
                 self.setupCommands()
                 
                 print("sending obstacles movements")
-                self.sendObstaclesMovements(self.obstaclesMovements)
+                self.sendObstaclesMovements()
                 
                 print("sending rocks movements")
-                self.sendRocksMovements(self.rocksMovements)
+                self.sendRocksMovements()
                 
                 completion()
             }

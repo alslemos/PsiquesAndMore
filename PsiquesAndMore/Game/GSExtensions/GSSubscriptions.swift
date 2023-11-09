@@ -15,23 +15,22 @@ extension GameScene {
         backgroundPositionUpdater()
         velocityUpdater()
         obstacleSpawner()
-        rockSpawner()
+//        rockSpawner()
+        foo()
     }
     
     func obstacleSpawner() {
         print("DEBUG: inside obstacleSpawner")
         
-        let timer = Timer.publish(every: self.spawnObstacleDelay, on: .main, in: .common)
-            .autoconnect()
-        
-        let subscription = timer
-        
         var lastObstacleMovement: Int = 0
         
-        subscription
+        spawnObstaclesSubscription = Timer.publish(every: self.spawnObstacleDelay, on: .main, in: .common)
+            .autoconnect()
             .scan(-1) { count, _ in
                 if !self.isPaused {
                     lastObstacleMovement = count
+                    
+                    self.currentObstacleMovement += 1
                     
                     return count + 1
                 } else {
@@ -43,8 +42,10 @@ extension GameScene {
                 
                 print("last obstacle counter: \(lastObstacleMovement)")
                 
-                if (count < (self.gameDuration / Int(self.spawnObstacleDelay)) && count != lastObstacleMovement) {
-                    let obstacleMovement = self.obstaclesMovements[count]
+                print("obstacle spawn delay: \(self.spawnObstacleDelay)")
+                
+                if count != lastObstacleMovement {
+                    let obstacleMovement = self.obstaclesMovements[self.currentObstacleMovement % self.obstaclesMovements.count]
                     
                     self.setupObstacle {
                         self.moveObstacle(obstacleMovement: obstacleMovement) {
@@ -54,7 +55,29 @@ extension GameScene {
                         }
                     }
                 }
+            }
+    }
+    
+    func foo() {
+        let timer = Timer.publish(every: 4, on: .main, in: .common)
+            .autoconnect()
+        
+        let subscription = timer
+        
+        subscription
+            .sink { _ in
+                if self.spawnObstacleDelay > 0 {
+                    self.spawnObstacleDelay -= 0.25
+                    self.fred()
+                }
             }.store(in: &cancellables)
+    }
+    
+    func fred() {
+        if self.spawnObstacleDelay > 0 {
+            spawnObstaclesSubscription = nil
+            obstacleSpawner()
+        }
     }
     
     func rockSpawner() {

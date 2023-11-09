@@ -40,6 +40,8 @@ extension GameScene {
             cancellable.cancel()
         }
         
+        spawnObstaclesSubscription = nil
+        
         completion()
     }
     

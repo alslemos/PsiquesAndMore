@@ -10,8 +10,11 @@ import SpriteKit
 
 extension GameScene {
     func createObstaclesArray() {
-        for _ in 0..<(self.gameDuration / Int(self.spawnObstacleDelay)) {
-            let offsetY = Double.random(in: 0.0...400.0)
+        
+        print("debug: inside create obstacle array")
+        
+        for _ in 0..<100 {
+            let offsetY = Double.random(in: 0.0...200.0)
             let time = Double.random(in: 0.5...2.0)
             
             let randomObstacle = ObstacleMovement(offsetY: offsetY, time: time)
@@ -20,7 +23,7 @@ extension GameScene {
         }
     }
     
-    func sendObstaclesMovements(_ obstaclesMovements: [ObstacleMovement]) {
+    func sendObstaclesMovements() {
         print("sending obstacles movements data")
         do {
             guard let data = try? JSONEncoder().encode(obstaclesMovements) else { return }
