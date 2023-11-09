@@ -9,20 +9,21 @@ import Foundation
 import SpriteKit
 
 extension GameScene {
-    
-    
     func setupFloor(){
+        guard let view = self.view else { return }
+        
+        
         var rectangleWidth: CGFloat = 0
         var rectangleHeigth: CGFloat = 0
         
-        verticalThresholdPoint = (self.view?.frame.height)! * 0.58
+        verticalThresholdPoint = (viewFrame.height) * 0.58
         
         rectangleWidth = sqrt((verticalThresholdPoint * verticalThresholdPoint) +
-                              ((self.view?.frame.width)! * (self.view?.frame.width)!))
+                              ((viewFrame.width) * (viewFrame.width)))
         
         rotationAngle = asin(verticalThresholdPoint / rectangleWidth)
         
-        rectangleHeigth = sin(rotationAngle) * (self.view?.frame.width)!
+        rectangleHeigth = sin(rotationAngle) * (viewFrame.width)
 
         rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "agoraVai")!),
                                  size: CGSize(width: rectangleWidth * 2, height: rectangleHeigth))
@@ -33,9 +34,7 @@ extension GameScene {
         rectangle.zRotation = -(rotationAngle)
         rectangle.zPosition = 1
         
-        
-//        let pb = SKPhysicsBody(texture: rectangle.texture!,
-//                                       size: rectangle.texture!.size())
+    
         let pb = SKPhysicsBody(rectangleOf: rectangle.size, center: CGPoint(x: rectangleWidth, y: -(rectangleHeigth / 2)))
         pb.isDynamic = false
         pb.node?.physicsBody?.friction = 0.0

@@ -47,7 +47,7 @@ extension GameScene {
         physicsBodyObstacle.isDynamic = true
         obstacle.physicsBody = physicsBodyObstacle
         obstacle.zPosition = 1
-        obstacle.position = CGPoint(x: (self.view?.frame.maxX) ?? 0 + 100, y: (self.view?.frame.midY) ?? 0)
+        obstacle.position = CGPoint(x: viewFrame.maxX + 100, y: (viewFrame.midY))
         obstacle.name = "obstacle"
         self.obstacle = obstacle
         self.addChild(obstacle)
@@ -56,8 +56,8 @@ extension GameScene {
     
     func moveObstacle(obstacleMovement: ObstacleMovement, completion: @escaping () -> Void) {
         let moveAction = SKAction.move(to: CGPoint(
-            x: (self.view?.frame.minX ?? 0) + obstacleMovement.offsetX - 100,
-            y: (self.view?.frame.midY ?? 0) + obstacleMovement.offsetY + ((self.view?.frame.height ?? 0.0) * 0.50)),
+            x: (viewFrame.minX ) + obstacleMovement.offsetX - 100,
+            y: (viewFrame.midY ) + obstacleMovement.offsetY + ((viewFrame.height) * 0.50)),
                                        duration: obstacleMovement.time)
         obstacle.run(moveAction)
         

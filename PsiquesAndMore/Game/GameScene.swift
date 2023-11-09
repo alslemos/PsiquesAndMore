@@ -5,6 +5,9 @@ import SpriteKit
 import SwiftUI
 
 class GameScene: SKScene {
+    var viewFrame: CGRect = CGRect()
+    
+    
     var rectangle = SKSpriteNode()
     
     var characterVelocity: Int = 0
@@ -76,6 +79,8 @@ class GameScene: SKScene {
     var obstaclesMovements: [ObstacleMovement] = []
     
     override func didMove(to view: SKView) {
+        viewFrame = self.view?.frame ?? CGRect()
+        
         gameModel = GameModel()
         match?.delegate = self
         
@@ -113,8 +118,6 @@ class GameScene: SKScene {
                 self.setupObstacle {
                     self.moveObstacle(obstacleMovement: obstacleMovement) {
                         print("DEBUG: inside closure")
-                        print("\(self.view?.frame.maxX ?? 0)")
-                        print("\(self.view?.frame.maxY ?? 0)")
                         
                         if let child = self.childNode(withName: "obstacle") as? SKSpriteNode {
                             print("DEBUG: child node exists")
