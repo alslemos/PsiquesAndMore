@@ -22,6 +22,9 @@ struct FirstView: View {
     @State var showGameOverView: Bool = false
     
     var scene: GameScene
+    var singleScene: SingleGameScene
+    
+    @State private var showSingleScene: Bool = false
     
     init(matchManager: ObservedObject<MatchManager>) {
         self._matchManager = matchManager
@@ -31,13 +34,22 @@ struct FirstView: View {
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .fill
         self.scene = scene
+        
+        let singleScene = SingleGameScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        singleScene.anchorPoint = CGPoint(x: 0, y: 0)
+        singleScene.scaleMode = .fill
+        self.singleScene = singleScene
     }
     
     var body: some View {
         ZStack {
             if matchManager.isGamePresented {
                 VStack {
-                    SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
+                    if showSingleScene {
+                        SpriteView(scene: singleScene).ignoresSafeArea().navigationBarBackButtonHidden(true)
+                    } else {
+                        SpriteView(scene: scene, debugOptions: .showsPhysics).ignoresSafeArea().navigationBarBackButtonHidden(true)
+                    }
                 }
                 
                 if showPauseGameView {
@@ -72,7 +84,8 @@ struct FirstView: View {
                     // link para o jogo, sem imagem só texto
                     VStack {
                          Button("Jogar") {
-                             matchManager.startMatchmaking()
+                             matchManager.isGamePresented = true
+                             showSingleScene = true
                          }
                     }
                     
@@ -108,39 +121,58 @@ struct FirstView: View {
        }
         
         .onReceive(pauseGamePublisher) { _ in
-            scene.isPaused = true
-            showPauseGameView = true
+            if showSingleScene {
+                singleScene.isPaused = true
+                showPauseGameView = true
+            } else {
+                scene.isPaused = true
+                showPauseGameView = true
+            }
         }
         .onReceive(continueGamePublisher) { _ in
-            scene.isPaused = false
-            
-            if scene.isGamePaused {
-                scene.isGamePaused = false
-                scene.sendPausedStateData()
+            if showSingleScene {
+                singleScene.isPaused = false
+                
+                showPauseGameView = false
+            } else {
+                scene.isPaused = false
+                
+                if scene.isGamePaused {
+                    scene.isGamePaused = false
+                    scene.sendPausedStateData()
+                }
+                
+                showPauseGameView = false
             }
-            
-            showPauseGameView = false
         }
         .onReceive(playAgainPublisher) { _ in
             // restart game without going to menu
         }
         .onReceive(goToMenuPublisher) { _ in
-            scene.virtualController?.disconnect()
-            
-            // Check if both players know about the go to menu order
-            // before sending data to remote player
-            
-            // In this case, just one of the players know about
-            // the go to menu order
-            if !scene.isGoToMenuOrderGiven {
-                scene.sendGoToMenuData()
+            if showSingleScene {
+                singleScene.virtualController?.disconnect()
+                
+                showPauseGameView = false
+                singleScene.gameOver()
+                matchManager.isGamePresented = false
             } else {
-                scene.isGoToMenuOrderGiven = false
+                scene.virtualController?.disconnect()
+                
+                // Check if both players know about the go to menu order
+                // before sending data to remote player
+                
+                // In this case, just one of the players know about
+                // the go to menu order
+                if !scene.isGoToMenuOrderGiven {
+                    scene.sendGoToMenuData()
+                } else {
+                    scene.isGoToMenuOrderGiven = false
+                }
+                
+                showPauseGameView = false
+                scene.gameOver()
+                matchManager.isGamePresented = false
             }
-            
-            showPauseGameView = false
-            scene.gameOver()
-            matchManager.isGamePresented = false
         }
     }
 }

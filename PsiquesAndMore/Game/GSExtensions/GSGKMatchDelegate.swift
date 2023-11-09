@@ -49,5 +49,12 @@ extension GameScene: GKMatchDelegate {
                 self.notifyGoToMenu()
             }
         }
+        
+        // Check if it's the obstacles movements data
+        if let obstaclesMovements = try? JSONDecoder().decode([ObstacleMovement].self, from: data) {
+            print("obstacles movements data received")
+            self.obstaclesMovements = obstaclesMovements
+            self.obstacleSpawner()
+        }
     }
 }

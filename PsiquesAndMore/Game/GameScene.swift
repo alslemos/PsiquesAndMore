@@ -1,20 +1,26 @@
-import SwiftUI
+import Combine
 import GameController
 import GameKit
 import SpriteKit
-import Combine
-
+import SwiftUI
 
 class GameScene: SKScene {
+    var viewFrame: CGRect = CGRect()
+    
+    
     var rectangle = SKSpriteNode()
+    
+    var characterVelocity: Int = 0
     
     // Don't forget to cancel this afterwards
     private var cancellables = Set<AnyCancellable>()
     
-    // unica propriedade que n dá mt para tirar
+    // unicas propriedades que n dá mt para tirar
     var rotationAngle: CGFloat = 0
+    var verticalThresholdPoint: CGFloat = 0
     
     var squareYPosition: CGFloat = 0
+    var timerLabel = SKLabelNode()
     
     var backgroundSpeed: CGFloat! {
         didSet {
@@ -28,7 +34,7 @@ class GameScene: SKScene {
     var virtualController: GCVirtualController?
     
     // fundo
-    private var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
+    var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
     
     // pause button
     var pauseButton: SKSpriteNode?
@@ -40,7 +46,11 @@ class GameScene: SKScene {
     // personagem
     var velocityX: CGFloat = 0.0
     var velocityY: CGFloat = 0.0
-    var square = SKSpriteNode()
+    var square = SKSpriteNode(imageNamed: "personagem")
+    
+    // obstáculos
+    
+    var obstacle = SKSpriteNode()
     
     // logica do jogo
     var matchManager: MatchManager?
@@ -66,28 +76,66 @@ class GameScene: SKScene {
     var localPlayerIndex: Int?
     var remotePlayerIndex: Int?
     
+    var obstaclesMovements: [ObstacleMovement] = []
+    
     override func didMove(to view: SKView) {
+        viewFrame = self.view?.frame ?? CGRect()
+        
         gameModel = GameModel()
         match?.delegate = self
         
+        self.setupPauseButton()
+        self.setupCharacter()
+        self.setupFloor()
+        self.setupBackground()
         
-        // inicializacao dos elementos
-        setupPauseButton()
-        setupCharacter()
-        setupFloor()
+        self.backgroundSpeed = 0
+        self.createSubscriptions()
+        self.savePlayers()
         
-        backgroundSpeed = 0   // isso aqui tem chance de dar ruim
-        createSubscriptions()
-        savePlayers()
+        self.triggerTimer()
     }
-    
-   
     
     // MARK: - Combine functions
     private func createSubscriptions() {
         backgroundPositionUpdater()
         velocityUpdater()
         timerTracker()
+    }
+    
+    func obstacleSpawner() {
+        print("DEBUG: inside obstacleSpawner")
+        
+        let obstaclesPublisher: Publishers.Sequence<[ObstacleMovement], Never> = obstaclesMovements.publisher
+        
+        let timer = Timer.publish(every: 2, on: .main, in: .common)
+            .autoconnect()
+        
+        let subscription = obstaclesPublisher.zip(timer)
+        
+        subscription
+            .tryMap { obstacleMovement, _ in
+                self.setupObstacle {
+                    self.moveObstacle(obstacleMovement: obstacleMovement) {
+                        print("DEBUG: inside closure")
+                        
+                        if let child = self.childNode(withName: "obstacle") as? SKSpriteNode {
+                            print("DEBUG: child node exists")
+                            child.removeFromParent()
+                        }
+                    }
+                }
+            }
+            .sink { completion in
+                switch completion {
+                    case .finished:
+                        print("completion: finished")
+                    case .failure(let error):
+                        print("completion with failure: \(error.localizedDescription)")
+                }
+            } receiveValue: { _ in
+                print("obstacle movement sent")
+            }.store(in: &cancellables)
     }
     
     private func backgroundPositionUpdater() {
@@ -102,8 +150,8 @@ class GameScene: SKScene {
                 return self.rectangle.position
             }
             .sink { position in
-                if position.x <= 0 {
-                    self.rectangle.position = CGPoint(x: view.frame.width, y: 0)
+                if position.x <= -(view.frame.width) {
+                    self.rectangle.position = CGPoint(x: 0, y: self.verticalThresholdPoint)
                 }
             }.store(in: &cancellables)
     }
@@ -234,8 +282,14 @@ class GameScene: SKScene {
                 sendData {
                     print("sending game model data")
                     self.saveControls()
+                    
                     print("triggering commands")
                     self.setupCommands()
+                    
+                    print("creating obstacles array")
+                    self.createObstaclesArray {
+                        self.obstacleSpawner()
+                    }
                 }
             }
         }

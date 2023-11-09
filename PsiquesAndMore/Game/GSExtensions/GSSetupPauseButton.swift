@@ -17,7 +17,7 @@ extension GameScene {
         pauseButton.position = CGPoint(
             x: self.frame.maxX - 64,
             y: self.frame.maxY - 64)
-        pauseButton.zPosition = 50
+        pauseButton.zPosition = 1
         pauseButton.name = "pauseButton"
         self.pauseButton = pauseButton
         self.addChild(pauseButton)

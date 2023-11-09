@@ -9,31 +9,38 @@ import Foundation
 import SpriteKit
 
 extension GameScene {
-    
-    
     func setupFloor(){
-        var verticalThresholdPoint: CGFloat = 0
+        guard let view = self.view else { return }
+        
+        
         var rectangleWidth: CGFloat = 0
         var rectangleHeigth: CGFloat = 0
         
-        verticalThresholdPoint = (self.view?.frame.height)! * 0.58
+        verticalThresholdPoint = (viewFrame.height) * 0.58
         
         rectangleWidth = sqrt((verticalThresholdPoint * verticalThresholdPoint) +
-                              ((self.view?.frame.width)! * (self.view?.frame.width)!))
+                              ((viewFrame.width) * (viewFrame.width)))
         
         rotationAngle = asin(verticalThresholdPoint / rectangleWidth)
         
-        rectangleHeigth = sin(rotationAngle) * (self.view?.frame.width)!
+        rectangleHeigth = sin(rotationAngle) * (viewFrame.width)
 
-        rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "agoraVai")!), 
+        rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "agoraVai")!),
                                  size: CGSize(width: rectangleWidth * 2, height: rectangleHeigth))
       
         rectangle.name = "floor"
-        rectangle.anchorPoint = CGPoint(x: 0.5, y: 1)
-        rectangle.position = CGPoint(x: (self.view?.frame.width)!, y: 0)
+        rectangle.anchorPoint = CGPoint(x: 0, y: 1)
+        rectangle.position = CGPoint(x: 0, y: verticalThresholdPoint)
         rectangle.zRotation = -(rotationAngle)
+        rectangle.zPosition = 1
         
-        addChild(rectangle)
+    
+        let pb = SKPhysicsBody(rectangleOf: rectangle.size, center: CGPoint(x: rectangleWidth, y: -(rectangleHeigth / 2)))
+        pb.isDynamic = false
+        pb.node?.physicsBody?.friction = 0.0
+        rectangle.physicsBody = pb
+        
+        self.addChild(rectangle)
     }
     
      func moveBackground() {
@@ -46,4 +53,6 @@ extension GameScene {
     }
     
 }
+
+
 
