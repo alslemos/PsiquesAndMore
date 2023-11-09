@@ -49,7 +49,9 @@ struct FirstView: View {
                     if showSingleScene {
                         SpriteView(scene: singleScene).ignoresSafeArea().navigationBarBackButtonHidden(true)
                     } else {
-                        SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
+                        SpriteView(scene: scene,
+                                   debugOptions: .showsNodeCount) // contar quantos nodos estao na tela! Inferior direito
+                        .ignoresSafeArea().navigationBarBackButtonHidden(true)
                     }
                 }
                 

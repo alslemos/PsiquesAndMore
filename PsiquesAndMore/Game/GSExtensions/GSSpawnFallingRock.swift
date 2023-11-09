@@ -12,10 +12,10 @@ extension GameScene {
     
     func createRocksArray(_ completion: @escaping () -> Void) {
         for _ in 0..<30 {
-            let offsetY = Double.random(in: 0.0...400.0)
-            let time = Double.random(in: 0.5...2.0)
+            let offsetX = Double.random(in: 5.0...20.0)
+            let time = Double.random(in: 0.5...1.0)
             
-            let randomObstacle = RockMovement(offsetX: 15, time: 0.5)
+            let randomObstacle = RockMovement(offsetX: offsetX, time: time)
             
             rocksMovements.append(randomObstacle)
         }
@@ -47,7 +47,7 @@ extension GameScene {
         physicsBodyRock.allowsRotation = true
         physicsBodyRock.isDynamic = true
         rock.physicsBody = physicsBodyRock
-        rock.position = CGPoint(x: (self.view?.frame.midX) ?? 0, y: (self.view?.frame.maxY) ?? 0 + 100)
+        rock.position = CGPoint(x: (self.view?.frame.midX) ?? 0, y: ((self.view?.frame.maxY) ?? 0))
         rock.name = "rock"
         self.rock = rock
         self.addChild(rock)

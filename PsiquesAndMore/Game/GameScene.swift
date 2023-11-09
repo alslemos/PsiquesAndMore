@@ -48,6 +48,9 @@ class GameScene: SKScene {
     var obstacle = SKSpriteNode()
     var rock = SKSpriteNode()
     
+    var obstaclesMovements: [ObstacleMovement] = []
+    var rocksMovements: [RockMovement] = []
+    
     // logica do jogo
     var matchManager: MatchManager?
     
@@ -72,8 +75,7 @@ class GameScene: SKScene {
     var localPlayerIndex: Int?
     var remotePlayerIndex: Int?
     
-    var obstaclesMovements: [ObstacleMovement] = []
-    var rocksMovements: [RockMovement] = []
+
     
     override func didMove(to view: SKView) {
         gameModel = GameModel()
@@ -106,12 +108,28 @@ class GameScene: SKScene {
         let subscription = rocksPublisher.zip(timer)
         
         subscription
-            .map { _ in
-                
+            .tryMap { rockMovement, _ in
+                self.setupObstacle {
+                    self.moveRock(rockMovement: rockMovement) {
+                        print("DEBUG: inside closure")
+                        
+                        if let child = self.childNode(withName: "obstacle") as? SKSpriteNode {
+                            print("DEBUG: child node exists")
+                            child.removeFromParent()
+                        }
+                    }
+                }
             }
-            .sink { _ in
-                
-            }
+            .sink { completion in
+                switch completion {
+                    case .finished:
+                        print("completion: finished")
+                    case .failure(let error):
+                        print("completion with failure: \(error.localizedDescription)")
+                }
+            } receiveValue: { _ in
+                print("rock movement sent")
+            }.store(in: &cancellables)
         
     }
     
@@ -301,6 +319,11 @@ class GameScene: SKScene {
                     print("creating obstacles array")
                     self.createObstaclesArray {
                         self.obstacleSpawner()
+                    }
+                    
+                    print("creating rocks array")
+                    self.createRocksArray {
+                        self.rockSpawner()
                     }
                 }
             }
