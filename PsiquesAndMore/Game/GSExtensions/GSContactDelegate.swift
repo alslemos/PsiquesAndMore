@@ -47,8 +47,8 @@ extension GameScene {
             //  retirar a vida
             //  atualizar o status da personagem
             //  dar uma piscadinha na personagem
-            players[1].numberOfLives - 1
-            print(players[1].numberOfLives)
+            players[0].numberOfLives - 1
+            print(players[0].numberOfLives)
             
         }
         
@@ -56,8 +56,8 @@ extension GameScene {
             //  retirar a vida
             //  atualizar o status da personagem
             //  dar uma piscadinha na personagem
-            players[1].numberOfLives - 1
-            print(players[1].numberOfLives)
+            players[0].numberOfLives - 1
+            print(players[0].numberOfLives)
         }
     }
     
