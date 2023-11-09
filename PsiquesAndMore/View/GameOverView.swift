@@ -21,6 +21,7 @@ struct GameOverView: View {
                 VStack(spacing: 64) {
                     Text("GAME OVER")
                         .font(.largeTitle)
+                        .foregroundStyle(.black)
                     
                     HStack {
                         

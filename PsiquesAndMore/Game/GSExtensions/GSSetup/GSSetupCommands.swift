@@ -91,24 +91,19 @@ extension GameScene {
         
         leftButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
             if pressed {
-                if self.gameModel.players[index].movements == .upAndLeft {
+                if self.players[index].controls == .upAndLeft {
                     print("Clicked left")
                     leftButton?.sfSymbolsName = "arrowshape.left"
                     
-                    self.moveSpriteLeft()
-                    self.gameModel.players[index].didMoveControl1 = true
-                    
-                    self.sendData {
-                        print("sending movement data")
+                    self.sendMovementData(.left) {
+                        self.moveSpriteLeft()
                     }
                 } else {
                     print("Clicked right")
                     leftButton?.sfSymbolsName = "arrowshape.right"
-                    self.moveSpriteRight()
-                    self.gameModel.players[index].didMoveControl1 = true
                     
-                    self.sendData {
-                        print("sending movement data")
+                    self.sendMovementData(.right) {
+                        self.moveSpriteRight()
                     }
                 }
             }
@@ -116,23 +111,19 @@ extension GameScene {
         
         rightButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
             if pressed {
-                if self.gameModel.players[index].movements == .upAndLeft {
+                if self.players[index].controls == .upAndLeft {
                     print("Clicked up") //arrow.up
                     rightButton?.sfSymbolsName = "arrow.up"
-                    self.moveSpriteUP()
-                    self.gameModel.players[index].didMoveControl2 = true
                     
-                    self.sendData {
-                        print("sending movement data")
+                    self.sendMovementData(.up) {
+                        self.moveSpriteUP()
                     }
                 } else {
                     print("Clicked down")
                     rightButton?.sfSymbolsName = "arrow.down"
-                    self.moveSpriteDown()
-                    self.gameModel.players[index].didMoveControl2 = true
                     
-                    self.sendData {
-                        print("sending movement data")
+                    self.sendMovementData(.down) {
+                        self.moveSpriteDown()
                     }
                 }
             }

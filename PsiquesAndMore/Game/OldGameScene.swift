@@ -311,7 +311,7 @@ class OldGameScene: SKScene, SKPhysicsContactDelegate {
         // controles
        timerlocal.invalidate()
        controlTimer = 0
-       print(controlTimer)
+//       print(controlTimer)
         
        endMessage.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)!)
        endMessage.name = "endMessage"

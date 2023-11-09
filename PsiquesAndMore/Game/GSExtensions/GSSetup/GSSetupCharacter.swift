@@ -31,42 +31,6 @@ extension GameScene {
         createLimits()
     }
     
-    func moveSpriteUP() {
-        print("moving up")
-//        square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y + 50), duration: 0.2))
-        
-        self.square.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 15))
-    }
-    
-    // moveu para baixo
-    func moveSpriteDown() {
-        print("moving down")
-//        square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y - 50), duration: 0.2))
-        
-        self.square.physicsBody?.applyImpulse(CGVector(dx: 0, dy: -15))
-    }
-    
-    // moveu para a esquerda
-    func moveSpriteLeft() {
-        print("moving left")
-//        square.run(.move(to: CGPoint(x: square.position.x - 50, y: square.position.y), duration: 0.2))
-        
-        self.square.physicsBody?.applyImpulse(CGVector(dx: -15, dy: 0))
-    }
-    
-    func moveSpriteRight() {
-        print("moving right")
-//        square.run(.move(to: CGPoint(x: square.position.x + 50, y: square.position.y), duration: 0.2))
-        
-        self.square.physicsBody?.applyImpulse(CGVector(dx: 15, dy: 0))
-    }
-    
-    func moveMountainUp() {
-        print("moveMountainUp")
-        square.run(.move(to: CGPoint(x: square.position.x - 20, y: square.position.y + 15), duration: 0.2))
-    }
-    
-    
     // talvez tenha de ir para a GameScene
     // alterar o valor pelo publisher do combine!
     override func update(_ currentTime: TimeInterval) {
@@ -82,24 +46,22 @@ extension GameScene {
     }
     
     func createLimits() {
-        guard let view = self.view else { return }
-        
-        let maxLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: view.frame.height))
+        let maxLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: viewFrame.height))
         maxLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
-        maxLimitNode.position = CGPoint(x: view.frame.width, y: 0)
+        maxLimitNode.position = CGPoint(x: viewFrame.width, y: 0)
         
-        let maxLimitBody = SKPhysicsBody(rectangleOf: maxLimitNode.size, center: CGPoint(x: square.frame.width / 2, y: view.frame.height / 2))
+        let maxLimitBody = SKPhysicsBody(rectangleOf: maxLimitNode.size, center: CGPoint(x: square.frame.width / 2, y: viewFrame.height / 2))
         maxLimitBody.allowsRotation = false
         maxLimitBody.isDynamic = false
         maxLimitBody.affectedByGravity = false
         
         maxLimitNode.physicsBody = maxLimitBody
         
-        let minLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: view.frame.height))
+        let minLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: viewFrame.height))
         minLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
-        minLimitNode.position = CGPoint(x: view.frame.width * 0.1, y: 0)
+        minLimitNode.position = CGPoint(x: viewFrame.width * 0.1, y: 0)
         
-        let minLimitBody = SKPhysicsBody(rectangleOf: minLimitNode.size, center: CGPoint(x: square.frame.width / 2, y: view.frame.height / 2))
+        let minLimitBody = SKPhysicsBody(rectangleOf: minLimitNode.size, center: CGPoint(x: square.frame.width / 2, y: viewFrame.height / 2))
         minLimitBody.allowsRotation = false
         minLimitBody.isDynamic = false
         minLimitBody.affectedByGravity = false
