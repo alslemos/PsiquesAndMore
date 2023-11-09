@@ -28,7 +28,7 @@ extension GameScene {
         square.zPosition = 1
         
         self.addChild(square)
-//        createLimits()
+        createLimits()
     }
     
     // talvez tenha de ir para a GameScene
