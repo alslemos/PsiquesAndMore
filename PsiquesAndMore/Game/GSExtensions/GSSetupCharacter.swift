@@ -25,6 +25,7 @@ extension GameScene {
         square.physicsBody = pb
         square.name = "square"
         square.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.midY)! + 100)
+        square.zPosition = 1
         
         self.addChild(square)
         createLimits()

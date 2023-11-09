@@ -31,6 +31,7 @@ extension GameScene {
         rectangle.anchorPoint = CGPoint(x: 0, y: 1)
         rectangle.position = CGPoint(x: 0, y: verticalThresholdPoint)
         rectangle.zRotation = -(rotationAngle)
+        rectangle.zPosition = 1
         
         
 //        let pb = SKPhysicsBody(texture: rectangle.texture!,

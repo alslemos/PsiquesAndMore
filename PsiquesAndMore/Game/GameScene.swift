@@ -1,8 +1,8 @@
-import SwiftUI
+import Combine
 import GameController
 import GameKit
 import SpriteKit
-import Combine
+import SwiftUI
 
 class GameScene: SKScene {
     var rectangle = SKSpriteNode()
@@ -30,7 +30,7 @@ class GameScene: SKScene {
     var virtualController: GCVirtualController?
     
     // fundo
-    private var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
+    var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
     
     // pause button
     var pauseButton: SKSpriteNode?
@@ -81,6 +81,7 @@ class GameScene: SKScene {
         self.setupPauseButton()
         self.setupCharacter()
         self.setupFloor()
+        self.setupBackground()
         
         self.backgroundSpeed = 0
         self.createSubscriptions()

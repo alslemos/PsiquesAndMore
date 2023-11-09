@@ -46,6 +46,7 @@ extension GameScene {
         physicsBodyObstacle.allowsRotation = false
         physicsBodyObstacle.isDynamic = true
         obstacle.physicsBody = physicsBodyObstacle
+        obstacle.zPosition = 1
         obstacle.position = CGPoint(x: (self.view?.frame.maxX) ?? 0 + 100, y: (self.view?.frame.midY) ?? 0)
         obstacle.name = "obstacle"
         self.obstacle = obstacle
