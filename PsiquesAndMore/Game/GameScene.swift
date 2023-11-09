@@ -7,6 +7,7 @@ import SwiftUI
 class GameScene: SKScene {
     var viewFrame: CGRect = CGRect()
     
+    
     var rectangle = SKSpriteNode()
     
     var characterVelocity: Int = 0
