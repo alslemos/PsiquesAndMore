@@ -11,16 +11,24 @@ import GameKit
 
 extension GameScene: GKMatchDelegate {
     func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
-        // Check if it's the game model data
-        if let model = GameModel.decode(data: data) {
-            gameModel = model
+        // Check if it's the players data
+        if let players = try? JSONDecoder().decode([Player].self, from: data) {
+            self.players = players
+            self.setupCommands()
         }
         
-        // Check if it's the controls data
-        if let controls = try? JSONDecoder().decode(Movements.self, from: data) {
-            guard let localIndex = localPlayerIndex else { return }
-            gameModel.players[localIndex].movements = controls
-            self.setupCommands()
+        // Check if it's the movement data
+        if let movement = try? JSONDecoder().decode(Movement.self, from: data) {
+            switch movement {
+                case .up:
+                    self.moveSpriteUP()
+                case .down:
+                    self.moveSpriteDown()
+                case .right:
+                    self.moveSpriteRight()
+                case .left:
+                    self.moveSpriteLeft()
+            }
         }
         
         if let actionString = try? JSONDecoder().decode(String.self, from: data) {
@@ -65,7 +73,16 @@ extension GameScene: GKMatchDelegate {
         if let obstaclesMovements = try? JSONDecoder().decode([ObstacleMovement].self, from: data) {
             print("obstacles movements data received")
             self.obstaclesMovements = obstaclesMovements
-            self.obstacleSpawner()
+        }
+        
+        // Check if it's the start date data
+        if let startDate = try? JSONDecoder().decode(Date.self, from: data) {
+            print("start date data received")
+            self.startDate = startDate
+            
+            setGame {
+                self.startGamePublisher()
+            }
         }
     }
 }

@@ -3,12 +3,10 @@ import UIKit
 
 struct Player: Codable {
     var displayName: String
-    var didMoveControl1: Bool = false
-    var didMoveControl2: Bool = false
-    var movements: Movements
+    var controls: Controls
 }
 
-enum Movements: Codable, CaseIterable {
+enum Controls: Codable, CaseIterable {
     case upAndLeft
     case downAndRight
 }

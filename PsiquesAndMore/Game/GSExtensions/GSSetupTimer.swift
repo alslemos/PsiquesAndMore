@@ -9,7 +9,7 @@ import Foundation
 
 extension GameScene {
     
-    func triggerTimer() {
+    func setupTimer() {
         timerLabel.position = CGPoint(
             x: self.frame.midX,
             y: self.frame.maxY - 64)
@@ -21,7 +21,6 @@ extension GameScene {
         addChild(timerLabel)
         
 //        setupGameTimer()
-        timerTracker()
     }
     
     
@@ -46,7 +45,7 @@ extension GameScene {
 //        }
 //    }
     
-    func timerTracker() {
+    func timerSubscription() {
         let publisher = Timer.publish(every: 1, on: .main, in: .common)
             .autoconnect()
         let subscription = publisher
