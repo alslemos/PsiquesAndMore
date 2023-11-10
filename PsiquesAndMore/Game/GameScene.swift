@@ -67,7 +67,7 @@ class GameScene: SKScene {
     
     var obstaclesMovements: [ObstacleMovement] = []
     var rocksMovements: [RockMovement] = []
-    var startDate: Date? = nil
+    var startDate: Int = 0
     
     var didGameStart: Bool! {
         didSet {

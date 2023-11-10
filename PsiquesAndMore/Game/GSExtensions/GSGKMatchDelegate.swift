@@ -82,7 +82,7 @@ extension GameScene: GKMatchDelegate {
         }
         
         // Check if it's the start date data
-        if let startDate = try? JSONDecoder().decode(Date.self, from: data) {
+        if let startDate = try? JSONDecoder().decode(Int.self, from: data) {
             print("start date data received")
             self.startDate = startDate
             
