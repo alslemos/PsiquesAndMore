@@ -46,6 +46,11 @@ extension GameScene {
         spawnObstaclesSubscription = nil
         spawnRocksSubscription = nil
         
+        spawnRockDelay = 2
+        spawnObstacleDelay = 2
+        
+        characterVelocity = 10
+        
         completion()
     }
     
