@@ -10,8 +10,11 @@ import SpriteKit
 
 extension GameScene {
     func createObstaclesArray() {
-        for _ in 0..<(self.gameDuration / Int(self.spawnObstacleDelay)) {
-            let offsetY = Double.random(in: 0.0...400.0)
+        
+        print("debug: inside create obstacle array")
+        
+        for _ in 0..<100 {
+            let offsetY = Double.random(in: 0.0...200.0)
             let time = Double.random(in: 0.5...2.0)
             
             let randomObstacle = ObstacleMovement(offsetY: offsetY, time: time)
@@ -20,7 +23,7 @@ extension GameScene {
         }
     }
     
-    func sendObstaclesMovements(_ obstaclesMovements: [ObstacleMovement]) {
+    func sendObstaclesMovements() {
         print("sending obstacles movements data")
         do {
             guard let data = try? JSONEncoder().encode(obstaclesMovements) else { return }
@@ -50,7 +53,7 @@ extension GameScene {
     
     func moveObstacle(obstacleMovement: ObstacleMovement, completion: @escaping () -> Void) {
         let moveAction = SKAction.move(to: CGPoint(
-            x: (viewFrame.minX) + obstacleMovement.offsetX - 100,
+            x: (viewFrame.minX) - 100,
             y: (viewFrame.midY) + obstacleMovement.offsetY + ((viewFrame.height) * 0.50)),
                                        duration: obstacleMovement.time)
         obstacle.run(moveAction)
@@ -62,7 +65,6 @@ extension GameScene {
 }
 
 struct ObstacleMovement: Codable {
-    var offsetX: Double = 0
     var offsetY: Double
     var time: Double
 }

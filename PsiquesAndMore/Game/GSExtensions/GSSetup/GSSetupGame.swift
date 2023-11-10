@@ -10,13 +10,19 @@ import GameKit
 
 extension GameScene {
     func setGame(_ completion: @escaping () -> ()) {
+        guard let localIndex = self.localPlayerIndex else { return }
+        
         self.setupPauseButton()
         self.setupCharacter()
         self.setupFloor()
         self.setupBackground()
         self.setupTimer()
-        self.createObstaclesArray()
-        self.createRocksArray()
+        
+        if localIndex == 0 {
+            self.createObstaclesArray()
+            self.createRocksArray()
+        }
+        
         self.savePlayers {
             completion()
         }
@@ -31,17 +37,13 @@ extension GameScene {
                 return self.startDate
             }
             .sink { startDate in
-                guard let date = startDate else { return }
-
-                let calendar = Calendar.current
-                let startSeconds = calendar.component(.second, from: date)
-                let startMinutes = calendar.component(.minute, from: date)
-
                 let currentDate = Date.now
-                let currentSeconds = calendar.component(.second, from: currentDate)
-                let currentMinutes = calendar.component(.minute, from: currentDate)
-
-                if currentMinutes == startMinutes && currentSeconds == startSeconds + 4 {
+                let numberOfSeconds = Int(currentDate.timeIntervalSince1970)
+                
+                print("debug: start date: \(startDate)")
+                print("debug: current date: \(numberOfSeconds)")
+                
+                if numberOfSeconds == startDate + 4 {
                     self.didGameStart = true
                 }
             }

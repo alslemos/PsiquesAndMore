@@ -10,7 +10,7 @@ import SpriteKit
 
 extension GameScene {
     func createRocksArray() {
-        for _ in 0..<(self.gameDuration / Int(self.spawnRockDelay)) {
+        for _ in 0..<100 {
             let offsetX = Double.random(in: 5.0...20.0)
             let time = Double.random(in: 0.5...1.0)
             
@@ -20,7 +20,7 @@ extension GameScene {
         }
     }
     
-    func sendRocksMovements(_ rocksMovements: [RockMovement]) {
+    func sendRocksMovements() {
         print("sending rocks movements data")
         do {
             guard let data = try? JSONEncoder().encode(rocksMovements) else { return }
@@ -31,6 +31,8 @@ extension GameScene {
     }
     
     func setupRock(_ completion: @escaping () -> Void) {
+        
+        print("inside setupRock")
         
         let rock = SKSpriteNode(color: .gray, size: CGSize(width: 60, height: 50))
         rock.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -61,6 +63,5 @@ extension GameScene {
 
 struct RockMovement: Codable {
     var offsetX: Double
-    var offsetY: Double = 0
     var time: Double
 }

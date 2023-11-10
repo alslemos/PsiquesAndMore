@@ -213,9 +213,9 @@
 			isa = PBXGroup;
 			children = (
 				685A59722AF58F170026A307 /* GSExtensions */,
-				E7D119672AE9E8E100ECA9BE /* OldGameScene.swift */,
 				6806C3E72AEB034C00EDED8E /* GameScene.swift */,
 				6806C3EB2AEB03EF00EDED8E /* Player.swift */,
+				E7D119672AE9E8E100ECA9BE /* OldGameScene.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";

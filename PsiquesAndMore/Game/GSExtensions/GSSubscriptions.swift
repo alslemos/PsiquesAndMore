@@ -16,26 +16,24 @@ extension GameScene {
         velocityUpdater()
         obstacleSpawner()
         rockSpawner()
+        foo()
+        foo1()
     }
     
     func obstacleSpawner() {
-        print("DEBUG: inside obstacleSpawner")
-        
-        let timer = Timer.publish(every: self.spawnObstacleDelay, on: .main, in: .common)
-            .autoconnect()
-        
-        let subscription = timer
-        
         var lastObstacleMovement: Int = 0
         
-        subscription
+        spawnObstaclesSubscription = Timer.publish(every: self.spawnObstacleDelay, on: .main, in: .common)
+            .autoconnect()
             .scan(-1) { count, _ in
                 if !self.isPaused {
                     lastObstacleMovement = count
                     
+                    self.currentObstacleMovement += 1
+                    
                     return count + 1
                 } else {
-                    return count
+                    return lastObstacleMovement
                 }
             }
             .sink { count in
@@ -43,10 +41,13 @@ extension GameScene {
                 
                 print("last obstacle counter: \(lastObstacleMovement)")
                 
-                if (count < (self.gameDuration / Int(self.spawnObstacleDelay)) && count != lastObstacleMovement) {
-                    let obstacleMovement = self.obstaclesMovements[count]
+                print("obstacle spawn delay: \(self.spawnObstacleDelay)")
+                
+                if count != lastObstacleMovement {
+                    let obstacleMovement = self.obstaclesMovements[self.currentObstacleMovement % self.obstaclesMovements.count]
                     
                     self.setupObstacle {
+                        print("setting obstacle")
                         self.moveObstacle(obstacleMovement: obstacleMovement) {
                             if let child = self.childNode(withName: "obstacle") as? SKSpriteNode {
                                 child.removeFromParent()
@@ -54,27 +55,49 @@ extension GameScene {
                         }
                     }
                 }
-            }.store(in: &cancellables)
+            }
     }
     
-    func rockSpawner() {
-        print("DEBUG: inside rockSpawner")
-        
-        let timer = Timer.publish(every: self.spawnRockDelay, on: .main, in: .common)
+    func foo() {
+        let timer = Timer.publish(every: 4, on: .main, in: .common)
             .autoconnect()
         
         let subscription = timer
         
+        subscription
+            .sink { _ in
+                if !self.isPaused {
+                    if self.spawnObstacleDelay > 0 {
+                        self.spawnObstacleDelay -= 0.25
+                        self.fred()
+                    }
+                }
+            }.store(in: &cancellables)
+    }
+    
+    func fred() {
+        if self.spawnObstacleDelay > 0 {
+            spawnObstaclesSubscription = nil
+            obstacleSpawner()
+        }
+    }
+    
+    func rockSpawner() {
+        
+        print("DEBUG: inside rockSpawner")
         var lastRockMovement: Int = 0
         
-        subscription
+        spawnRocksSubscription = Timer.publish(every: self.spawnRockDelay, on: .main, in: .common)
+            .autoconnect()
             .scan(-1) { count, _ in
                 if !self.isPaused {
                     lastRockMovement = count
                     
+                    self.currentRockMovement += 1
+                    
                     return count + 1
                 } else {
-                    return count
+                    return lastRockMovement
                 }
             }
             .sink { count in
@@ -82,10 +105,13 @@ extension GameScene {
                 
                 print("last rock counter: \(lastRockMovement)")
                 
-                if (count < (self.gameDuration / Int(self.spawnRockDelay)) && count != lastRockMovement) {
-                    let rockMovement = self.rocksMovements[count]
+                print("rock spawn delay: \(self.spawnRockDelay)")
+                
+                if count != lastRockMovement {
+                    let rockMovement = self.rocksMovements[self.currentRockMovement % self.rocksMovements.count]
                     
                     self.setupRock {
+                        print("setting rock")
                         self.moveRock(rockMovement: rockMovement) {
                             if let child = self.childNode(withName: "rock") as? SKSpriteNode {
                                 child.removeFromParent()
@@ -93,8 +119,31 @@ extension GameScene {
                         }
                     }
                 }
-            }.store(in: &cancellables)
+            }
+    }
+    
+    func foo1() {
+        let timer = Timer.publish(every: 4, on: .main, in: .common)
+            .autoconnect()
         
+        let subscription = timer
+        
+        subscription
+            .sink { _ in
+                if !self.isPaused {
+                    if self.spawnRockDelay > 0 {
+                        self.spawnRockDelay -= 0.25
+                        self.fred1()
+                    }
+                }
+            }.store(in: &cancellables)
+    }
+    
+    func fred1() {
+        if self.spawnRockDelay > 0 {
+            spawnRocksSubscription = nil
+            rockSpawner()
+        }
     }
     
     private func backgroundPositionUpdater() {

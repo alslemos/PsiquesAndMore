@@ -35,7 +35,7 @@ extension GameScene: GKMatchDelegate {
             if actionString == "pauseGame" {
                 print("pause game data received")
                     
-                notifyPauseGame()
+                notify(.pauseGame)
             }
             
             if actionString == "continueGame" {
@@ -43,7 +43,7 @@ extension GameScene: GKMatchDelegate {
                 
                 isContinueOrderGiven = true
                     
-                notifyContinueGame()
+                notify(.continueGame)
             }
             
             if actionString == "goToMenu" {
@@ -51,13 +51,13 @@ extension GameScene: GKMatchDelegate {
                 
                 isGoToMenuOrderGiven = true
 
-                notifyGoToMenu()
+                notify(.goToMenu)
             }
             
             if actionString == "gameOver" {
                 print("game over data received")
                 
-                notifyGameOver()
+                notify(.gameOver)
             }
             
             if actionString == "playAgain" {
@@ -65,7 +65,7 @@ extension GameScene: GKMatchDelegate {
                 
                 isPlayAgainOrderGiven = true
                 
-                notifyPlayAgain()
+                notify(.playAgain)
             }
         }
         
@@ -77,12 +77,12 @@ extension GameScene: GKMatchDelegate {
         
         // Check if it's the rocks movements data
         if let rocksMovements = try? JSONDecoder().decode([RockMovement].self, from: data) {
-            print("obstacles movements data received")
+            print("rocks movements data received")
             self.rocksMovements = rocksMovements
         }
         
         // Check if it's the start date data
-        if let startDate = try? JSONDecoder().decode(Date.self, from: data) {
+        if let startDate = try? JSONDecoder().decode(Int.self, from: data) {
             print("start date data received")
             self.startDate = startDate
             

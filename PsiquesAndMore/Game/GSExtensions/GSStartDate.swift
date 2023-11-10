@@ -9,17 +9,20 @@ import Foundation
 
 extension GameScene {
     func getStartDate(_ completion: @escaping () -> ()) {
-        startDate = Date.now
+        let currentDate = Date.now
+        
+        let numberOfSeconds = Int(currentDate.timeIntervalSince1970)
+        
+        startDate = numberOfSeconds
+        
         print("date: \(startDate)")
 
-        guard let date = startDate else { return }
-
-        sendStartData(date) {
+        sendStartData(numberOfSeconds) {
             completion()
         }
     }
 
-    func sendStartData(_ date: Date, _ completion: @escaping () -> ()) {
+    func sendStartData(_ date: Int, _ completion: @escaping () -> ()) {
         print("sending start date data")
         do {
             guard let data = try? JSONEncoder().encode(date) else { return }

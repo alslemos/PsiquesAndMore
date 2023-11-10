@@ -114,7 +114,7 @@ struct FirstView: View {
         }
         .onReceive(continueGamePublisher) { _ in
             if !scene.isContinueOrderGiven {
-                scene.sendContinueGameData {
+                scene.sendNotificationData(.continueGame) {
                     scene.isContinueOrderGiven = true
                 }
             } else {
@@ -126,7 +126,7 @@ struct FirstView: View {
         }
         .onReceive(playAgainPublisher) { _ in
             if !scene.isPlayAgainOrderGiven {
-                scene.sendPlayAgainData {
+                scene.sendNotificationData(.playAgain) {
                     scene.isPlayAgainOrderGiven = true
                 }
             } else {
@@ -141,7 +141,7 @@ struct FirstView: View {
             scene.virtualController?.disconnect()
             
             if !scene.isGoToMenuOrderGiven {
-                scene.sendGoToMenuData {
+                scene.sendNotificationData(.goToMenu) {
                     scene.isGoToMenuOrderGiven = true
                 }
             } else {

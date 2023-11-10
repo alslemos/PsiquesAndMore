@@ -37,53 +37,13 @@ extension GameScene {
         }
     }
     
-    func sendPauseGameData(_ completion: @escaping () -> ()) {
+    func sendNotificationData(_ notification: NotificationType, _ completion: @escaping () -> ()) {
         do {
-            guard let data = try? JSONEncoder().encode("pauseGame") else { return }
+            guard let data = try? JSONEncoder().encode(notification.data) else { return }
             try self.match?.sendData(toAllPlayers: data, with: .reliable)
             completion()
         } catch {
-            print("send pause game data failed")
-        }
-    }
-    
-    func sendContinueGameData(_ completion: @escaping () -> ()) {
-        do {
-            guard let data = try? JSONEncoder().encode("continueGame") else { return }
-            try self.match?.sendData(toAllPlayers: data, with: .reliable)
-            completion()
-        } catch {
-            print("send continue game data failed")
-        }
-    }
-    
-    func sendGoToMenuData(_ completion: @escaping () -> ()) {
-        do {
-            guard let data = try? JSONEncoder().encode("goToMenu") else { return }
-            try self.match?.sendData(toAllPlayers: data, with: .reliable)
-            completion()
-        } catch {
-            print("send back to menu data failed")
-        }
-    }
-    
-    func sendGameOverData(_ completion: @escaping () -> ()) {
-        do {
-            guard let data = try? JSONEncoder().encode("gameOver") else { return }
-            try self.match?.sendData(toAllPlayers: data, with: .reliable)
-            completion()
-        } catch {
-            print("send game over data failed")
-        }
-    }
-    
-    func sendPlayAgainData(_ completion: @escaping () -> ()) {
-        do {
-            guard let data = try? JSONEncoder().encode("playAgain") else { return }
-            try self.match?.sendData(toAllPlayers: data, with: .reliable)
-            completion()
-        } catch {
-            print("send play again data failed")
+            print(notification.dataError)
         }
     }
 }

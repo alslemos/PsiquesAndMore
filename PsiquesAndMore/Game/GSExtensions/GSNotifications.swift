@@ -8,28 +8,60 @@
 import Foundation
 
 extension GameScene {
-    func notifyPauseGame() {
-        NotificationCenter.default.post(name: .pauseGameNotificationName, object: nil)
-        print("DEBUG: pause game")
+    func notify(_ notification: NotificationType) {
+        NotificationCenter.default.post(name: notification.name, object: nil)
+    }
+}
+
+enum NotificationType {
+    case pauseGame
+    case continueGame
+    case goToMenu
+    case gameOver
+    case playAgain
+    
+    var name: NSNotification.Name {
+        switch self {
+            case .pauseGame:
+                return .pauseGameNotificationName
+            case .continueGame:
+                return .continueGameNotificationName
+            case .goToMenu:
+                return .goToMenuGameNotificationName
+            case .gameOver:
+                return .restartGameNotificationName
+            case .playAgain:
+                return .playAgainGameNotificationName
+        }
     }
     
-    func notifyContinueGame() {
-        NotificationCenter.default.post(name: .continueGameNotificationName, object: nil)
-        print("DEBUG: continue game")
+    var data: String {
+        switch self {
+            case .pauseGame:
+                return "pauseGame"
+            case .continueGame:
+                return "continueGame"
+            case .goToMenu:
+                return "goToMenu"
+            case .gameOver:
+                return "restartGame"
+            case .playAgain:
+                return "playAgain"
+        }
     }
     
-    func notifyGoToMenu() {
-        NotificationCenter.default.post(name: .goToMenuGameNotificationName, object: nil)
-        print("DEBUG: go to menu")
-    }
-    
-    func notifyGameOver() {
-        NotificationCenter.default.post(name: .restartGameNotificationName, object: nil)
-        print("DEBUG: game over")
-    }
-    
-    func notifyPlayAgain() {
-        NotificationCenter.default.post(name: .playAgainGameNotificationName, object: nil)
-        print("DEBUG: play again")
+    var dataError: String {
+        switch self {
+            case .pauseGame:
+                return "send pause game data failed"
+            case .continueGame:
+                return "send continue game data failed"
+            case .goToMenu:
+                return "send back to menu data failed"
+            case .gameOver:
+                return "send game over data failed"
+            case .playAgain:
+                return "send play again data failed"
+        }
     }
 }
