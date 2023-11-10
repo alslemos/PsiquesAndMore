@@ -46,8 +46,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // personagem
     var velocityX: CGFloat = 0.0
     var velocityY: CGFloat = 0.0
-    var square = SKSpriteNode(imageNamed: "personagem")
-    
+    var square = SKSpriteNode(imageNamed: "Vector")
+    // let character = SKSpriteNode(imageNamed: "characterLookingRight")let character = SKSpriteNode(imageNamed: "characterLookingRight")
     // obstáculos
     
     var obstacle = SKSpriteNode()

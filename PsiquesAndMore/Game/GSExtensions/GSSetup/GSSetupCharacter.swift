@@ -41,6 +41,7 @@ extension GameScene {
             print(characterVelocity)
         }
         
+        updateAsset()
         // moveMountainUp()
         // vai aumentar
     }
@@ -71,5 +72,24 @@ extension GameScene {
         addChild(maxLimitNode)
         addChild(minLimitNode)
     }
+    
+    func updateAsset(){
+        var auxiliar: Int = 0
+        
+        for i in 0..<5 {
+            
+
+        if auxiliar == i {
+            auxiliar = 0
+        }
+        
+        var texturaAtualizada = SKTexture(imageNamed: "Vector" + "-" + String(auxiliar))
+    
+        //personagem.texture = texturaAtualizada
+        square.texture = texturaAtualizada
+        
+        }
+    }
+    
 }
 
