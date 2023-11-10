@@ -38,10 +38,13 @@ extension GameScene {
         rock.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
         let physicsBodyRock = SKPhysicsBody(rectangleOf: CGSize(width: 60, height: 50))
-        physicsBodyRock.contactTestBitMask = 0x00000001
+//        physicsBodyRock.contactTestBitMask = 0x00000001
         physicsBodyRock.affectedByGravity = true
         physicsBodyRock.allowsRotation = true
         physicsBodyRock.isDynamic = true
+        physicsBodyRock.categoryBitMask = 4
+        physicsBodyRock.contactTestBitMask = 1
+        physicsBodyRock.collisionBitMask = 16
         rock.physicsBody = physicsBodyRock
         rock.position = CGPoint(x: (viewFrame.midX), y: ((viewFrame.maxY)))
         rock.name = "rock"
@@ -55,7 +58,7 @@ extension GameScene {
         
         rock.run(applyImpulse)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + rockMovement.time + 10.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + rockMovement.time + 5.0) {
             completion()
         }
     }

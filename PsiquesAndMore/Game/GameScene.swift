@@ -7,10 +7,9 @@ import SwiftUI
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var viewFrame: CGRect = CGRect()
     
-    
     var rectangle = SKSpriteNode()
     
-    var characterVelocity: Int = 0
+    var characterVelocity: CGFloat = 10
     
     // Don't forget to cancel this afterwards
     var cancellables = Set<AnyCancellable>()
@@ -83,6 +82,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var currentObstacleMovement: Int = 0
     var currentRockMovement: Int = 0
+    
+    var isSpriteJumping: Bool = false
     
     override func didMove(to view: SKView) {
         match?.delegate = self

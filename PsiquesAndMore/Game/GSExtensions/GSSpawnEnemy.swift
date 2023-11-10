@@ -38,10 +38,13 @@ extension GameScene {
         obstacle.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
         let physicsBodyObstacle = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
-        physicsBodyObstacle.contactTestBitMask = 0x00000001
+//        physicsBodyObstacle.contactTestBitMask = 0x00000001
         physicsBodyObstacle.affectedByGravity = false
         physicsBodyObstacle.allowsRotation = false
         physicsBodyObstacle.isDynamic = true
+        physicsBodyObstacle.categoryBitMask = 4
+        physicsBodyObstacle.contactTestBitMask = 1
+        physicsBodyObstacle.collisionBitMask = 16
         obstacle.physicsBody = physicsBodyObstacle
         obstacle.zPosition = 1
         obstacle.position = CGPoint(x: (viewFrame.maxX) + 100, y: (viewFrame.midY))

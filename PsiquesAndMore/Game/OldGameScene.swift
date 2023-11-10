@@ -346,7 +346,7 @@ class OldGameScene: SKScene, SKPhysicsContactDelegate {
         self.endMessage.removeFromParent()
         self.button.removeFromParent()
         
-        NotificationCenter.default.post(name: .restartGameNotificationName, object: nil)
+        NotificationCenter.default.post(name: .gameOverGameNotificationName, object: nil)
         controlTimer = 1
         
         if GKAccessPoint.shared.isActive == false {

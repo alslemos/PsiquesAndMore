@@ -29,7 +29,7 @@ enum NotificationType {
             case .goToMenu:
                 return .goToMenuGameNotificationName
             case .gameOver:
-                return .restartGameNotificationName
+                return .gameOverGameNotificationName
             case .playAgain:
                 return .playAgainGameNotificationName
         }
@@ -44,7 +44,7 @@ enum NotificationType {
             case .goToMenu:
                 return "goToMenu"
             case .gameOver:
-                return "restartGame"
+                return "gameOver"
             case .playAgain:
                 return "playAgain"
         }

@@ -12,7 +12,7 @@ extension GameScene {
         print("moving up")
 //        square.run(.move(to: CGPoint(x: square.position.x, y: square.position.y + 50), duration: 0.2))
         
-        self.square.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 15))
+        self.square.physicsBody?.applyImpulse(CGVector(dx: 15, dy: 15))
     }
     
     // moveu para baixo
@@ -28,14 +28,16 @@ extension GameScene {
         print("moving left")
 //        square.run(.move(to: CGPoint(x: square.position.x - 50, y: square.position.y), duration: 0.2))
         
-        self.square.physicsBody?.applyImpulse(CGVector(dx: -15, dy: 0))
+        self.square.physicsBody?.applyImpulse(CGVector(dx: -10, dy: 0))
+        
     }
     
     func moveSpriteRight() {
         print("moving right")
 //        square.run(.move(to: CGPoint(x: square.position.x + 50, y: square.position.y), duration: 0.2))
         
-        self.square.physicsBody?.applyImpulse(CGVector(dx: 15, dy: 0))
+        self.square.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 0))
+        
     }
     
     func moveMountainUp() {
