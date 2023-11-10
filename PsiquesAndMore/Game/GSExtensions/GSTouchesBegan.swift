@@ -7,7 +7,7 @@ extension GameScene {
             if let pauseButton = pauseButton {
                 if pauseButton.contains(touch.location(in: self)) {
                     sendPauseGameData {
-                        self.notifyPauseGame()
+                        self.notify(.pauseGame)
                     }
                 }
             }

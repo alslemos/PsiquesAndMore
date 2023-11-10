@@ -35,7 +35,7 @@ extension GameScene: GKMatchDelegate {
             if actionString == "pauseGame" {
                 print("pause game data received")
                     
-                notifyPauseGame()
+                notify(.pauseGame)
             }
             
             if actionString == "continueGame" {
@@ -43,7 +43,7 @@ extension GameScene: GKMatchDelegate {
                 
                 isContinueOrderGiven = true
                     
-                notifyContinueGame()
+                notify(.continueGame)
             }
             
             if actionString == "goToMenu" {
@@ -51,13 +51,13 @@ extension GameScene: GKMatchDelegate {
                 
                 isGoToMenuOrderGiven = true
 
-                notifyGoToMenu()
+                notify(.goToMenu)
             }
             
             if actionString == "gameOver" {
                 print("game over data received")
                 
-                notifyGameOver()
+                notify(.gameOver)
             }
             
             if actionString == "playAgain" {
@@ -65,7 +65,7 @@ extension GameScene: GKMatchDelegate {
                 
                 isPlayAgainOrderGiven = true
                 
-                notifyPlayAgain()
+                notify(.playAgain)
             }
         }
         

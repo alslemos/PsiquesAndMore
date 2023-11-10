@@ -19,31 +19,7 @@ extension GameScene {
         timerLabel.fontSize = 20
         timerLabel.zPosition = 1
         addChild(timerLabel)
-        
-//        setupGameTimer()
     }
-    
-    
-    
-//    func setupGameTimer(){
-//        let timer = Timer.publish(every: 1, on: .main, in: .common)
-//            .autoconnect()
-//        
-//        let subscription = timer
-//            .scan(0, { count, _ in
-//                return count + 1
-//            })
-//            .sink { completion in
-//                print("data stream completion \(completion)")
-//            } receiveValue: { timeStamp in
-//                self.timerLabel.text = "\(timeStamp)"
-//            }
-//        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
-//            
-//            subscription.cancel()
-//        }
-//    }
     
     func timerSubscription() {
         let publisher = Timer.publish(every: 1, on: .main, in: .common)
@@ -66,7 +42,7 @@ extension GameScene {
                     if count >= self.gameDuration {
                         print("time's up")
                         self.sendGameOverData {
-                            self.notifyGameOver()
+                            self.notify(.gameOver)
                         }
                     }
                 }

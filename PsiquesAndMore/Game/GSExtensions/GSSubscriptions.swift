@@ -33,7 +33,7 @@ extension GameScene {
                     
                     return count + 1
                 } else {
-                    return count
+                    return lastObstacleMovement
                 }
             }
             .sink { count in
@@ -47,6 +47,7 @@ extension GameScene {
                     let obstacleMovement = self.obstaclesMovements[self.currentObstacleMovement % self.obstaclesMovements.count]
                     
                     self.setupObstacle {
+                        print("setting obstacle")
                         self.moveObstacle(obstacleMovement: obstacleMovement) {
                             if let child = self.childNode(withName: "obstacle") as? SKSpriteNode {
                                 child.removeFromParent()
@@ -96,7 +97,7 @@ extension GameScene {
                     
                     return count + 1
                 } else {
-                    return count
+                    return lastRockMovement
                 }
             }
             .sink { count in
@@ -110,6 +111,7 @@ extension GameScene {
                     let rockMovement = self.rocksMovements[self.currentRockMovement % self.rocksMovements.count]
                     
                     self.setupRock {
+                        print("setting rock")
                         self.moveRock(rockMovement: rockMovement) {
                             if let child = self.childNode(withName: "rock") as? SKSpriteNode {
                                 child.removeFromParent()
@@ -118,7 +120,6 @@ extension GameScene {
                     }
                 }
             }
-        
     }
     
     func foo1() {
