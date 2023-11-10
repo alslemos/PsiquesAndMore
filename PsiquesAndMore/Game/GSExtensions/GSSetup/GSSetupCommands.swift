@@ -27,7 +27,7 @@ extension GameScene {
         virtualControllerConfig.elements = [GCInputLeftTrigger, GCInputButtonX]
         
         virtualController = GCVirtualController(configuration: virtualControllerConfig)
-        virtualController!.connect()
+        virtualController?.connect()
         getInputCommand()
         
     }
@@ -66,11 +66,11 @@ extension GameScene {
         }
         
         // definicao dos botoes
-        if let buttons = virtualController!.controller?.extendedGamepad {
+        if let buttons = virtualController?.controller?.extendedGamepad {
             leftButton = buttons.leftTrigger
             rightButton = buttons.buttonX
             
-            virtualController!.updateConfiguration(forElement: GCInputButtonX) { configuration in
+            virtualController?.updateConfiguration(forElement: GCInputButtonX) { configuration in
                 return configuration
             }
             

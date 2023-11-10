@@ -4,8 +4,9 @@ import GameKit
 import SpriteKit
 import SwiftUI
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     var viewFrame: CGRect = CGRect()
+    
     
     var rectangle = SKSpriteNode()
     
@@ -85,9 +86,12 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         match?.delegate = self
+        physicsWorld.contactDelegate = self
         
         viewFrame = view.frame
         
         didGameStart = false
     }
+   
+    
 }
