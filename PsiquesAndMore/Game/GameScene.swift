@@ -46,7 +46,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // personagem
     var velocityX: CGFloat = 0.0
     var velocityY: CGFloat = 0.0
-    var square = SKSpriteNode(imageNamed: "personagem")
+    var square = SKSpriteNode(imageNamed: "Vector-0")
+    var entidadeFrames = [SKTexture]()
+    var textureAtlass = SKTextureAtlas(named: "entidadeAnimada")
     
     // obstáculos
     
@@ -91,6 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         viewFrame = view.frame
         
         didGameStart = false
+        updateAsset()
     }
    
     

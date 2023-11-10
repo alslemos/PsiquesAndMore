@@ -45,6 +45,21 @@ extension GameScene {
         // vai aumentar
     }
     
+    func updateAsset(){
+        
+        var auxiliar: Int = 1
+        
+        for i in 0..<textureAtlass.textureNames.count {
+            let textureNames = "Vector" + "-" + String(i)
+            entidadeFrames.append(textureAtlass.textureNamed(textureNames))
+        }
+        print(entidadeFrames.count)
+        
+        square.run(SKAction.repeatForever(SKAction.animate(with: entidadeFrames, timePerFrame: 0.5)))
+        
+    }
+    
+    
     func createLimits() {
         let maxLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: viewFrame.height))
         maxLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
