@@ -41,7 +41,7 @@ extension GameScene {
                 if !self.isPaused {
                     if count >= self.gameDuration {
                         print("time's up")
-                        self.sendGameOverData {
+                        self.sendNotificationData(.gameOver) {
                             self.notify(.gameOver)
                         }
                     }

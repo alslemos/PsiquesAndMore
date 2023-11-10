@@ -34,4 +34,34 @@ enum NotificationType {
                 return .playAgainGameNotificationName
         }
     }
+    
+    var data: String {
+        switch self {
+            case .pauseGame:
+                return "pauseGame"
+            case .continueGame:
+                return "continueGame"
+            case .goToMenu:
+                return "goToMenu"
+            case .gameOver:
+                return "restartGame"
+            case .playAgain:
+                return "playAgain"
+        }
+    }
+    
+    var dataError: String {
+        switch self {
+            case .pauseGame:
+                return "send pause game data failed"
+            case .continueGame:
+                return "send continue game data failed"
+            case .goToMenu:
+                return "send back to menu data failed"
+            case .gameOver:
+                return "send game over data failed"
+            case .playAgain:
+                return "send play again data failed"
+        }
+    }
 }
