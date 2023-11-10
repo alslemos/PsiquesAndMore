@@ -11,7 +11,9 @@ class GameScene2: SKScene {
     //var square = SKSpriteNode()
     private var CharacterVelocity: Int = 0
     
-    private var square = SKSpriteNode(imageNamed: "personagem")
+    private var square = SKSpriteNode(imageNamed: "Vector-0")
+    var entidadeFrames = [SKTexture]()
+    var textureAtlass = SKTextureAtlas(named: "entidadeAnimada")
     
     private var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
     // chao
@@ -25,12 +27,43 @@ class GameScene2: SKScene {
     override func didMove(to view: SKView) {
         triggerCommands()
         triggerFloor()
-        triggerCharacter()
         triggerBackground()
         setupPauseButton()
         triggerTimer()
         triggerLives()
-    
+        updateAsset()
+        
+//        for node in self.children {
+//            if node.name == "square" {
+//                if let someTileMap: SKTileMapNode = node as? SKTileMapNode {
+//                    ti
+//
+//                }
+//            }
+//        }
+        
+        
+        func updateAsset(){
+            
+            var auxiliar: Int = 1
+            
+            for i in 0..<textureAtlass.textureNames.count {
+                let textureNames = "Vector" + "-" + String(i)
+                entidadeFrames.append(textureAtlass.textureNamed(textureNames))
+            }
+            print(entidadeFrames.count)
+            
+            square.run(SKAction.repeatForever(SKAction.animate(with: entidadeFrames, timePerFrame: 0.5)))
+            
+        }
+        
+       
+        
+        
+        triggerCharacter()
+        
+        
+        
     }
     
     
@@ -43,7 +76,9 @@ class GameScene2: SKScene {
             print(CharacterVelocity)
         }
         
-      
+       
+        
+        
         // vai aumentar
     }
     /// criando elementos visuais
@@ -51,17 +86,17 @@ class GameScene2: SKScene {
     ///
     
     func triggerTimer(){
-//        timerLabel.position = CGPoint(x: label.position.x, y: label.position.y - 50)
+        //        timerLabel.position = CGPoint(x: label.position.x, y: label.position.y - 50)
         
         
         
         timerLabel.position = CGPoint(
             x: self.frame.midX,
-                y: self.frame.maxY - 64)
+            y: self.frame.maxY - 64)
         
-               timerLabel.fontColor = .white
-               timerLabel.numberOfLines = 1
-               timerLabel.fontSize = 20
+        timerLabel.fontColor = .white
+        timerLabel.numberOfLines = 1
+        timerLabel.fontSize = 20
         timerLabel.zPosition = 1
         addChild(timerLabel)
         
@@ -71,44 +106,44 @@ class GameScene2: SKScene {
     
     func startTimer(){
         let timer = Timer.publish(every: 1, on: .main, in: .common)
-                   .autoconnect()
-               
-               let subscription = timer
-                   .scan(0, { count, _ in
-                       return count + 1
-                   })
-                   .sink { completion in
-                       print("data stream completion \(completion)")
-                   } receiveValue: { timeStamp in
-                       self.timerLabel.text = "\(timeStamp)"
-                   }
-               
-               DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
-                  
-                   subscription.cancel()
-               }
+            .autoconnect()
+        
+        let subscription = timer
+            .scan(0, { count, _ in
+                return count + 1
+            })
+            .sink { completion in
+                print("data stream completion \(completion)")
+            } receiveValue: { timeStamp in
+                self.timerLabel.text = "\(timeStamp)"
+            }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
+            
+            subscription.cancel()
+        }
     }
     
     // personagem
     func triggerBackground(){
         backgroundImage.zPosition = 0
         backgroundImage.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
-
+        
         addChild(backgroundImage)
     }
-  
+    
     func triggerCharacter(){
         print("Disparou personagem")
         
         let pb = SKPhysicsBody(rectangleOf: CGSize(width: 30, height: 30))// SKPhysicsBody(texture: square.texture!, size: square.texture!.size())
-       
-//        square.anchorPoint = CGPoint(x: 0.0, y: 0)
         
-       
+        //        square.anchorPoint = CGPoint(x: 0.0, y: 0)
+        
+        
         pb.contactTestBitMask = 0x00000001
         pb.allowsRotation = false
         pb.isDynamic = true
-//        pb.node?.physicsBody?.mass = 16.0
+        //        pb.node?.physicsBody?.mass = 16.0
         pb.node?.physicsBody?.friction = 0.0
         pb.node?.physicsBody?.affectedByGravity = true
         
@@ -133,21 +168,21 @@ class GameScene2: SKScene {
     
     
     func setupPauseButton() {
-            let pauseButton = SKSpriteNode(texture: SKTexture(image: UIImage(systemName: "pause.fill") ?? UIImage()))
-            pauseButton.size = CGSize(
-                width: 32,
-                height: 32)
+        let pauseButton = SKSpriteNode(texture: SKTexture(image: UIImage(systemName: "pause.fill") ?? UIImage()))
+        pauseButton.size = CGSize(
+            width: 32,
+            height: 32)
         
         
-            pauseButton.position = CGPoint(
-                x: self.frame.maxX - 64,
-                y: self.frame.maxY - 64)
-            pauseButton.zPosition = 50
-            pauseButton.name = "pauseButton"
+        pauseButton.position = CGPoint(
+            x: self.frame.maxX - 64,
+            y: self.frame.maxY - 64)
+        pauseButton.zPosition = 50
+        pauseButton.name = "pauseButton"
         pauseButton.zPosition = 1
-           
-            addChild(pauseButton)
-        }
+        
+        addChild(pauseButton)
+    }
     
     func triggerLives() {
         //heartArray
@@ -157,15 +192,15 @@ class GameScene2: SKScene {
         heartButton.size = CGSize(
             width: 32,
             height: 32)
-    
-    
+        
+        
         heartButton.position = CGPoint(
             x: self.frame.minX + 30,
             y: self.frame.maxY - 64)
         heartButton.zPosition = 50
         heartButton.name = "pauseButton"
-    heartButton.zPosition = 1
-       
+        heartButton.zPosition = 1
+        
         addChild(heartButton)
     }
     
@@ -197,7 +232,7 @@ class GameScene2: SKScene {
         
         print("inside get input command function")
         
-    //    guard let index = localPlayerIndex else { return }
+        //    guard let index = localPlayerIndex else { return }
         
         var leftButton: GCControllerButtonInput?
         var rightButton: GCControllerButtonInput?
@@ -241,7 +276,7 @@ class GameScene2: SKScene {
             return heartPath
             
         }
-
+        
         // Usage
         
         
@@ -265,7 +300,7 @@ class GameScene2: SKScene {
             
         }
         
-       
+        
         
         if let buttons = virtualController!.controller?.extendedGamepad {
             leftButton = buttons.leftTrigger
@@ -283,27 +318,29 @@ class GameScene2: SKScene {
             stickXAxis = buttons.leftThumbstick.xAxis
         }
         
-
-     
+        
+        
         
         leftButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
-           
+            
             
             if pressed {
-              
+                
                 print("pressionou, pulou ")
                 self.square.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 15))
-            
+                
             }
         }
         
-
+        
     }
     
     // removendo os comandos da tela
     private func removeComands(){
         virtualController?.disconnect()
     }
+    
+  
     
     
     
