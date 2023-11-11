@@ -30,15 +30,16 @@ extension GameScene {
         }
     }
     
-    func setupRock(_ completion: @escaping () -> Void) {
-        
+    func setupRock(_ completion: @escaping (SKSpriteNode) -> Void) {
         print("inside setupRock")
         
-        let rock = SKSpriteNode(color: .gray, size: CGSize(width: 60, height: 50))
+        let rock = SKSpriteNode(color: .gray, size: CGSize(width: 40, height: 30))
+        rock.texture = SKTexture(imageNamed: "rock")
         rock.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        rock.position = CGPoint(x: 0, y: ((viewFrame.maxY)))
+        rock.name = "rock"
         
-        let physicsBodyRock = SKPhysicsBody(rectangleOf: CGSize(width: 60, height: 50))
-//        physicsBodyRock.contactTestBitMask = 0x00000001
+        let physicsBodyRock = SKPhysicsBody(rectangleOf: CGSize(width: 40, height: 30))
         physicsBodyRock.affectedByGravity = true
         physicsBodyRock.allowsRotation = true
         physicsBodyRock.isDynamic = true
@@ -46,20 +47,25 @@ extension GameScene {
         physicsBodyRock.contactTestBitMask = 1
         physicsBodyRock.collisionBitMask = 16
         rock.physicsBody = physicsBodyRock
-        rock.position = CGPoint(x: (viewFrame.midX), y: ((viewFrame.maxY)))
-        rock.name = "rock"
-        self.rock = rock
+        
         self.addChild(rock)
-        completion()
+        self.rocks.append(rock)
+        
+        completion(rock)
     }
     
-    func moveRock(rockMovement: RockMovement, completion: @escaping () -> Void) {
+    func moveRock(rock: SKSpriteNode, rockMovement: RockMovement) {
         let applyImpulse = SKAction.applyImpulse(CGVector(dx: rockMovement.offsetX, dy: 0), duration: rockMovement.time)
         
         rock.run(applyImpulse)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + rockMovement.time + 5.0) {
-            completion()
+    }
+    
+    func removeRocks() {
+        if rocks.count > 0 {
+            if rocks[0].position.x >= viewFrame.width {
+                rocks[0].removeFromParent()
+                rocks.remove(at: 0)
+            }
         }
     }
 }

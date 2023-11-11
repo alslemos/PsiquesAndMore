@@ -70,9 +70,9 @@ extension GameScene: GKMatchDelegate {
         }
         
         // Check if it's the obstacles movements data
-        if let obstaclesMovements = try? JSONDecoder().decode([ObstacleMovement].self, from: data) {
+        if let obstaclesMovements = try? JSONDecoder().decode([EnemyMovement].self, from: data) {
             print("obstacles movements data received")
-            self.obstaclesMovements = obstaclesMovements
+            self.enemiesMovements = obstaclesMovements
         }
         
         // Check if it's the rocks movements data

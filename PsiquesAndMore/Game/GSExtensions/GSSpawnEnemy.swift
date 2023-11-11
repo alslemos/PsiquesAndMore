@@ -9,65 +9,102 @@ import Foundation
 import SpriteKit
 
 extension GameScene {
-    func createObstaclesArray() {
-        
+    func createEnemiesArray() {
         print("debug: inside create obstacle array")
         
         for _ in 0..<100 {
-            let offsetY = Double.random(in: 0.0...200.0)
+            let yPositions: [YPosition] = YPosition.allCases
+            let randomYPosition = yPositions.randomElement()
+            
+            guard let yPosition = randomYPosition else { return }
+            
             let time = Double.random(in: 0.5...2.0)
             
-            let randomObstacle = ObstacleMovement(offsetY: offsetY, time: time)
+            let randomEnemyMovement = EnemyMovement(yPosition: yPosition, time: time)
             
-            obstaclesMovements.append(randomObstacle)
+            enemiesMovements.append(randomEnemyMovement)
         }
     }
     
-    func sendObstaclesMovements() {
-        print("sending obstacles movements data")
+    func sendEnemiesMovements() {
+        print("sending enemies movements data")
         do {
-            guard let data = try? JSONEncoder().encode(obstaclesMovements) else { return }
+            guard let data = try? JSONEncoder().encode(enemiesMovements) else { return }
             try self.match?.sendData(toAllPlayers: data, with: .reliable)
         } catch {
-            print("send obstacles movements data failed")
+            print("send enemies movements data failed")
         }
     }
     
-    func setupObstacle(_ completion: @escaping () -> ()) {
-        let obstacle = SKSpriteNode(color: .blue, size: CGSize(width: 50, height: 50))
-        obstacle.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+    func setupEnemy(_ completion: @escaping (SKSpriteNode) -> ()) {
+        let enemy = SKSpriteNode(color: .blue, size: CGSize(width: 50, height: 50))
+        enemy.texture = SKTexture(imageNamed: "bird")
+        enemy.anchorPoint = CGPoint(x: 0, y: 0)
+        enemy.position = CGPoint(x: viewFrame.maxX, y: 0)
+        enemy.zPosition = 1
+        enemy.zRotation = -(rotationAngle)
+        enemy.name = "obstacle"
         
-        let physicsBodyObstacle = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
-//        physicsBodyObstacle.contactTestBitMask = 0x00000001
+        let physicsBodyObstacle = SKPhysicsBody(rectangleOf: enemy.size, center: CGPoint(x: enemy.frame.width / 2, y: enemy.frame.height / 2))
+        
         physicsBodyObstacle.affectedByGravity = false
         physicsBodyObstacle.allowsRotation = false
         physicsBodyObstacle.isDynamic = true
         physicsBodyObstacle.categoryBitMask = 4
         physicsBodyObstacle.contactTestBitMask = 1
         physicsBodyObstacle.collisionBitMask = 16
-        obstacle.physicsBody = physicsBodyObstacle
-        obstacle.zPosition = 1
-        obstacle.position = CGPoint(x: (viewFrame.maxX) + 100, y: (viewFrame.midY))
-        obstacle.name = "obstacle"
-        self.obstacle = obstacle
-        self.addChild(obstacle)
-        completion()
+        
+        enemy.physicsBody = physicsBodyObstacle
+        
+        self.addChild(enemy)
+        self.enemies.append(enemy)
+        
+        completion(enemy)
     }
     
-    func moveObstacle(obstacleMovement: ObstacleMovement, completion: @escaping () -> Void) {
-        let moveAction = SKAction.move(to: CGPoint(
-            x: (viewFrame.minX) - 100,
-            y: (viewFrame.midY) + obstacleMovement.offsetY + ((viewFrame.height) * 0.50)),
-                                       duration: obstacleMovement.time)
-        obstacle.run(moveAction)
+    func moveEnemy(enemy: SKSpriteNode, enemyMovement: EnemyMovement) {
+        let yPosition = enemyMovement.yPosition
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + obstacleMovement.time + 1.0) {
-            completion()
+        var offsetY: CGFloat = 0
+        
+        switch yPosition {
+            case .low:
+               offsetY = 0
+            case .medium:
+                offsetY = (square.frame.height / 2) / cos(rotationAngle)
+            case .high:
+                offsetY = square.frame.height / cos(rotationAngle)
+        }
+        
+        enemy.position = CGPoint(x: enemy.position.x, y: enemy.position.y + offsetY)
+        
+        let moveAction = SKAction.move(to: CGPoint(
+            x: 0,
+            y: (verticalThresholdPoint + offsetY)),
+            duration: enemyMovement.time
+        )
+        
+        enemy.run(moveAction)
+    }
+    
+    func removeObstacles() {
+        if enemies.count > 0 {
+            if enemies[0].position.x <= 0 {
+                print("removing obstacle")
+                enemies[0].removeFromParent()
+                enemies.remove(at: 0)
+            }
         }
     }
 }
 
-struct ObstacleMovement: Codable {
-    var offsetY: Double
+struct EnemyMovement: Codable {
+    var yPosition: YPosition
     var time: Double
+}
+
+enum YPosition: CaseIterable, Codable {
+    case low
+    case medium
+    case high
 }

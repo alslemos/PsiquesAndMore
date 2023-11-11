@@ -23,6 +23,8 @@ extension GameScene {
         
         rotationAngle = asin(verticalThresholdPoint / rectangleWidth)
         
+        square.zRotation = -(rotationAngle)
+        
         rectangleHeigth = sin(rotationAngle) * (viewFrame.width)
 
         rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "agoraVai")!),

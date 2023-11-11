@@ -12,83 +12,67 @@ extension GameScene {
     // MARK: - Combine functions
     func createSubscriptions() {
         timerSubscription()
-        backgroundPositionUpdater()
-        velocityUpdater()
-        characterSubscription()
-//        obstacleSpawner()
+        createBackgroundPositionUpdater()
+        createBackgroundVelocityUpdater()
+        createCharacterVelocityUpdater()
+        obstacleRemover()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.enemySpawner()
             self.rockSpawner()
-            self.foo1()
+            self.createDelayDecreasers()
         }
-//        foo()
-        
     }
     
-    func obstacleSpawner() {
-        var lastObstacleMovement: Int = 0
-        
-        spawnObstaclesSubscription = Timer.publish(every: self.spawnObstacleDelay, on: .main, in: .common)
-            .autoconnect()
-            .scan(-1) { count, _ in
-                if !self.isPaused {
-                    lastObstacleMovement = count
-                    
-                    self.currentObstacleMovement += 1
-                    
-                    return count + 1
-                } else {
-                    return lastObstacleMovement
-                }
-            }
-            .sink { count in
-                print("obstacle counter: \(count)")
-                
-                print("last obstacle counter: \(lastObstacleMovement)")
-                
-                print("obstacle spawn delay: \(self.spawnObstacleDelay)")
-                
-                if count != lastObstacleMovement {
-                    let obstacleMovement = self.obstaclesMovements[self.currentObstacleMovement % self.obstaclesMovements.count]
-                    
-                    self.setupObstacle {
-                        print("setting obstacle")
-                        self.moveObstacle(obstacleMovement: obstacleMovement) {
-                            if let child = self.childNode(withName: "obstacle") as? SKSpriteNode {
-                                child.removeFromParent()
-                            }
-                        }
-                    }
-                }
-            }
-    }
-    
-    func foo() {
-        let timer = Timer.publish(every: 4, on: .main, in: .common)
+    // MARK: - Obstacles Subscriptions
+    func obstacleRemover() {
+        let publisher = Timer.publish(every: 0.001, on: .main, in: .common)
             .autoconnect()
         
-        let subscription = timer
+        let subscription = publisher
         
         subscription
             .sink { _ in
-                if !self.isPaused {
-                    if self.spawnObstacleDelay > 0 {
-                        self.spawnObstacleDelay -= 0.25
-                        self.fred()
-                    }
-                }
+                self.removeObstacles()
+                self.removeRocks()
             }.store(in: &cancellables)
     }
     
-    func fred() {
-        if self.spawnObstacleDelay > 0 {
-            spawnObstaclesSubscription = nil
-            obstacleSpawner()
-        }
+    func enemySpawner() {
+        var lastEnemyMovement: Int = 0
+        
+        spawnEnemiesSubscription = Timer.publish(every: self.spawnEnemyDelay, on: .main, in: .common)
+            .autoconnect()
+            .scan(-1) { count, _ in
+                if !self.isPaused {
+                    lastEnemyMovement = count
+                    
+                    self.currentEnemyMovement += 1
+                    
+                    return count + 1
+                } else {
+                    return lastEnemyMovement
+                }
+            }
+            .sink { count in
+                print("enemy counter: \(count)")
+                
+                print("last enemy counter: \(lastEnemyMovement)")
+                
+                print("enemy spawn delay: \(self.spawnEnemyDelay)")
+                
+                if count != lastEnemyMovement {
+                    let enemyMovement = self.enemiesMovements[self.currentEnemyMovement % self.enemiesMovements.count]
+                    
+                    self.setupEnemy { enemy in
+                        print("setting obstacle")
+                        self.moveEnemy(enemy: enemy, enemyMovement: enemyMovement)
+                    }
+                }
+            }
     }
     
     func rockSpawner() {
-        
         print("DEBUG: inside rockSpawner")
         var lastRockMovement: Int = 0
         
@@ -115,45 +99,63 @@ extension GameScene {
                 if count != lastRockMovement {
                     let rockMovement = self.rocksMovements[self.currentRockMovement % self.rocksMovements.count]
                     
-                    self.setupRock {
+                    self.setupRock { rock in
                         print("setting rock")
-                        self.moveRock(rockMovement: rockMovement) {
-                            if let child = self.childNode(withName: "rock") as? SKSpriteNode {
-                                child.removeFromParent()
-                            }
-                        }
+                        self.moveRock(rock: rock, rockMovement: rockMovement)
                     }
                 }
             }
     }
     
-    func foo1() {
+    func createDelayDecreasers() {
         let timer = Timer.publish(every: 4, on: .main, in: .common)
             .autoconnect()
         
-        let subscription = timer
+        // enemy delay decreaser creation
+        let enemySubscription = timer
         
-        subscription
+        enemySubscription
+            .sink { _ in
+                if !self.isPaused {
+                    if self.spawnEnemyDelay > 0 {
+                        self.spawnEnemyDelay -= 0.25
+                        self.removeObstacleSpawner(for: .enemy)
+                    }
+                }
+            }.store(in: &cancellables)
+        
+        // rock delay decreaser creation
+        let rockSubscription = timer
+        
+        rockSubscription
             .sink { _ in
                 if !self.isPaused {
                     if self.spawnRockDelay > 0 {
                         self.spawnRockDelay -= 0.25
-                        self.fred1()
+                        self.removeObstacleSpawner(for: .rock)
                     }
                 }
             }.store(in: &cancellables)
     }
     
-    func fred1() {
-        if self.spawnRockDelay > 0 {
-            spawnRocksSubscription = nil
-            rockSpawner()
+    func removeObstacleSpawner(for obstacle: Obstacle) {
+        if obstacle == .enemy {
+            if self.spawnEnemyDelay > 0 {
+                spawnEnemiesSubscription = nil
+                enemySpawner()
+            }
+        }
+        
+        if obstacle == .rock {
+            if self.spawnRockDelay > 0 {
+                spawnRocksSubscription = nil
+                rockSpawner()
+            }
         }
     }
     
-    private func backgroundPositionUpdater() {
-        guard let view = self.view else { return }
-        
+    // MARK: - Background Subscription
+    func createBackgroundPositionUpdater() {
         let publisher = Timer.publish(every: 0.001, on: .main, in: .common)
             .autoconnect()
         let subscription = publisher
@@ -163,13 +165,13 @@ extension GameScene {
                 return self.rectangle.position
             }
             .sink { position in
-                if position.x <= -(view.frame.width) {
+                if position.x <= -(self.viewFrame.width) {
                     self.rectangle.position = CGPoint(x: 0, y: self.verticalThresholdPoint)
                 }
             }.store(in: &cancellables)
     }
     
-    private func velocityUpdater() {
+    private func createBackgroundVelocityUpdater() {
         let publisher = Timer.publish(every: 0.001, on: .main, in: .common)
             .autoconnect()
         let subscription = publisher
@@ -181,7 +183,7 @@ extension GameScene {
             }.store(in: &cancellables)
     }
     
-    func characterSubscription() {
+    func createCharacterVelocityUpdater() {
         let publisher = Timer.publish(every: 1, on: .main, in: .common)
             .autoconnect()
         let subscription = publisher
@@ -203,4 +205,9 @@ extension GameScene {
                 }
             }.store(in: &cancellables)
     }
+}
+
+enum Obstacle {
+    case enemy
+    case rock
 }

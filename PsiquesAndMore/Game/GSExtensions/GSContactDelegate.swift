@@ -42,9 +42,9 @@ extension GameScene {
             players[0].numberOfLives -= 1
             print(players[0].numberOfLives)
             
-            self.sendNotificationData(.gameOver) {
-                self.notify(.gameOver)
-            }
+//            self.sendNotificationData(.gameOver) {
+//                self.notify(.gameOver)
+//            }
         }
     }
     

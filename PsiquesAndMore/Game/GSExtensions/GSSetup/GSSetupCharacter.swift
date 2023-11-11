@@ -22,7 +22,6 @@ extension GameScene {
         pb.node?.physicsBody?.friction = 0.0
         pb.categoryBitMask = 1
         pb.contactTestBitMask = 4
-        pb.collisionBitMask = 8
         
         square.anchorPoint = CGPoint(x: 0.5, y: 0)
         square.physicsBody = pb
@@ -50,12 +49,12 @@ extension GameScene {
 //    }
     
     func createLimits() {
-        let maxLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: viewFrame.height))
+        let maxLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: viewFrame.height * 3))
         maxLimitNode.name = "maxLimit"
         maxLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
         maxLimitNode.position = CGPoint(x: viewFrame.width - 50, y: 0)
         
-        let maxLimitBody = SKPhysicsBody(rectangleOf: maxLimitNode.size, center: CGPoint(x: square.frame.width / 2, y: viewFrame.height / 2))
+        let maxLimitBody = SKPhysicsBody(rectangleOf: maxLimitNode.size, center: CGPoint(x: maxLimitNode.frame.width / 2, y: maxLimitNode.frame.height / 2))
         maxLimitBody.allowsRotation = false
         maxLimitBody.isDynamic = false
         maxLimitBody.affectedByGravity = false
@@ -64,12 +63,12 @@ extension GameScene {
         
         maxLimitNode.physicsBody = maxLimitBody
         
-        let minLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: viewFrame.height))
+        let minLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: viewFrame.height * 3))
         minLimitNode.name = "minLimit"
         minLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
         minLimitNode.position = CGPoint(x: viewFrame.width * 0.1, y: 0)
         
-        let minLimitBody = SKPhysicsBody(rectangleOf: minLimitNode.size, center: CGPoint(x: square.frame.width / 2, y: viewFrame.height / 2))
+        let minLimitBody = SKPhysicsBody(rectangleOf: minLimitNode.size, center: CGPoint(x: minLimitNode.frame.width / 2, y: minLimitNode.frame.height / 2))
         minLimitBody.allowsRotation = false
         minLimitBody.isDynamic = false
         minLimitBody.affectedByGravity = false

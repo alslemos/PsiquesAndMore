@@ -45,7 +45,7 @@ extension GameScene {
                 self.setupCommands()
                 
                 print("sending obstacles movements")
-                self.sendObstaclesMovements()
+                self.sendEnemiesMovements()
                 
                 print("sending rocks movements")
                 self.sendRocksMovements()

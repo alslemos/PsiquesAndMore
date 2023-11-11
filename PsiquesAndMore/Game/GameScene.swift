@@ -49,10 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // obstáculos
     
-    var obstacle = SKSpriteNode()
-    var spawnObstacleDelay: TimeInterval = 2
-    
-    var rock = SKSpriteNode()
+    var spawnEnemyDelay: TimeInterval = 2
     var spawnRockDelay: TimeInterval = 2
     
     // logica do jogo
@@ -65,8 +62,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var players: [Player] = []
     
-    var obstaclesMovements: [ObstacleMovement] = []
+    var enemiesMovements: [EnemyMovement] = []
+    var enemies: [SKSpriteNode] = []
     var rocksMovements: [RockMovement] = []
+    var rocks: [SKSpriteNode] = []
     var startDate: Int = 0
     
     var didGameStart: Bool! {
@@ -77,13 +76,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var startGameSubscription: AnyCancellable?
     
-    var spawnObstaclesSubscription: AnyCancellable?
+    var spawnEnemiesSubscription: AnyCancellable?
     var spawnRocksSubscription: AnyCancellable?
     
-    var currentObstacleMovement: Int = 0
+    var currentEnemyMovement: Int = 0
     var currentRockMovement: Int = 0
-    
-    var isSpriteJumping: Bool = false
     
     override func didMove(to view: SKView) {
         match?.delegate = self
@@ -93,6 +90,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         didGameStart = false
     }
-   
-    
 }
