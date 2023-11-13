@@ -12,6 +12,7 @@
 		1C452ED92AF2C3BD001F696B /* GSSetupPauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C452ED82AF2C3BD001F696B /* GSSetupPauseButton.swift */; };
 		1C6B5C062AFAA3AA00F66A5E /* GSSpawnEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6B5C052AFAA3AA00F66A5E /* GSSpawnEnemy.swift */; };
 		1CCB539E2B02901A00A78BC8 /* GSSetupAvalanche.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB539D2B02901A00A78BC8 /* GSSetupAvalanche.swift */; };
+		1CCB53A22B02A40D00A78BC8 /* Snow.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1CCB53A12B02A40D00A78BC8 /* Snow.sks */; };
 		680506892B026A91009D8223 /* GSObstacles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680506882B026A91009D8223 /* GSObstacles.swift */; };
 		6806C3E12AEAF70D00EDED8E /* MatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E02AEAF70D00EDED8E /* MatchManager.swift */; };
 		6806C3E32AEAF84900EDED8E /* MatchManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E22AEAF84900EDED8E /* MatchManager+Extensions.swift */; };
@@ -51,6 +52,7 @@
 		1C452ED82AF2C3BD001F696B /* GSSetupPauseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupPauseButton.swift; sourceTree = "<group>"; };
 		1C6B5C052AFAA3AA00F66A5E /* GSSpawnEnemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSpawnEnemy.swift; sourceTree = "<group>"; };
 		1CCB539D2B02901A00A78BC8 /* GSSetupAvalanche.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupAvalanche.swift; sourceTree = "<group>"; };
+		1CCB53A12B02A40D00A78BC8 /* Snow.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Snow.sks; sourceTree = "<group>"; };
 		680506882B026A91009D8223 /* GSObstacles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSObstacles.swift; sourceTree = "<group>"; };
 		6806C3E02AEAF70D00EDED8E /* MatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchManager.swift; sourceTree = "<group>"; };
 		6806C3E22AEAF84900EDED8E /* MatchManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatchManager+Extensions.swift"; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				E7D119602AE9E60300ECA9BE /* View */,
 				E7D1193A2ADE077E00ECA9BE /* Assets.xcassets */,
 				E7D1193C2ADE077E00ECA9BE /* Preview Content */,
+				1CCB53A12B02A40D00A78BC8 /* Snow.sks */,
 			);
 			path = PsiquesAndMore;
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CCB53A22B02A40D00A78BC8 /* Snow.sks in Resources */,
 				E7D1193E2ADE077E00ECA9BE /* Preview Assets.xcassets in Resources */,
 				E7D1193B2ADE077E00ECA9BE /* Assets.xcassets in Resources */,
 			);

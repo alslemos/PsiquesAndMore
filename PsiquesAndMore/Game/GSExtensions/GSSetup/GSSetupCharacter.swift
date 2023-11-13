@@ -29,6 +29,11 @@ extension GameScene {
         square.position = CGPoint(x: (viewFrame.midX), y: (viewFrame.midY) + 100)
         square.zPosition = 1
         
+        let emitter = SKEmitterNode(fileNamed: "Snow")
+        emitter?.position = CGPoint(x: 0.0, y: 0.0)
+        emitter?.zPosition = 10
+        square.addChild(emitter ?? SKEmitterNode())
+        
         self.addChild(square)
         createLimits()
     }
