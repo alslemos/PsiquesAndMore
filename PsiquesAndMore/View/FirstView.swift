@@ -37,8 +37,7 @@ struct FirstView: View {
         ZStack {
             if matchManager.isGamePresented {
                 VStack {
-                    SpriteView(scene: scene, debugOptions: [.showsPhysics, .showsNodeCount]).ignoresSafeArea().navigationBarBackButtonHidden(true)
-                        .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.8)
+                    SpriteView(scene: scene, debugOptions: .showsPhysics).ignoresSafeArea().navigationBarBackButtonHidden(true)
                 }
                 .onAppear {
                     showPauseGameView = false
