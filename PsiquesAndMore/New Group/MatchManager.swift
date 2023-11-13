@@ -86,4 +86,12 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, 
         match = newMatch
         isGamePresented = true
     }
+    
+    func reportAchievements(achievements: [GKAchievement]) {
+        
+
+        
+    }
+    
+    
 }

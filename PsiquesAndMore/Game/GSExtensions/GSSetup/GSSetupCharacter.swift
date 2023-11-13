@@ -43,6 +43,10 @@ extension GameScene {
         
         // moveMountainUp()
         // vai aumentar
+        
+        
+        reportAchievementsForGameState(hasWon: true)
+        
     }
     
     func updateAsset(){
