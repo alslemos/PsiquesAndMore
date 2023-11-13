@@ -149,10 +149,9 @@ extension GameScene {
     }
     
     func removeObstacles() {
-        print("obstacles count: \(obstacles.count)")
         if obstacles.count > 0 {
             if obstacles[0].name == "enemy" {
-                if obstacles[0].position.x <= 0 {
+                if obstacles[0].position.x <= -50 {
                     print("removing enemy")
                     obstacles[0].removeFromParent()
                     obstacles.remove(at: 0)

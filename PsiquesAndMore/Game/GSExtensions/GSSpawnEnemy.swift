@@ -10,19 +10,19 @@ import SpriteKit
 
 extension GameScene {
     func setupEnemy(_ completion: @escaping (SKSpriteNode) -> ()) {
-        let enemy = SKSpriteNode(color: .blue, size: CGSize(width: 50, height: 50))
-        enemy.texture = SKTexture(imageNamed: "bird")
+        let enemy = SKSpriteNode(texture: SKTexture(imageNamed: "bird"), size: CGSize(width: 50, height: 50))
         enemy.anchorPoint = CGPoint(x: 0, y: 0)
         enemy.position = CGPoint(x: viewFrame.maxX, y: 0)
         enemy.zPosition = 1
         enemy.zRotation = -(rotationAngle)
         enemy.name = "enemy"
         
-        let physicsBodyEnemy = SKPhysicsBody(rectangleOf: enemy.size, center: CGPoint(x: enemy.frame.width / 2, y: enemy.frame.height / 2))
+        let physicsBodyEnemy = SKPhysicsBody(rectangleOf: enemy.size, center: CGPoint(x: enemy.size.width / 2, y: enemy.size.height / 2))
         
         physicsBodyEnemy.affectedByGravity = false
         physicsBodyEnemy.allowsRotation = false
         physicsBodyEnemy.isDynamic = true
+        
         physicsBodyEnemy.categoryBitMask = 4
         physicsBodyEnemy.contactTestBitMask = 1
         physicsBodyEnemy.collisionBitMask = 16
@@ -52,8 +52,8 @@ extension GameScene {
         enemy.position = CGPoint(x: enemy.position.x, y: enemy.position.y + offsetY)
         
         let moveAction = SKAction.move(to: CGPoint(
-            x: 0,
-            y: (verticalThresholdPoint + offsetY)),
+            x: -100,
+            y: (verticalThresholdPoint + offsetY + (100 * tan(rotationAngle)))),
             duration: enemyMovement.time
         )
         

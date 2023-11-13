@@ -23,6 +23,7 @@ extension GameScene {
         physicsBodyRock.categoryBitMask = 4
         physicsBodyRock.contactTestBitMask = 1
         physicsBodyRock.collisionBitMask = 16
+        
         rock.physicsBody = physicsBodyRock
         
         self.addChild(rock)

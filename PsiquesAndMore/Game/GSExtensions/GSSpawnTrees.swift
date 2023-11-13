@@ -17,11 +17,12 @@ extension GameScene {
         tree.zRotation = -(rotationAngle)
         tree.name = "tree"
         
-        let physicsBodyTree = SKPhysicsBody(rectangleOf: tree.size, center: CGPoint(x: tree.frame.width / 2, y: tree.frame.height / 2))
+        let physicsBodyTree = SKPhysicsBody(rectangleOf: tree.size, center: CGPoint(x: tree.size.width / 2, y: tree.size.height / 2))
         
         physicsBodyTree.affectedByGravity = false
         physicsBodyTree.allowsRotation = false
         physicsBodyTree.isDynamic = true
+        
         physicsBodyTree.categoryBitMask = 4
         physicsBodyTree.contactTestBitMask = 1
         physicsBodyTree.collisionBitMask = 16

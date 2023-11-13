@@ -19,7 +19,7 @@ extension GameScene {
         pb.isDynamic = true
         pb.affectedByGravity = true
         //      pb.node?.physicsBody?.mass = 16.0
-        pb.node?.physicsBody?.friction = 0.0
+//        pb.node?.physicsBody?.friction = 0.0
         pb.categoryBitMask = 1
         pb.contactTestBitMask = 4
         
@@ -32,21 +32,6 @@ extension GameScene {
         self.addChild(square)
         createLimits()
     }
-    
-//    // talvez tenha de ir para a GameScene
-//    // alterar o valor pelo publisher do combine!
-//    override func update(_ currentTime: TimeInterval) {
-////        square.physicsBody?.applyForce(CGVector(dx: -(characterVelocity), dy: 0))
-//        square.physicsBody?.applyImpulse(CGVector(dx: -(characterVelocity), dy: 0))
-//        
-////        if Int.random(in: 0...20) > 16 {
-//        characterVelocity += 0.1
-//            print("DEBUG: CHARACTER VELOCITY \(characterVelocity)")
-////        }
-//        
-//        // moveMountainUp()
-//        // vai aumentar
-//    }
     
     func createLimits() {
         let maxLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: viewFrame.height * 3))

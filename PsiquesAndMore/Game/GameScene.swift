@@ -51,6 +51,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var spawnObstacleDelay: TimeInterval = 2
     
+    // avalanche
+    
+    var avalanche = SKSpriteNode()
+    
     // logica do jogo
     var matchManager: MatchManager?
     
