@@ -19,8 +19,7 @@ extension GameScene {
         self.setupTimer()
         
         if localIndex == 0 {
-            self.createEnemiesArray()
-            self.createRocksArray()
+            self.createObstaclesArray()
         }
         
         self.savePlayers {

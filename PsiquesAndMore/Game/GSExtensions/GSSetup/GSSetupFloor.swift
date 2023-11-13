@@ -9,10 +9,7 @@ import Foundation
 import SpriteKit
 
 extension GameScene {
-    func setupFloor(){
-        guard let view = self.view else { return }
-        
-        
+    func setupFloor() {
         var rectangleWidth: CGFloat = 0
         var rectangleHeigth: CGFloat = 0
         

@@ -80,5 +80,28 @@ extension GameScene {
         addChild(maxLimitNode)
         addChild(minLimitNode)
     }
+    
+    func createCharacterVelocityUpdater() {
+        let publisher = Timer.publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+        let subscription = publisher
+        
+        subscription
+            .scan(0) { count, _ in
+                if self.isPaused {
+                    return count
+                } else {
+                    return count + 1
+                }
+            }
+            .sink { count in
+                if !self.isPaused {
+                    self.characterVelocity += 1
+                    
+                    let applyImpulse = SKAction.applyImpulse(CGVector(dx: -(self.characterVelocity), dy: 0), duration: 1)
+                    self.square.run(applyImpulse)
+                }
+            }.store(in: &cancellables)
+    }
 }
 

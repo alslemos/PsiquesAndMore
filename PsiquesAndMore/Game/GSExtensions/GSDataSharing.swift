@@ -8,6 +8,7 @@
 import Foundation
 
 extension GameScene {
+    // MARK: - Player data
     func sendPlayerData(completion: @escaping (() -> Void)) {
         do {
             guard let data = try? JSONEncoder().encode(players) else { return }
@@ -18,6 +19,7 @@ extension GameScene {
         }
     }
     
+    // MARK: - Movement data
     func sendMovementData(_ movement: Movement, _ completion: @escaping () -> ()) {
         do {
             guard let data = try? JSONEncoder().encode(movement) else { return }
@@ -28,6 +30,7 @@ extension GameScene {
         }
     }
     
+    // MARK: - Controls data
     func sendControlsData(_ controls: Controls) {
         do {
             guard let data = try? JSONEncoder().encode(controls) else { return }
@@ -37,6 +40,7 @@ extension GameScene {
         }
     }
     
+    // MARK: - Notification data
     func sendNotificationData(_ notification: NotificationType, _ completion: @escaping () -> ()) {
         do {
             guard let data = try? JSONEncoder().encode(notification.data) else { return }
@@ -44,6 +48,37 @@ extension GameScene {
             completion()
         } catch {
             print(notification.dataError)
+        }
+    }
+    
+    // MARK: - Obstacles data
+    func sendEnemiesMovements() {
+        print("sending enemies movements data")
+        do {
+            guard let data = try? JSONEncoder().encode(enemiesMovements) else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+        } catch {
+            print("send enemies movements data failed")
+        }
+    }
+    
+    func sendRocksMovements() {
+        print("sending rocks movements data")
+        do {
+            guard let data = try? JSONEncoder().encode(rocksMovements) else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+        } catch {
+            print("send rocks movements data failed")
+        }
+    }
+    
+    func sendObstaclesOrder() {
+        print("sending obstacles order data")
+        do {
+            guard let data = try? JSONEncoder().encode(obstaclesOrder) else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+        } catch {
+            print("send obstacles order data failed")
         }
     }
 }

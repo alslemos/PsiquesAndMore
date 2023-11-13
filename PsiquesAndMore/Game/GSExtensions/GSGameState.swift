@@ -46,11 +46,9 @@ extension GameScene {
             cancellable.cancel()
         }
         
-        spawnEnemiesSubscription = nil
-        spawnRocksSubscription = nil
+        spawnObstaclesSubscription = nil
         
-        spawnRockDelay = 2
-        spawnEnemyDelay = 2
+        spawnObstacleDelay = 1
         
         characterVelocity = 10
         

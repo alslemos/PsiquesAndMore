@@ -8,28 +8,7 @@
 import Foundation
 import SpriteKit
 
-extension GameScene {
-    func createRocksArray() {
-        for _ in 0..<100 {
-            let offsetX = Double.random(in: 5.0...20.0)
-            let time = Double.random(in: 0.5...1.0)
-            
-            let randomObstacle = RockMovement(offsetX: offsetX, time: time)
-            
-            rocksMovements.append(randomObstacle)
-        }
-    }
-    
-    func sendRocksMovements() {
-        print("sending rocks movements data")
-        do {
-            guard let data = try? JSONEncoder().encode(rocksMovements) else { return }
-            try self.match?.sendData(toAllPlayers: data, with: .reliable)
-        } catch {
-            print("send rocks movements data failed")
-        }
-    }
-    
+extension GameScene {    
     func setupRock(_ completion: @escaping (SKSpriteNode) -> Void) {
         print("inside setupRock")
         
@@ -49,7 +28,7 @@ extension GameScene {
         rock.physicsBody = physicsBodyRock
         
         self.addChild(rock)
-        self.rocks.append(rock)
+        self.obstacles.append(rock)
         
         completion(rock)
     }
@@ -58,15 +37,6 @@ extension GameScene {
         let applyImpulse = SKAction.applyImpulse(CGVector(dx: rockMovement.offsetX, dy: 0), duration: rockMovement.time)
         
         rock.run(applyImpulse)
-    }
-    
-    func removeRocks() {
-        if rocks.count > 0 {
-            if rocks[0].position.x >= viewFrame.width {
-                rocks[0].removeFromParent()
-                rocks.remove(at: 0)
-            }
-        }
     }
 }
 

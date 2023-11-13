@@ -50,6 +50,9 @@ extension GameScene {
                 print("sending rocks movements")
                 self.sendRocksMovements()
                 
+                print("sending obstacles order")
+                self.sendObstaclesOrder()
+                
                 completion()
             }
         } else {
