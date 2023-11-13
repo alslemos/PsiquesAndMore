@@ -18,16 +18,16 @@ extension GameScene {
         enemy.zRotation = -(rotationAngle)
         enemy.name = "enemy"
         
-        let physicsBodyObstacle = SKPhysicsBody(rectangleOf: enemy.size, center: CGPoint(x: enemy.frame.width / 2, y: enemy.frame.height / 2))
+        let physicsBodyEnemy = SKPhysicsBody(rectangleOf: enemy.size, center: CGPoint(x: enemy.frame.width / 2, y: enemy.frame.height / 2))
         
-        physicsBodyObstacle.affectedByGravity = false
-        physicsBodyObstacle.allowsRotation = false
-        physicsBodyObstacle.isDynamic = true
-        physicsBodyObstacle.categoryBitMask = 4
-        physicsBodyObstacle.contactTestBitMask = 1
-        physicsBodyObstacle.collisionBitMask = 16
+        physicsBodyEnemy.affectedByGravity = false
+        physicsBodyEnemy.allowsRotation = false
+        physicsBodyEnemy.isDynamic = true
+        physicsBodyEnemy.categoryBitMask = 4
+        physicsBodyEnemy.contactTestBitMask = 1
+        physicsBodyEnemy.collisionBitMask = 16
         
-        enemy.physicsBody = physicsBodyObstacle
+        enemy.physicsBody = physicsBodyEnemy
         
         self.addChild(enemy)
         self.obstacles.append(enemy)

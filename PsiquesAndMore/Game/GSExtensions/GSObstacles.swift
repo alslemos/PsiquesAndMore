@@ -11,6 +11,7 @@ import SpriteKit
 enum Obstacle: CaseIterable, Codable {
     case enemy
     case rock
+    case tree
 }
 
 extension GameScene {
@@ -63,6 +64,10 @@ extension GameScene {
                             
                             self.setupObstacle(for: .rock) { rock in
                                 self.moveObstacle(for: .rock, with: rock, rockMovement: rockMovement)
+                            }
+                        case .tree:
+                            self.setupObstacle(for: .tree) { tree in
+                                self.moveObstacle(for: .tree, with: tree)
                             }
                     }
                 }
@@ -136,6 +141,10 @@ extension GameScene {
                 setupRock { rock in
                     completion(rock)
                 }
+            case .tree:
+                setUpTree { tree in
+                    completion(tree)
+                }
         }
     }
     
@@ -154,6 +163,12 @@ extension GameScene {
                     obstacles[0].removeFromParent()
                     obstacles.remove(at: 0)
                 }
+            } else if obstacles[0].name == "tree" {
+                if obstacles[0].position.x <= 0 {
+                    print("removing tree")
+                    obstacles[0].removeFromParent()
+                    obstacles.remove(at: 0)
+                }
             }
         }
     }
@@ -168,6 +183,8 @@ extension GameScene {
                 guard let rockMovement = rockMovement else { return }
                 
                 moveRock(rock: node, rockMovement: rockMovement)
+            case .tree:
+                moveTree(tree: node)
         }
     }
 }
