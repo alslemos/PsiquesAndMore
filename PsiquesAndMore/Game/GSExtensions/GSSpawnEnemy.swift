@@ -10,24 +10,24 @@ import SpriteKit
 
 extension GameScene {
     func setupEnemy(_ completion: @escaping (SKSpriteNode) -> ()) {
-        let enemy = SKSpriteNode(color: .blue, size: CGSize(width: 50, height: 50))
-        enemy.texture = SKTexture(imageNamed: "bird")
+        let enemy = SKSpriteNode(texture: SKTexture(imageNamed: "bird"), size: CGSize(width: 50, height: 50))
+//        enemy.texture = SKTexture(imageNamed: "bird")
         enemy.anchorPoint = CGPoint(x: 0, y: 0)
         enemy.position = CGPoint(x: viewFrame.maxX, y: 0)
         enemy.zPosition = 1
         enemy.zRotation = -(rotationAngle)
         enemy.name = "enemy"
         
-        let physicsBodyObstacle = SKPhysicsBody(rectangleOf: enemy.size, center: CGPoint(x: enemy.frame.width / 2, y: enemy.frame.height / 2))
+        let physicsBodyEnemy = SKPhysicsBody(rectangleOf: enemy.size, center: CGPoint(x: enemy.frame.width / 2, y: enemy.frame.height / 2))
         
-        physicsBodyObstacle.affectedByGravity = false
-        physicsBodyObstacle.allowsRotation = false
-        physicsBodyObstacle.isDynamic = true
-        physicsBodyObstacle.categoryBitMask = 4
-        physicsBodyObstacle.contactTestBitMask = 1
-        physicsBodyObstacle.collisionBitMask = 16
+        physicsBodyEnemy.affectedByGravity = false
+        physicsBodyEnemy.allowsRotation = false
+        physicsBodyEnemy.isDynamic = true
+        physicsBodyEnemy.categoryBitMask = 4
+        physicsBodyEnemy.contactTestBitMask = 1
+        physicsBodyEnemy.collisionBitMask = 16
         
-        enemy.physicsBody = physicsBodyObstacle
+        enemy.physicsBody = physicsBodyEnemy
         
         self.addChild(enemy)
         self.obstacles.append(enemy)

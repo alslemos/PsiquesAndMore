@@ -11,6 +11,7 @@
 		1C452ED72AF2BB07001F696B /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C452ED62AF2BB07001F696B /* GameOverView.swift */; };
 		1C452ED92AF2C3BD001F696B /* GSSetupPauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C452ED82AF2C3BD001F696B /* GSSetupPauseButton.swift */; };
 		1C6B5C062AFAA3AA00F66A5E /* GSSpawnEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6B5C052AFAA3AA00F66A5E /* GSSpawnEnemy.swift */; };
+		1CCB539E2B02901A00A78BC8 /* GSSetupAvalanche.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB539D2B02901A00A78BC8 /* GSSetupAvalanche.swift */; };
 		680506892B026A91009D8223 /* GSObstacles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680506882B026A91009D8223 /* GSObstacles.swift */; };
 		6806C3E12AEAF70D00EDED8E /* MatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E02AEAF70D00EDED8E /* MatchManager.swift */; };
 		6806C3E32AEAF84900EDED8E /* MatchManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E22AEAF84900EDED8E /* MatchManager+Extensions.swift */; };
@@ -49,6 +50,7 @@
 		1C452ED62AF2BB07001F696B /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
 		1C452ED82AF2C3BD001F696B /* GSSetupPauseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupPauseButton.swift; sourceTree = "<group>"; };
 		1C6B5C052AFAA3AA00F66A5E /* GSSpawnEnemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSpawnEnemy.swift; sourceTree = "<group>"; };
+		1CCB539D2B02901A00A78BC8 /* GSSetupAvalanche.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupAvalanche.swift; sourceTree = "<group>"; };
 		680506882B026A91009D8223 /* GSObstacles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSObstacles.swift; sourceTree = "<group>"; };
 		6806C3E02AEAF70D00EDED8E /* MatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchManager.swift; sourceTree = "<group>"; };
 		6806C3E22AEAF84900EDED8E /* MatchManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MatchManager+Extensions.swift"; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				E7C5580E2AFC5D6900F07740 /* GSSetupBackground.swift */,
 				E7C5580A2AF92EEA00F07740 /* GSSetupCommands.swift */,
 				E7C558102AFC603C00F07740 /* GSSetupTimer.swift */,
+				1CCB539D2B02901A00A78BC8 /* GSSetupAvalanche.swift */,
 			);
 			path = GSSetup;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 				1C452ED72AF2BB07001F696B /* GameOverView.swift in Sources */,
 				68F190292AFD24E3005B5030 /* GSSetupGame.swift in Sources */,
 				E7C5580D2AF93B4700F07740 /* GSGKMatchDelegate.swift in Sources */,
+				1CCB539E2B02901A00A78BC8 /* GSSetupAvalanche.swift in Sources */,
 				6806C3E12AEAF70D00EDED8E /* MatchManager.swift in Sources */,
 				E7C558112AFC603C00F07740 /* GSSetupTimer.swift in Sources */,
 				1C6B5C062AFAA3AA00F66A5E /* GSSpawnEnemy.swift in Sources */,
