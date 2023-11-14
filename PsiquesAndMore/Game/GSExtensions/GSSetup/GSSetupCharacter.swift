@@ -35,6 +35,7 @@ extension GameScene {
         emitter?.zRotation = -rotationAngle
         emitter?.zPosition = 10
         emitter?.name = "snow"
+        emitter?.targetNode = self.scene
         self.snowParticle = emitter ?? SKEmitterNode()
         square.addChild(snowParticle)
         

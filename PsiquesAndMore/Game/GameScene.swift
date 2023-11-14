@@ -45,6 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // personagem
     var velocityX: CGFloat = 0.0
     var velocityY: CGFloat = 0.0
+    var isPlayerTouchingFloor: Bool = false
     var square = SKSpriteNode(imageNamed: "personagem")
     var snowParticle = SKEmitterNode()
     
