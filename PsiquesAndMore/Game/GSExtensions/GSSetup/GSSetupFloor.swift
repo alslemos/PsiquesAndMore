@@ -36,7 +36,8 @@ extension GameScene {
     
         let pb = SKPhysicsBody(rectangleOf: rectangle.size, center: CGPoint(x: rectangleWidth, y: -(rectangleHeigth / 2)))
         pb.isDynamic = false
-        pb.node?.physicsBody?.friction = 1
+        pb.categoryBitMask = 16
+//        pb.node?.physicsBody?.friction = 1
         rectangle.physicsBody = pb
         
         self.addChild(rectangle)
@@ -50,7 +51,6 @@ extension GameScene {
         
         rectangle.run(SKAction.repeatForever(moveAction))
     }
-    
 }
 
 

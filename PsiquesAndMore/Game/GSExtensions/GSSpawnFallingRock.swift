@@ -10,8 +10,6 @@ import SpriteKit
 
 extension GameScene {    
     func setupRock(_ completion: @escaping (SKSpriteNode) -> Void) {
-        print("inside setupRock")
-        
         let rock = SKSpriteNode(color: .gray, size: CGSize(width: 40, height: 30))
         rock.texture = SKTexture(imageNamed: "rock")
         rock.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -25,6 +23,7 @@ extension GameScene {
         physicsBodyRock.categoryBitMask = 4
         physicsBodyRock.contactTestBitMask = 1
         physicsBodyRock.collisionBitMask = 16
+        
         rock.physicsBody = physicsBodyRock
         
         self.addChild(rock)

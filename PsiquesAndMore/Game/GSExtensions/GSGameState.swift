@@ -33,13 +33,7 @@ extension GameScene {
         
         scene.removeAllActions()
         scene.removeAllChildren()
-//        square.removeFromParent()
-//        rectangle.removeFromParent()
-//        backgroundImage.removeFromParent()
-//        timerLabel.removeFromParent()
-//        pauseButton?.removeFromParent()
-//        rock.removeFromParent()
-//        obstacle.removeFromParent()
+        
         removeComands()
         
         for cancellable in cancellables {
