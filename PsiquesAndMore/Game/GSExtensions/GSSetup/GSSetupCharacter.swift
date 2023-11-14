@@ -43,16 +43,6 @@ extension GameScene {
         createLimits()
     }
     
-    func toggleSnowParticles() {
-        
-        if snowParticle.particleBirthRate <= 0 {
-            self.snowParticle.particleBirthRate = 40.0
-        } else {
-            self.snowParticle.particleBirthRate = 0
-        }
-        
-    }
-    
     func createLimits() {
         let maxLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: viewFrame.height * 3))
         maxLimitNode.name = "maxLimit"

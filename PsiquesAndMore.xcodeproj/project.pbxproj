@@ -122,7 +122,6 @@
 			isa = PBXGroup;
 			children = (
 				6869E82F2AFD44790017C8F1 /* GSSetup */,
-				E7178B172AFD570A00673BD5 /* GSContactDelegate.swift */,
 				68F190302AFD270A005B5030 /* GSGameState.swift */,
 				68F190362AFD2A9F005B5030 /* GSMovements.swift */,
 				68F1902A2AFD2536005B5030 /* GSStartDate.swift */,
@@ -135,6 +134,7 @@
 				68F190342AFD27CA005B5030 /* GSDataSharing.swift */,
 				685A59702AF58ECE0026A307 /* GSTouchesBegan.swift */,
 				E7C5580C2AF93B4700F07740 /* GSGKMatchDelegate.swift */,
+				E7178B172AFD570A00673BD5 /* GSContactDelegate.swift */,
 			);
 			path = GSExtensions;
 			sourceTree = "<group>";
