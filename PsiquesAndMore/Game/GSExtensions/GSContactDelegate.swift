@@ -17,12 +17,13 @@ extension GameScene {
         // check for player touching obstacles
         
         if (bodyA.categoryBitMask == 1 && bodyB.categoryBitMask == 4) || (bodyA.categoryBitMask == 4 && bodyB.categoryBitMask == 1) {
-            players[0].numberOfLives -= 1
-            players[1].numberOfLives -= 1
-            print(players[0].numberOfLives)
+            
+            self.lifes -= 1
+            
 //            self.sendNotificationData(.gameOver) {
 //                self.notify(.gameOver)
 //            }
+            
         }
         
         // check for player touching ground
