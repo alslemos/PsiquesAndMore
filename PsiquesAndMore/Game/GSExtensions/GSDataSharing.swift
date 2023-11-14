@@ -9,13 +9,13 @@ import Foundation
 
 extension GameScene {
     // MARK: - Player data
-    func sendPlayerData(completion: @escaping (() -> Void)) {
+    func sendPlayerData(_ completion: @escaping () -> ()) {
         do {
             guard let data = try? JSONEncoder().encode(players) else { return }
             try match?.sendData(toAllPlayers: data, with: .reliable)
             completion()
         } catch {
-            print("send data failed")
+            print("send players data failed")
         }
     }
     
@@ -26,7 +26,7 @@ extension GameScene {
             try match?.sendData(toAllPlayers: data, with: .reliable)
             completion()
         } catch {
-            print("send data failed")
+            print("send movement data failed")
         }
     }
     
@@ -42,6 +42,7 @@ extension GameScene {
     
     // MARK: - Notification data
     func sendNotificationData(_ notification: NotificationType, _ completion: @escaping () -> ()) {
+        print("sending notification data")
         do {
             guard let data = try? JSONEncoder().encode(notification.data) else { return }
             try self.match?.sendData(toAllPlayers: data, with: .reliable)

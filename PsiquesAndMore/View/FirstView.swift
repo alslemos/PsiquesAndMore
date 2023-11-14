@@ -7,19 +7,20 @@ struct FirstView: View {
     @ObservedObject var matchManager: MatchManager
     
     // NotificationCenter for view display control
-    
     let gameOverPublisher = NotificationCenter.default.publisher(for: .gameOverGameNotificationName)
     let pauseGamePublisher = NotificationCenter.default.publisher(for: .pauseGameNotificationName)
     let continueGamePublisher = NotificationCenter.default.publisher(for: .continueGameNotificationName)
     let playAgainPublisher = NotificationCenter.default.publisher(for: .playAgainGameNotificationName)
     let goToMenuPublisher = NotificationCenter.default.publisher(for: .goToMenuGameNotificationName)
+    let readyPublisher = NotificationCenter.default.publisher(for: .readyToPlayGameNotificationName)
+    let lobbyCreationPublisher = NotificationCenter.default.publisher(for: .lobbyCreationNotificationName)
     
     // View display control variables
-    
     @State var showCredits : Bool = false
     @State var showInstructions: Bool = false
     @State var showPauseGameView: Bool = false
     @State var showGameOverView: Bool = false
+    @State var showGameScene: Bool = false
     
     var scene: GameScene
     
@@ -35,7 +36,7 @@ struct FirstView: View {
     
     var body: some View {
         ZStack {
-            if matchManager.isGamePresented {
+            if showGameScene {
                 VStack {
                     SpriteView(scene: scene, debugOptions: .showsPhysics).ignoresSafeArea().navigationBarBackButtonHidden(true)
                 }
@@ -51,41 +52,25 @@ struct FirstView: View {
                 if showGameOverView {
                     GameOverView()
                 }
-                
             } else {
                 NavigationStack {
-                    
                     // link para o jogo, com imagem, sem texto
                     VStack {
                         Button {
-                            matchManager.startMatchmaking()
+                            matchManager.sendReadyState {
+                                self.showGameScene = true
+                            }
                         } label: {
                             Image("playButton")
                         }
                     }
-                    .onAppear {
-                        if matchManager.authenticationState != .authenticated {
-                            matchManager.authenticatePlayer()
-                        }
-                    }
-                    .onDisappear {
-                        GKAccessPoint.shared.isActive = false
-//                        matchManager.isGamePresented = false
-                    }
-                    
-                    // link para o jogo, sem imagem só texto
-                    VStack {
-                         Button("Jogar") {
-                             matchManager.isGamePresented = true
-                         }
-                    }
-                    
+
                     // link para as instrucoes
                     VStack {
-                         Button("Instructions") {
-                          showInstructions = true
-                         }
+                        Button("Instructions") {
+                            showInstructions = true
                         }
+                    }
                     .navigationDestination(isPresented:  $showInstructions) {
                         VStack {
                             InstructionsView().ignoresSafeArea().navigationBarBackButtonHidden(false)
@@ -94,24 +79,39 @@ struct FirstView: View {
                     
                     // link para as creditos
                     VStack {
-                         Button("Credits") {
-                          showCredits = true
-                         }
+                        Button("Credits") {
+                            showCredits = true
                         }
+                    }
                     .navigationDestination(isPresented: $showCredits) {
                         VStack {
                             CreditsView().ignoresSafeArea().navigationBarBackButtonHidden(false)
                         }
                     }
                     
+                    // link para as criar lobby
+                    VStack {
+                        Button("Lobby creation") {
+                            matchManager.sendLobbyCreationData {
+                                self.matchManager.isGamePresented = false
+                            }
+                        }
+                    }
                 }.ignoresSafeArea()
             }
+        }
+        .onReceive(lobbyCreationPublisher) { _ in
+            matchManager.isGamePresented = false
+        }
+        .onReceive(readyPublisher) { _ in
+            print("inside notification handler")
+            
+            showGameScene = true
         }
         .onReceive(gameOverPublisher) { _ in
             showGameOverView = true
             scene.isPaused = true
-       }
-        
+        }
         .onReceive(pauseGamePublisher) { _ in
             scene.isPaused = true
             showPauseGameView = true
@@ -160,7 +160,11 @@ struct FirstView: View {
                 print("bye bye")
             }
             
-            matchManager.isGamePresented = false
+            showGameScene = false
+            
+            guard let match = scene.match else { return }
+            
+            matchManager.startGame(newMatch: match)
         }
     }
 }

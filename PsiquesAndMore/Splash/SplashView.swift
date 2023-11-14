@@ -7,7 +7,7 @@ struct SplashView: View {
     var body: some View {
         ZStack {
             if self.isActive {
-                FirstView(matchManager: _matchManager)
+                PlayView(matchManager: matchManager)
             } else {
                 Rectangle()
                     .background(Color.black)

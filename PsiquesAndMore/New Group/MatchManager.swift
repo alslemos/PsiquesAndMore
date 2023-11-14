@@ -84,6 +84,29 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, 
     func startGame(newMatch: GKMatch) {
         print("starting game...")
         match = newMatch
+        match?.delegate = self
         isGamePresented = true
+    }
+    
+    func sendReadyState(_ completion: @escaping () -> ()) {
+        print("sending ready state data")
+        do {
+            guard let data = try? JSONEncoder().encode("ready") else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+            completion()
+        } catch {
+            print("send ready state data failed")
+        }
+    }
+    
+    func sendLobbyCreationData(_ completion: @escaping () -> ()) {
+        print("sending lobby creation data")
+        do {
+            guard let data = try? JSONEncoder().encode("lobby") else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+            completion()
+        } catch {
+            print("send lobby creation data failed")
+        }
     }
 }

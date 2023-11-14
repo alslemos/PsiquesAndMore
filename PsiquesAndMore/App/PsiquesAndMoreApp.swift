@@ -10,7 +10,7 @@ struct PsiquesAndMoreApp: App {
     }
 }
 
-func iniciaGameKit(){
+func iniciaGameKit() {
     GKLocalPlayer.local.authenticateHandler = {
         viewController, error in
         
