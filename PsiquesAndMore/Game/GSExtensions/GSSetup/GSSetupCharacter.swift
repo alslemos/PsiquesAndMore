@@ -14,14 +14,12 @@ extension GameScene {
         
         let pb = SKPhysicsBody(rectangleOf: CGSize(width: 30, height: 30), center: CGPoint(x: square.size.width / 2, y: square.size.height / 2))
         
-//              pb.contactTestBitMask = 0x00000001
         pb.allowsRotation = false
         pb.isDynamic = true
         pb.affectedByGravity = true
-        //      pb.node?.physicsBody?.mass = 16.0
-//        pb.node?.physicsBody?.friction = 0.0
-        pb.categoryBitMask = 1
-        pb.contactTestBitMask = 4
+
+        pb.categoryBitMask = PhysicsCategory.characterNode
+        pb.contactTestBitMask = PhysicsCategory.obstacleNode
         
         square.anchorPoint = CGPoint(x: 0, y: 0)
         square.physicsBody = pb
@@ -45,30 +43,36 @@ extension GameScene {
     
     func createLimits() {
         let maxLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: viewFrame.height * 3))
+        
         maxLimitNode.name = "maxLimit"
         maxLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
         maxLimitNode.position = CGPoint(x: viewFrame.width - 50, y: 0)
         
         let maxLimitBody = SKPhysicsBody(rectangleOf: maxLimitNode.size, center: CGPoint(x: maxLimitNode.frame.width / 2, y: maxLimitNode.frame.height / 2))
+        
         maxLimitBody.allowsRotation = false
         maxLimitBody.isDynamic = false
         maxLimitBody.affectedByGravity = false
-        maxLimitBody.categoryBitMask = 8
-        maxLimitBody.collisionBitMask = 1
+        
+        maxLimitBody.categoryBitMask = PhysicsCategory.limitNode
+        maxLimitBody.collisionBitMask = PhysicsCategory.characterNode
         
         maxLimitNode.physicsBody = maxLimitBody
         
         let minLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 30, height: viewFrame.height * 3))
+        
         minLimitNode.name = "minLimit"
         minLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
         minLimitNode.position = CGPoint(x: viewFrame.width * 0.1, y: 0)
         
         let minLimitBody = SKPhysicsBody(rectangleOf: minLimitNode.size, center: CGPoint(x: minLimitNode.frame.width / 2, y: minLimitNode.frame.height / 2))
+        
         minLimitBody.allowsRotation = false
         minLimitBody.isDynamic = false
         minLimitBody.affectedByGravity = false
-        minLimitBody.categoryBitMask = 8
-        minLimitBody.collisionBitMask = 1
+        
+        minLimitBody.categoryBitMask = PhysicsCategory.limitNode
+        minLimitBody.collisionBitMask = PhysicsCategory.characterNode
         
         minLimitNode.physicsBody = minLimitBody
         

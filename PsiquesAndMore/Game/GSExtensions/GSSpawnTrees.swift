@@ -23,9 +23,9 @@ extension GameScene {
         physicsBodyTree.allowsRotation = false
         physicsBodyTree.isDynamic = true
         
-        physicsBodyTree.categoryBitMask = 4
-        physicsBodyTree.contactTestBitMask = 1
-        physicsBodyTree.collisionBitMask = 16
+        physicsBodyTree.categoryBitMask = PhysicsCategory.obstacleNode
+        physicsBodyTree.contactTestBitMask = PhysicsCategory.characterNode
+        physicsBodyTree.collisionBitMask = 0
         
         tree.physicsBody = physicsBodyTree
         

@@ -8,47 +8,46 @@
 import Foundation
 import SpriteKit
 
+struct PhysicsCategory {
+    static let characterNode: UInt32 = 0x1 << 0
+    static let floorNode: UInt32 = 0x1 << 1
+    static let obstacleNode: UInt32 = 0x1 << 2
+    static let limitNode: UInt32 = 0x1 << 3
+}
+
 extension GameScene {
-    
     func didBegin(_ contact: SKPhysicsContact) {
-        let bodyA = contact.bodyA
-        let bodyB = contact.bodyB
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
         // check for player touching obstacles
-        
-        if (bodyA.categoryBitMask == 1 && bodyB.categoryBitMask == 4) || (bodyA.categoryBitMask == 4 && bodyB.categoryBitMask == 1) {
+        if contactMask == PhysicsCategory.characterNode | PhysicsCategory.obstacleNode {
+            print("DEBUG: touched obstacle")
             
             self.lifes -= 1
             
 //            self.sendNotificationData(.gameOver) {
 //                self.notify(.gameOver)
 //            }
-            
         }
         
         // check for player touching ground
-        
-        if (bodyA.categoryBitMask == 1 && bodyB.categoryBitMask == 8) || (bodyA.categoryBitMask == 8 && bodyB.categoryBitMask == 1) {
-            
+        if contactMask == PhysicsCategory.characterNode | PhysicsCategory.floorNode {
             print("DEBUG: player is touching ground")
+            
             self.isPlayerTouchingFloor = true
             self.snowParticle.particleBirthRate = 40
-            
         }
     }
     
     // check if player stopped touching ground
-    
     func didEnd(_ contact: SKPhysicsContact) {
-        let bodyA = contact.bodyA
-        let bodyB = contact.bodyB
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
-        if (bodyA.categoryBitMask == 1 && bodyB.categoryBitMask == 8) || (bodyA.categoryBitMask == 8 && bodyB.categoryBitMask == 1) {
-            
+        if contactMask == PhysicsCategory.characterNode | PhysicsCategory.floorNode {
             print("DEBUG: player is not touching ground")
+            
             self.isPlayerTouchingFloor = false
             self.snowParticle.particleBirthRate = 0
-            
         }
     }
 }

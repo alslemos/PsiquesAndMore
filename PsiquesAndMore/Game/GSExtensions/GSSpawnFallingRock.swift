@@ -17,12 +17,14 @@ extension GameScene {
         rock.name = "rock"
         
         let physicsBodyRock = SKPhysicsBody(rectangleOf: CGSize(width: 40, height: 30))
+        
         physicsBodyRock.affectedByGravity = true
         physicsBodyRock.allowsRotation = true
         physicsBodyRock.isDynamic = true
-        physicsBodyRock.categoryBitMask = 4
-        physicsBodyRock.contactTestBitMask = 1
-        physicsBodyRock.collisionBitMask = 16
+        
+        physicsBodyRock.categoryBitMask = PhysicsCategory.obstacleNode
+        physicsBodyRock.contactTestBitMask = PhysicsCategory.characterNode
+        physicsBodyRock.collisionBitMask = PhysicsCategory.floorNode
         
         rock.physicsBody = physicsBodyRock
         

@@ -26,11 +26,17 @@ extension GameScene {
         let originalSquareSize: CGSize = square.size
         
         square.size = CGSize(width: originalSquareSize.width, height: originalSquareSize.height / 2)
-        square.physicsBody = SKPhysicsBody(rectangleOf: square.size, center: CGPoint(x: 0, y: square.frame.height / 2))
+        
+        let pb = SKPhysicsBody(rectangleOf: square.size, center: CGPoint(x: square.size.width / 2, y: square.frame.height / 2))
+        
+        square.physicsBody = pb
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.square.size = CGSize(width: originalSquareSize.width, height: originalSquareSize.height)
-            self.square.physicsBody = SKPhysicsBody(rectangleOf: self.square.size, center: CGPoint(x: 0, y: self.square.frame.height / 2))
+            self.square.size = originalSquareSize
+            
+            let pb = SKPhysicsBody(rectangleOf: self.square.size, center: CGPoint(x: self.square.size.width / 2, y: self.square.size.height / 2))
+            
+            self.square.physicsBody = pb
         }
     }
 }
