@@ -12,7 +12,7 @@ extension GameScene {
     func setupEnemy(_ completion: @escaping (SKSpriteNode) -> ()) {
         let enemy = SKSpriteNode(texture: SKTexture(imageNamed: "bird"), size: CGSize(width: 50, height: 50))
         enemy.anchorPoint = CGPoint(x: 0, y: 0)
-        enemy.position = CGPoint(x: viewFrame.maxX, y: 0)
+        enemy.position = CGPoint(x: viewFrame.maxX, y: -10)
         enemy.zPosition = 1
         enemy.zRotation = -(rotationAngle)
         enemy.name = "enemy"

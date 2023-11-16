@@ -33,8 +33,7 @@ extension GameScene {
         rectangle.zRotation = -(rotationAngle)
         rectangle.zPosition = 1
         
-    
-        let pb = SKPhysicsBody(rectangleOf: rectangle.size, center: CGPoint(x: rectangleWidth, y: -(rectangleHeigth / 2)))
+        let pb = SKPhysicsBody(rectangleOf: rectangle.size, center: CGPoint(x: rectangleWidth, y: -(rectangleHeigth / 2) - 10))
         
         pb.isDynamic = false
         

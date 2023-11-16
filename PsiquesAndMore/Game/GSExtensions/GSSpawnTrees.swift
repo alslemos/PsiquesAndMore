@@ -12,8 +12,8 @@ extension GameScene {
     func setUpTree(_ completion: @escaping (SKSpriteNode) -> ()) {
         let tree = SKSpriteNode(color: .blue, size: CGSize(width: 50, height: 50))
         tree.anchorPoint = CGPoint(x: 0, y: 0)
-        tree.position = CGPoint(x: viewFrame.maxX, y: 0)
-        tree.zPosition = 1
+        tree.position = CGPoint(x: viewFrame.maxX, y: -10)
+        tree.zPosition = 0
         tree.zRotation = -(rotationAngle)
         tree.name = "tree"
         

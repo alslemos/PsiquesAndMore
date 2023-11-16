@@ -16,7 +16,7 @@ extension GameScene {
         rock.position = CGPoint(x: 0, y: ((viewFrame.maxY)))
         rock.name = "rock"
         
-        let physicsBodyRock = SKPhysicsBody(rectangleOf: CGSize(width: 40, height: 30))
+        let physicsBodyRock = SKPhysicsBody(texture: rock.texture!, size: rock.size)
         
         physicsBodyRock.affectedByGravity = true
         physicsBodyRock.allowsRotation = true
