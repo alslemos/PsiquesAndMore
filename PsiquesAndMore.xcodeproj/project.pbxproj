@@ -27,6 +27,15 @@
 		68F190352AFD27CA005B5030 /* GSDataSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F190342AFD27CA005B5030 /* GSDataSharing.swift */; };
 		68F190372AFD2A9F005B5030 /* GSMovements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F190362AFD2A9F005B5030 /* GSMovements.swift */; };
 		E7178B182AFD570A00673BD5 /* GSContactDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7178B172AFD570A00673BD5 /* GSContactDelegate.swift */; };
+		E71F6C662B065F5F009369E5 /* Instructions1.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71F6C652B065F5F009369E5 /* Instructions1.swift */; };
+		E71F6C682B065F68009369E5 /* Instructions2.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71F6C672B065F68009369E5 /* Instructions2.swift */; };
+		E71F6C6A2B065F6E009369E5 /* Instructions3.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71F6C692B065F6E009369E5 /* Instructions3.swift */; };
+		E71F6C6D2B067389009369E5 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71F6C6C2B067389009369E5 /* BackButton.swift */; };
+		E71F6C6F2B067391009369E5 /* JumpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71F6C6E2B067391009369E5 /* JumpButton.swift */; };
+		E71F6C712B067455009369E5 /* MainComponentLevelPick.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71F6C702B067455009369E5 /* MainComponentLevelPick.swift */; };
+		E71F6C732B067492009369E5 /* CardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71F6C722B067492009369E5 /* CardData.swift */; };
+		E71F6C752B0674C0009369E5 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71F6C742B0674C0009369E5 /* CardView.swift */; };
+		E71F6C772B067561009369E5 /* LuckiestGuy-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E71F6C762B067561009369E5 /* LuckiestGuy-Regular.ttf */; };
 		E7C558072AF5A82200F07740 /* GSSetupCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C558062AF5A82200F07740 /* GSSetupCharacter.swift */; };
 		E7C558092AF92A2B00F07740 /* GSSetupFloor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C558082AF92A2B00F07740 /* GSSetupFloor.swift */; };
 		E7C5580B2AF92EEA00F07740 /* GSSetupCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C5580A2AF92EEA00F07740 /* GSSetupCommands.swift */; };
@@ -66,6 +75,15 @@
 		68F190342AFD27CA005B5030 /* GSDataSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSDataSharing.swift; sourceTree = "<group>"; };
 		68F190362AFD2A9F005B5030 /* GSMovements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSMovements.swift; sourceTree = "<group>"; };
 		E7178B172AFD570A00673BD5 /* GSContactDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSContactDelegate.swift; sourceTree = "<group>"; };
+		E71F6C652B065F5F009369E5 /* Instructions1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instructions1.swift; sourceTree = "<group>"; };
+		E71F6C672B065F68009369E5 /* Instructions2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instructions2.swift; sourceTree = "<group>"; };
+		E71F6C692B065F6E009369E5 /* Instructions3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instructions3.swift; sourceTree = "<group>"; };
+		E71F6C6C2B067389009369E5 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
+		E71F6C6E2B067391009369E5 /* JumpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpButton.swift; sourceTree = "<group>"; };
+		E71F6C702B067455009369E5 /* MainComponentLevelPick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainComponentLevelPick.swift; sourceTree = "<group>"; };
+		E71F6C722B067492009369E5 /* CardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardData.swift; sourceTree = "<group>"; };
+		E71F6C742B0674C0009369E5 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		E71F6C762B067561009369E5 /* LuckiestGuy-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LuckiestGuy-Regular.ttf"; path = "../../../Downloads/Luckiest_Guy/LuckiestGuy-Regular.ttf"; sourceTree = "<group>"; };
 		E752F4C52AEC305600AC7DB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E7C558062AF5A82200F07740 /* GSSetupCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupCharacter.swift; sourceTree = "<group>"; };
 		E7C558082AF92A2B00F07740 /* GSSetupFloor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupFloor.swift; sourceTree = "<group>"; };
@@ -108,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				6806C3E52AEAF94300EDED8E /* PlayerAuthState.swift */,
+				E71F6C722B067492009369E5 /* CardData.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -146,6 +165,25 @@
 			path = GSSetup;
 			sourceTree = "<group>";
 		};
+		E71F6C642B065F41009369E5 /* Onboarding-Instructions */ = {
+			isa = PBXGroup;
+			children = (
+				E71F6C652B065F5F009369E5 /* Instructions1.swift */,
+				E71F6C672B065F68009369E5 /* Instructions2.swift */,
+				E71F6C692B065F6E009369E5 /* Instructions3.swift */,
+			);
+			name = "Onboarding-Instructions";
+			sourceTree = "<group>";
+		};
+		E71F6C6B2B06736E009369E5 /* ViewExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				E71F6C6C2B067389009369E5 /* BackButton.swift */,
+				E71F6C6E2B067391009369E5 /* JumpButton.swift */,
+			);
+			path = ViewExtensions;
+			sourceTree = "<group>";
+		};
 		E7D1192A2ADE077C00ECA9BE = {
 			isa = PBXGroup;
 			children = (
@@ -166,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				E752F4C52AEC305600AC7DB2 /* Info.plist */,
+				E71F6C762B067561009369E5 /* LuckiestGuy-Regular.ttf */,
 				6806C3ED2AEB08F000EDED8E /* PsiquesAndMore.entitlements */,
 				6806C3E42AEAF92E00EDED8E /* Misc */,
 				6806C3DF2AEAF6F900EDED8E /* New Group */,
@@ -191,9 +230,13 @@
 		E7D119602AE9E60300ECA9BE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E71F6C6B2B06736E009369E5 /* ViewExtensions */,
+				E71F6C642B065F41009369E5 /* Onboarding-Instructions */,
+				E71F6C702B067455009369E5 /* MainComponentLevelPick.swift */,
 				E7D119612AE9E62600ECA9BE /* FirstView.swift */,
 				E7D1196B2AE9EB7700ECA9BE /* InstructionsView.swift */,
 				E7D1196D2AE9EB8400ECA9BE /* CreditsView.swift */,
+				E71F6C742B0674C0009369E5 /* CardView.swift */,
 				1C452ED62AF2BB07001F696B /* GameOverView.swift */,
 				1C452ED42AF2BAF2001F696B /* PauseGameView.swift */,
 			);
@@ -296,6 +339,7 @@
 			files = (
 				E7D1193E2ADE077E00ECA9BE /* Preview Assets.xcassets in Resources */,
 				E7D1193B2ADE077E00ECA9BE /* Assets.xcassets in Resources */,
+				E71F6C772B067561009369E5 /* LuckiestGuy-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +355,7 @@
 				6869E8312AFD451A0017C8F1 /* GSSpawnFallingRock.swift in Sources */,
 				E7D119662AE9E6D400ECA9BE /* NotificationCenter+Extensions.swift in Sources */,
 				E7D1196C2AE9EB7700ECA9BE /* InstructionsView.swift in Sources */,
+				E71F6C732B067492009369E5 /* CardData.swift in Sources */,
 				68F190372AFD2A9F005B5030 /* GSMovements.swift in Sources */,
 				685A59712AF58ECE0026A307 /* GSTouchesBegan.swift in Sources */,
 				6806C3E62AEAF94300EDED8E /* PlayerAuthState.swift in Sources */,
@@ -321,11 +366,16 @@
 				1C452ED52AF2BAF2001F696B /* PauseGameView.swift in Sources */,
 				68F190352AFD27CA005B5030 /* GSDataSharing.swift in Sources */,
 				E7178B182AFD570A00673BD5 /* GSContactDelegate.swift in Sources */,
+				E71F6C682B065F68009369E5 /* Instructions2.swift in Sources */,
 				E7C558072AF5A82200F07740 /* GSSetupCharacter.swift in Sources */,
 				6806C3EC2AEB03EF00EDED8E /* Player.swift in Sources */,
+				E71F6C6A2B065F6E009369E5 /* Instructions3.swift in Sources */,
 				1C452ED92AF2C3BD001F696B /* GSSetupPauseButton.swift in Sources */,
 				6806C3E82AEB034C00EDED8E /* GameScene.swift in Sources */,
+				E71F6C6F2B067391009369E5 /* JumpButton.swift in Sources */,
 				E7D119682AE9E8E100ECA9BE /* OldGameScene.swift in Sources */,
+				E71F6C712B067455009369E5 /* MainComponentLevelPick.swift in Sources */,
+				E71F6C752B0674C0009369E5 /* CardView.swift in Sources */,
 				68F190312AFD270A005B5030 /* GSGameState.swift in Sources */,
 				E7C5580F2AFC5D6900F07740 /* GSSetupBackground.swift in Sources */,
 				1C452ED72AF2BB07001F696B /* GameOverView.swift in Sources */,
@@ -333,11 +383,13 @@
 				E7C5580D2AF93B4700F07740 /* GSGKMatchDelegate.swift in Sources */,
 				6806C3E12AEAF70D00EDED8E /* MatchManager.swift in Sources */,
 				E7C558112AFC603C00F07740 /* GSSetupTimer.swift in Sources */,
+				E71F6C6D2B067389009369E5 /* BackButton.swift in Sources */,
 				1C6B5C062AFAA3AA00F66A5E /* GSSpawnEnemy.swift in Sources */,
 				E7D119372ADE077C00ECA9BE /* PsiquesAndMoreApp.swift in Sources */,
 				6806C3E32AEAF84900EDED8E /* MatchManager+Extensions.swift in Sources */,
 				E7C5580B2AF92EEA00F07740 /* GSSetupCommands.swift in Sources */,
 				E7D119712AE9EE8100ECA9BE /* SplashView.swift in Sources */,
+				E71F6C662B065F5F009369E5 /* Instructions1.swift in Sources */,
 				E7C558092AF92A2B00F07740 /* GSSetupFloor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
