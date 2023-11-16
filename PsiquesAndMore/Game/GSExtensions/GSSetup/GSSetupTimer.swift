@@ -8,7 +8,6 @@
 import Foundation
 
 extension GameScene {
-    
     func setupTimer() {
         timerLabel.position = CGPoint(
             x: self.frame.midX,

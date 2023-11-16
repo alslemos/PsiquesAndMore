@@ -7,10 +7,9 @@ import SwiftUI
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var viewFrame: CGRect = CGRect()
     
-    
     var rectangle = SKSpriteNode()
     
-    var characterVelocity: Int = 0
+    var characterVelocity: CGFloat = 10
     
     // Don't forget to cancel this afterwards
     var cancellables = Set<AnyCancellable>()
@@ -50,11 +49,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // obstáculos
     
-    var obstacle = SKSpriteNode()
     var spawnObstacleDelay: TimeInterval = 2
     
-    var rock = SKSpriteNode()
-    var spawnRockDelay: TimeInterval = 2
+    // avalanche
+    
+    var avalanche = SKSpriteNode()
     
     // logica do jogo
     var matchManager: MatchManager?
@@ -66,8 +65,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var players: [Player] = []
     
-    var obstaclesMovements: [ObstacleMovement] = []
+    var enemiesMovements: [EnemyMovement] = []
     var rocksMovements: [RockMovement] = []
+    
+    var obstacles: [SKSpriteNode] = []
+    var obstaclesOrder: [Obstacle] = []
+    
     var startDate: Int = 0
     
     var didGameStart: Bool! {
@@ -79,10 +82,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var startGameSubscription: AnyCancellable?
     
     var spawnObstaclesSubscription: AnyCancellable?
-    var spawnRocksSubscription: AnyCancellable?
     
-    var currentObstacleMovement: Int = 0
+    var currentEnemyMovement: Int = 0
     var currentRockMovement: Int = 0
+    var currentObstacle: Int = 0
     
     override func didMove(to view: SKView) {
         match?.delegate = self
@@ -92,6 +95,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         didGameStart = false
     }
-   
-    
 }

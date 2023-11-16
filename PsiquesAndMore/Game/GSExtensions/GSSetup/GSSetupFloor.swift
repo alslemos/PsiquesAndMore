@@ -9,10 +9,7 @@ import Foundation
 import SpriteKit
 
 extension GameScene {
-    func setupFloor(){
-        guard let view = self.view else { return }
-        
-        
+    func setupFloor() {
         var rectangleWidth: CGFloat = 0
         var rectangleHeigth: CGFloat = 0
         
@@ -22,6 +19,8 @@ extension GameScene {
                               ((viewFrame.width) * (viewFrame.width)))
         
         rotationAngle = asin(verticalThresholdPoint / rectangleWidth)
+        
+        square.zRotation = -(rotationAngle)
         
         rectangleHeigth = sin(rotationAngle) * (viewFrame.width)
 
@@ -37,7 +36,7 @@ extension GameScene {
     
         let pb = SKPhysicsBody(rectangleOf: rectangle.size, center: CGPoint(x: rectangleWidth, y: -(rectangleHeigth / 2)))
         pb.isDynamic = false
-        pb.node?.physicsBody?.friction = 0.0
+        pb.node?.physicsBody?.friction = 1
         rectangle.physicsBody = pb
         
         self.addChild(rectangle)

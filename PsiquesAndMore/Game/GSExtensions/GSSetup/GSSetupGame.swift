@@ -16,11 +16,11 @@ extension GameScene {
         self.setupCharacter()
         self.setupFloor()
         self.setupBackground()
+        self.setupAvalanche()
         self.setupTimer()
         
         if localIndex == 0 {
             self.createObstaclesArray()
-            self.createRocksArray()
         }
         
         self.savePlayers {

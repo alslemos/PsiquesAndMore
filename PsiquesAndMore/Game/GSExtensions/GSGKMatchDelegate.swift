@@ -21,13 +21,13 @@ extension GameScene: GKMatchDelegate {
         if let movement = try? JSONDecoder().decode(Movement.self, from: data) {
             switch movement {
                 case .up:
-                    self.moveSpriteUP()
+                    self.moveSprite(.up)
                 case .down:
-                    self.moveSpriteDown()
+                    self.moveSprite(.down)
                 case .right:
-                    self.moveSpriteRight()
+                    self.moveSprite(.right)
                 case .left:
-                    self.moveSpriteLeft()
+                    self.moveSprite(.left)
             }
         }
         
@@ -70,15 +70,21 @@ extension GameScene: GKMatchDelegate {
         }
         
         // Check if it's the obstacles movements data
-        if let obstaclesMovements = try? JSONDecoder().decode([ObstacleMovement].self, from: data) {
-            print("obstacles movements data received")
-            self.obstaclesMovements = obstaclesMovements
+        if let enemiesMovements = try? JSONDecoder().decode([EnemyMovement].self, from: data) {
+            print("enemies movements data received")
+            self.enemiesMovements = enemiesMovements
         }
         
         // Check if it's the rocks movements data
         if let rocksMovements = try? JSONDecoder().decode([RockMovement].self, from: data) {
             print("rocks movements data received")
             self.rocksMovements = rocksMovements
+        }
+        
+        // Check if it's the obstacles order data
+        if let obstaclesOrder = try? JSONDecoder().decode([Obstacle].self, from: data) {
+            print("obstacles order data received")
+            self.obstaclesOrder = obstaclesOrder
         }
         
         // Check if it's the start date data

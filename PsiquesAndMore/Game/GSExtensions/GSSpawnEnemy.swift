@@ -9,62 +9,65 @@ import Foundation
 import SpriteKit
 
 extension GameScene {
-    func createObstaclesArray() {
+    func setupEnemy(_ completion: @escaping (SKSpriteNode) -> ()) {
+        let enemy = SKSpriteNode(texture: SKTexture(imageNamed: "bird"), size: CGSize(width: 50, height: 50))
+//        enemy.texture = SKTexture(imageNamed: "bird")
+        enemy.anchorPoint = CGPoint(x: 0, y: 0)
+        enemy.position = CGPoint(x: viewFrame.maxX, y: 0)
+        enemy.zPosition = 1
+        enemy.zRotation = -(rotationAngle)
+        enemy.name = "enemy"
         
-        print("debug: inside create obstacle array")
+        let physicsBodyEnemy = SKPhysicsBody(rectangleOf: enemy.size, center: CGPoint(x: enemy.frame.width / 2, y: enemy.frame.height / 2))
         
-        for _ in 0..<100 {
-            let offsetY = Double.random(in: 0.0...200.0)
-            let time = Double.random(in: 0.5...2.0)
-            
-            let randomObstacle = ObstacleMovement(offsetY: offsetY, time: time)
-            
-            obstaclesMovements.append(randomObstacle)
+        physicsBodyEnemy.affectedByGravity = false
+        physicsBodyEnemy.allowsRotation = false
+        physicsBodyEnemy.isDynamic = true
+        physicsBodyEnemy.categoryBitMask = 4
+        physicsBodyEnemy.contactTestBitMask = 1
+        physicsBodyEnemy.collisionBitMask = 16
+        
+        enemy.physicsBody = physicsBodyEnemy
+        
+        self.addChild(enemy)
+        self.obstacles.append(enemy)
+        
+        completion(enemy)
+    }
+    
+    func moveEnemy(enemy: SKSpriteNode, enemyMovement: EnemyMovement) {
+        let yPosition = enemyMovement.yPosition
+        
+        var offsetY: CGFloat = 0
+        
+        switch yPosition {
+            case .low:
+               offsetY = 0
+            case .medium:
+                offsetY = (square.frame.height / 2) / cos(rotationAngle)
+            case .high:
+                offsetY = square.frame.height / cos(rotationAngle)
         }
-    }
-    
-    func sendObstaclesMovements() {
-        print("sending obstacles movements data")
-        do {
-            guard let data = try? JSONEncoder().encode(obstaclesMovements) else { return }
-            try self.match?.sendData(toAllPlayers: data, with: .reliable)
-        } catch {
-            print("send obstacles movements data failed")
-        }
-    }
-    
-    func setupObstacle(_ completion: @escaping () -> ()) {
-        let obstacle = SKSpriteNode(color: .blue, size: CGSize(width: 50, height: 50))
-        obstacle.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
-        let physicsBodyObstacle = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
-        physicsBodyObstacle.contactTestBitMask = 0x00000001
-        physicsBodyObstacle.affectedByGravity = false
-        physicsBodyObstacle.allowsRotation = false
-        physicsBodyObstacle.isDynamic = true
-        obstacle.physicsBody = physicsBodyObstacle
-        obstacle.zPosition = 1
-        obstacle.position = CGPoint(x: (viewFrame.maxX) + 100, y: (viewFrame.midY))
-        obstacle.name = "obstacle"
-        self.obstacle = obstacle
-        self.addChild(obstacle)
-        completion()
-    }
-    
-    func moveObstacle(obstacleMovement: ObstacleMovement, completion: @escaping () -> Void) {
+        enemy.position = CGPoint(x: enemy.position.x, y: enemy.position.y + offsetY)
+        
         let moveAction = SKAction.move(to: CGPoint(
-            x: (viewFrame.minX) - 100,
-            y: (viewFrame.midY) + obstacleMovement.offsetY + ((viewFrame.height) * 0.50)),
-                                       duration: obstacleMovement.time)
-        obstacle.run(moveAction)
+            x: 0,
+            y: (verticalThresholdPoint + offsetY)),
+            duration: enemyMovement.time
+        )
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + obstacleMovement.time + 1.0) {
-            completion()
-        }
+        enemy.run(moveAction)
     }
 }
 
-struct ObstacleMovement: Codable {
-    var offsetY: Double
+struct EnemyMovement: Codable {
+    var yPosition: YPosition
     var time: Double
+}
+
+enum YPosition: CaseIterable, Codable {
+    case low
+    case medium
+    case high
 }

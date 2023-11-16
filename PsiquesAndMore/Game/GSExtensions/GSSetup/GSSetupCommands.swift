@@ -46,7 +46,7 @@ extension GameScene {
         let right = createHeartBezierPath2()
         
         // personaliza o botao da diretaa
-        if let virtualController, let controller = virtualController.controller, let extendedGamepad = controller.extendedGamepad {
+        if let virtualController, let controller = virtualController.controller, let _ = controller.extendedGamepad {
             let element = GCInputButtonX
             
             virtualController.updateConfiguration(forElement: element) { currentConfiguration in
@@ -56,7 +56,7 @@ extension GameScene {
         }
         
         // personaliza o botao da esquerda
-        if let virtualController, let controller = virtualController.controller, let extendedGamepad = controller.extendedGamepad {
+        if let virtualController, let controller = virtualController.controller, let _ = controller.extendedGamepad {
             let element = GCInputLeftTrigger
             
             virtualController.updateConfiguration(forElement: element) { currentConfiguration in
@@ -96,14 +96,14 @@ extension GameScene {
                     leftButton?.sfSymbolsName = "arrowshape.left"
                     
                     self.sendMovementData(.left) {
-                        self.moveSpriteLeft()
+                        self.moveSprite(.left)
                     }
                 } else {
                     print("Clicked right")
                     leftButton?.sfSymbolsName = "arrowshape.right"
                     
                     self.sendMovementData(.right) {
-                        self.moveSpriteRight()
+                        self.moveSprite(.right)
                     }
                 }
             }
@@ -116,14 +116,14 @@ extension GameScene {
                     rightButton?.sfSymbolsName = "arrow.up"
                     
                     self.sendMovementData(.up) {
-                        self.moveSpriteUP()
+                        self.moveSprite(.up)
                     }
                 } else {
                     print("Clicked down")
                     rightButton?.sfSymbolsName = "arrow.down"
                     
                     self.sendMovementData(.down) {
-                        self.moveSpriteDown()
+                        self.moveSprite(.down)
                     }
                 }
             }

@@ -8,7 +8,7 @@ struct FirstView: View {
     
     // NotificationCenter for view display control
     
-    let gameOverPublisher = NotificationCenter.default.publisher(for: .restartGameNotificationName)
+    let gameOverPublisher = NotificationCenter.default.publisher(for: .gameOverGameNotificationName)
     let pauseGamePublisher = NotificationCenter.default.publisher(for: .pauseGameNotificationName)
     let continueGamePublisher = NotificationCenter.default.publisher(for: .continueGameNotificationName)
     let playAgainPublisher = NotificationCenter.default.publisher(for: .playAgainGameNotificationName)
@@ -38,6 +38,10 @@ struct FirstView: View {
             if matchManager.isGamePresented {
                 VStack {
                     SpriteView(scene: scene, debugOptions: .showsPhysics).ignoresSafeArea().navigationBarBackButtonHidden(true)
+                }
+                .onAppear {
+                    showPauseGameView = false
+                    showGameOverView = false
                 }
                 
                 if showPauseGameView {
@@ -115,7 +119,7 @@ struct FirstView: View {
         .onReceive(continueGamePublisher) { _ in
             if !scene.isContinueOrderGiven {
                 scene.sendNotificationData(.continueGame) {
-                    scene.isContinueOrderGiven = true
+                    print("sending continue game data")
                 }
             } else {
                 scene.isContinueOrderGiven = false
@@ -127,15 +131,17 @@ struct FirstView: View {
         .onReceive(playAgainPublisher) { _ in
             if !scene.isPlayAgainOrderGiven {
                 scene.sendNotificationData(.playAgain) {
-                    scene.isPlayAgainOrderGiven = true
+                    print("sending play again data")
                 }
             } else {
-                scene.isGoToMenuOrderGiven = false
+                scene.isPlayAgainOrderGiven = false
             }
             
             showGameOverView = false
             scene.isPaused = false
+            
             scene.restartGame()
+            scene.timerLabel.text = ""
         }
         .onReceive(goToMenuPublisher) { _ in
             scene.virtualController?.disconnect()

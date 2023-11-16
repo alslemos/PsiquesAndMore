@@ -10,7 +10,7 @@ import Foundation
 extension GameScene {
     func startGame() {
         if didGameStart {
-            print("DEBUG: \(self.obstaclesMovements)")
+            print("DEBUG: \(self.enemiesMovements)")
             print("DEBUG: \(self.rocksMovements)")
 
             // deallocate start game subscription
@@ -32,11 +32,14 @@ extension GameScene {
         guard let scene = self.scene else { return }
         
         scene.removeAllActions()
-        square.removeFromParent()
-        rectangle.removeFromParent()
-        backgroundImage.removeFromParent()
-        timerLabel.removeFromParent()
-        pauseButton?.removeFromParent()
+        scene.removeAllChildren()
+//        square.removeFromParent()
+//        rectangle.removeFromParent()
+//        backgroundImage.removeFromParent()
+//        timerLabel.removeFromParent()
+//        pauseButton?.removeFromParent()
+//        rock.removeFromParent()
+//        obstacle.removeFromParent()
         removeComands()
         
         for cancellable in cancellables {
@@ -44,7 +47,10 @@ extension GameScene {
         }
         
         spawnObstaclesSubscription = nil
-        spawnRocksSubscription = nil
+        
+        spawnObstacleDelay = 1
+        
+        characterVelocity = 10
         
         completion()
     }
