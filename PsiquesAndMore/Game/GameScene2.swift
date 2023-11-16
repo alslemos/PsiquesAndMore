@@ -15,6 +15,12 @@ class GameScene2: SKScene {
     var entidadeFrames = [SKTexture]()
     var textureAtlass = SKTextureAtlas(named: "entidadeAnimada")
     
+    
+    var entidadeFramesAbaixando = [SKTexture]()
+    var textureAtlassAbaixando = SKTextureAtlas(named: "entidadeAbaixando")
+    
+    
+    
     private var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
     // chao
     private let floor = SKSpriteNode(imageNamed: "floor")
@@ -31,7 +37,8 @@ class GameScene2: SKScene {
         setupPauseButton()
         triggerTimer()
         triggerLives()
-        updateAsset()
+//        updateAsset()
+        updateAssetSeAbaixando()
         
 //        for node in self.children {
 //            if node.name == "square" {
@@ -58,6 +65,19 @@ class GameScene2: SKScene {
         }
         
        
+        func updateAssetSeAbaixando(){
+            
+            var auxiliar: Int = 0
+            
+            for i in 0..<textureAtlassAbaixando.textureNames.count {
+                let textureNames = "Vector" + "-" + String(i)
+                entidadeFramesAbaixando.append(textureAtlassAbaixando.textureNamed(textureNames))
+            }
+            print(entidadeFramesAbaixando.count)
+            
+            square.run(SKAction.repeatForever(SKAction.animate(with: entidadeFramesAbaixando, timePerFrame: 0.5)))
+            
+        }
         
         
         triggerCharacter()
