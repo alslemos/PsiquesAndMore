@@ -45,7 +45,7 @@ class GameScene2: SKScene {
         
         func updateAsset(){
             
-            var auxiliar: Int = 1
+            var auxiliar: Int = 0
             
             for i in 0..<textureAtlass.textureNames.count {
                 let textureNames = "Vector" + "-" + String(i)
