@@ -10,7 +10,7 @@ import GameKit
 
 extension GameScene {
     func setGame(_ completion: @escaping () -> ()) {
-        guard let localIndex = self.localPlayerIndex else { return }
+        print("inside set game")
         
         self.setupPauseButton()
         self.setupCharacter()
@@ -20,11 +20,15 @@ extension GameScene {
         self.setupTimer()
         self.setupLifeNodes()
         
-        if localIndex == 0 {
+        if isHost {
+            print("creating obstacles array")
+            
             self.createObstaclesArray()
-        }
-        
-        self.savePlayers {
+            
+            self.savePlayers {
+                completion()
+            }
+        } else {
             completion()
         }
     }

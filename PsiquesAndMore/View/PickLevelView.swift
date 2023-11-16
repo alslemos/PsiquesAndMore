@@ -37,6 +37,7 @@ struct PickLevelView: View {
         scene.match = matchManager.wrappedValue.match
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .fill
+        scene.isHost = matchManager.wrappedValue.isHost
         self.scene = scene
     }
     

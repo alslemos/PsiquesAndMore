@@ -10,54 +10,45 @@ import GameKit
 
 extension GameScene {
     func checkPlayerIndex() {
-        guard let remotePlayerName = match?.players.first?.displayName else { return }
-
-        let localPlayer = Player(displayName: GKLocalPlayer.local.displayName, controls: .upAndLeft)
-        let remotePlayer = Player(displayName: remotePlayerName, controls: .downAndRight)
-
-        self.players = [localPlayer, remotePlayer]
-        players.sort { (localPlayer, remotePlayer) -> Bool in
-            localPlayer.displayName < remotePlayer.displayName
-        }
-
-        self.localPlayerIndex = players.firstIndex { $0.displayName == localPlayer.displayName }
-        self.remotePlayerIndex = players.firstIndex { $0.displayName == remotePlayer.displayName }
-
-        if let index = self.localPlayerIndex, index == 0 {
-            print("debug: sou o player principal")
+        let localPlayer = Player(controls: .upAndLeft)
+        let remotePlayer = Player(controls: .downAndRight)
+        
+        if isHost {
+            print("debug: i am host")
+            players = [localPlayer, remotePlayer]
+            
+            self.localPlayerIndex = 0
+            self.remotePlayerIndex = 1
             
             getStartDate {
                 self.setGame {
                     self.startGamePublisher()
                 }
             }
+        } else {
+            self.remotePlayerIndex = 0
+            self.localPlayerIndex = 1
         }
     }
     
-    func savePlayers(_ completion: @escaping () -> ()) {        
-        if let index = self.localPlayerIndex, index == 0 {
-            let controls = setControlsForPlayer()
-            players[0].controls = controls[0]
-            players[1].controls = controls[1]
+    func savePlayers(_ completion: @escaping () -> ()) {
+        let controls = setControlsForPlayer()
+        players[0].controls = controls[0]
+        players[1].controls = controls[1]
+        
+        sendPlayerData {
+            print("triggering commands")
+            self.setupCommands()
             
-            sendPlayerData {
-                print("triggering commands")
-                self.setupCommands()
-                
-                print("sending obstacles movements")
-                self.sendEnemiesMovements()
-                
-                print("sending rocks movements")
-                self.sendRocksMovements()
-                
-                
-                
-                print("sending obstacles order")
-                self.sendObstaclesOrder()
-                
-                completion()
-            }
-        } else {
+            print("sending obstacles movements")
+            self.sendEnemiesMovements()
+            
+            print("sending rocks movements")
+            self.sendRocksMovements()
+            
+            print("sending obstacles order")
+            self.sendObstaclesOrder()
+            
             completion()
         }
     }

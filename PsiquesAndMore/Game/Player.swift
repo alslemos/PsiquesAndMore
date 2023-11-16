@@ -2,7 +2,6 @@ import Foundation
 import UIKit
 
 struct Player: Codable {
-    var displayName: String
     var controls: Controls
 }
 

@@ -107,6 +107,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var currentRockMovement: Int = 0
     var currentObstacle: Int = 0
     
+    var isHost: Bool = false
+    
     override func didMove(to view: SKView) {
         match?.delegate = self
         physicsWorld.contactDelegate = self

@@ -10,9 +10,8 @@ import Foundation
 extension GameScene {
     func startGame() {
         if didGameStart {
-            print("DEBUG: \(self.enemiesMovements)")
-            print("DEBUG: \(self.rocksMovements)")
-
+            print("starting game")
+            
             // deallocate start game subscription
             self.startGameSubscription = nil
 
@@ -39,6 +38,8 @@ extension GameScene {
         for cancellable in cancellables {
             cancellable.cancel()
         }
+        
+        square.removeAllActions()
         
         spawnObstaclesSubscription = nil
         

@@ -116,7 +116,7 @@ extension GameScene {
 
         print(entidadeFrames.count)
         
-        square.run(SKAction.repeatForever(SKAction.animate(with: entidadeFrames, timePerFrame: 0.2)))
+        square.run(SKAction.repeatForever(SKAction.animate(with: entidadeFrames, timePerFrame: 0.15)))
     }
     
     func updateAssetSeAbaixando() {
@@ -128,7 +128,7 @@ extension GameScene {
         }
         print(entidadeFramesAbaixando.count)
         
-        square.run(SKAction.animate(with: entidadeFramesAbaixando, timePerFrame: 0.2))
+        square.run(SKAction.animate(with: entidadeFramesAbaixando, timePerFrame: 0.15))
     }
 }
 

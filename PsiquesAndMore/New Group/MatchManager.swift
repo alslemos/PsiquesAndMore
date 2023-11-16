@@ -6,6 +6,7 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, 
     @Published var authenticationState: PlayerAuthState = .authenticating
     @Published var match: GKMatch?
     @Published var isGamePresented: Bool = false
+    @Published var isHost: Bool = false
     
     var localPlayer = GKLocalPlayer.local
     
@@ -89,6 +90,8 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, 
     }
     
     func sendReadyState(_ completion: @escaping () -> ()) {
+        self.isHost = true
+        
         print("sending ready state data")
         do {
             guard let data = try? JSONEncoder().encode("ready") else { return }
