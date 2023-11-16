@@ -32,6 +32,7 @@ extension GameScene {
         emitter?.position = CGPoint(x: 0.0, y: 0.0)
         emitter?.particleSize = CGSize(width: 32, height: 32)
         emitter?.zRotation = -rotationAngle
+        emitter?.particleBirthRate = 0
         emitter?.zPosition = 10
         emitter?.name = "snow"
         emitter?.targetNode = self.scene

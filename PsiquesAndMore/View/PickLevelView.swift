@@ -50,7 +50,7 @@ struct PickLevelView: View {
         ZStack {
             if showGameScene {
                 VStack {
-                    SpriteView(scene: scene, debugOptions: .showsPhysics).ignoresSafeArea().navigationBarBackButtonHidden(true)
+                    SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
                 }
                 .onAppear {
                     showPauseGameView = false
