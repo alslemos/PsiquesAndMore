@@ -24,7 +24,7 @@ extension GameScene {
         
         rectangleHeigth = sin(rotationAngle) * (viewFrame.width)
 
-        rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "agoraVai")!),
+        rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "floor")!),
                                  size: CGSize(width: rectangleWidth * 2, height: rectangleHeigth))
       
         rectangle.name = "floor"
@@ -54,6 +54,35 @@ extension GameScene {
         let moveAction = SKAction.move(by: CGVector(dx: -(deltaX * backgroundSpeed), dy: -(deltaY * backgroundSpeed)), duration: 1)
         
         rectangle.run(SKAction.repeatForever(moveAction))
+    }
+    
+    // MARK: - Floor Subscription
+    func createFloorPositionUpdater() {
+        let publisher = Timer.publish(every: 0.001, on: .main, in: .common)
+            .autoconnect()
+        let subscription = publisher
+        
+        subscription
+            .map { _ in
+                return self.rectangle.position
+            }
+            .sink { position in
+                if position.x <= -(self.viewFrame.width) {
+                    self.rectangle.position = CGPoint(x: 0, y: self.verticalThresholdPoint)
+                }
+            }.store(in: &cancellables)
+    }
+    
+    func createFloorVelocityUpdater() {
+        let publisher = Timer.publish(every: 0.001, on: .main, in: .common)
+            .autoconnect()
+        let subscription = publisher
+        
+        subscription
+            .throttle(for: .seconds(1), scheduler: DispatchQueue.main, latest: true)
+            .sink { _ in
+                self.backgroundSpeed += 1
+            }.store(in: &cancellables)
     }
 }
 

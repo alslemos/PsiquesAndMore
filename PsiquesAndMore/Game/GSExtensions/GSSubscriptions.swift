@@ -12,8 +12,8 @@ extension GameScene {
     // MARK: - Combine functions
     func createSubscriptions() {
         timerSubscription()
-        createBackgroundPositionUpdater()
-        createBackgroundVelocityUpdater()
+        createFloorPositionUpdater()
+        createFloorVelocityUpdater()
         createCharacterVelocityUpdater()
         obstacleRemover()
         
