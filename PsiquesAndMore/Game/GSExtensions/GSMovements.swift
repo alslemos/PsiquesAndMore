@@ -29,12 +29,26 @@ extension GameScene {
         
         let pb = SKPhysicsBody(rectangleOf: square.size, center: CGPoint(x: square.size.width / 2, y: square.frame.height / 2))
         
+        pb.allowsRotation = false
+        pb.isDynamic = true
+        pb.affectedByGravity = true
+
+        pb.categoryBitMask = PhysicsCategory.characterNode
+        pb.contactTestBitMask = PhysicsCategory.obstacleNode
+        
         square.physicsBody = pb
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.square.size = originalSquareSize
             
             let pb = SKPhysicsBody(rectangleOf: self.square.size, center: CGPoint(x: self.square.size.width / 2, y: self.square.size.height / 2))
+            
+            pb.allowsRotation = false
+            pb.isDynamic = true
+            pb.affectedByGravity = true
+
+            pb.categoryBitMask = PhysicsCategory.characterNode
+            pb.contactTestBitMask = PhysicsCategory.obstacleNode
             
             self.square.physicsBody = pb
         }
