@@ -45,7 +45,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // personagem
     var velocityX: CGFloat = 0.0
     var velocityY: CGFloat = 0.0
-    var square = SKSpriteNode(imageNamed: "personagem")
+    var isPlayerTouchingFloor: Bool = false // variável controle que diz se o personagem tá tocando no chão
+    var square = SKSpriteNode(imageNamed: "personagem") // nodo em si
+    var snowParticle = SKEmitterNode() // partícula acoplada ao personagem
+    
+    var lifes: Int = 3 {
+        didSet {
+            self.updateLifeNodes()
+        }
+    }
+    // n∘ de vidas do personagem
+    var lifeNodes = [SKSpriteNode]() // nodos das vidas do personagem
     
     // obstáculos
     

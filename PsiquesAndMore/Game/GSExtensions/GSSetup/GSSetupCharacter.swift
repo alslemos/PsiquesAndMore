@@ -12,7 +12,7 @@ extension GameScene {
     func setupCharacter() {
         print("Disparando personagem")
         
-        let pb = SKPhysicsBody(rectangleOf: CGSize(width: 30, height: 30), center: CGPoint(x: 0, y: square.frame.height / 2))
+        let pb = SKPhysicsBody(rectangleOf: CGSize(width: 30, height: 30), center: CGPoint(x: square.size.width / 2, y: square.size.height / 2))
         
 //              pb.contactTestBitMask = 0x00000001
         pb.allowsRotation = false
@@ -23,11 +23,21 @@ extension GameScene {
         pb.categoryBitMask = 1
         pb.contactTestBitMask = 4
         
-        square.anchorPoint = CGPoint(x: 0.5, y: 0)
+        square.anchorPoint = CGPoint(x: 0, y: 0)
         square.physicsBody = pb
         square.name = "square"
         square.position = CGPoint(x: (viewFrame.midX), y: (viewFrame.midY) + 100)
         square.zPosition = 1
+        
+        let emitter = SKEmitterNode(fileNamed: "Snow")
+        emitter?.position = CGPoint(x: 0.0, y: 0.0)
+        emitter?.particleSize = CGSize(width: 32, height: 32)
+        emitter?.zRotation = -rotationAngle
+        emitter?.zPosition = 10
+        emitter?.name = "snow"
+        emitter?.targetNode = self.scene
+        self.snowParticle = emitter ?? SKEmitterNode()
+        square.addChild(snowParticle)
         
         self.addChild(square)
         createLimits()

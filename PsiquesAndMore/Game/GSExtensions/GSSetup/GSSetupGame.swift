@@ -18,6 +18,7 @@ extension GameScene {
         self.setupBackground()
         self.setupAvalanche()
         self.setupTimer()
+        self.setupLifeNodes()
         
         if localIndex == 0 {
             self.createObstaclesArray()

@@ -36,7 +36,9 @@ extension GameScene {
     
         let pb = SKPhysicsBody(rectangleOf: rectangle.size, center: CGPoint(x: rectangleWidth, y: -(rectangleHeigth / 2)))
         pb.isDynamic = false
-        pb.categoryBitMask = 16
+        pb.categoryBitMask = 8
+        pb.contactTestBitMask = 1
+        pb.collisionBitMask = 0
 //        pb.node?.physicsBody?.friction = 1
         rectangle.physicsBody = pb
         

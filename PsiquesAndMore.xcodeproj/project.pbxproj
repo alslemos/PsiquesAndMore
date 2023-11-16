@@ -12,6 +12,8 @@
 		1C452ED92AF2C3BD001F696B /* GSSetupPauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C452ED82AF2C3BD001F696B /* GSSetupPauseButton.swift */; };
 		1C6B5C062AFAA3AA00F66A5E /* GSSpawnEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6B5C052AFAA3AA00F66A5E /* GSSpawnEnemy.swift */; };
 		1CCB539E2B02901A00A78BC8 /* GSSetupAvalanche.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB539D2B02901A00A78BC8 /* GSSetupAvalanche.swift */; };
+		1CCB53A22B02A40D00A78BC8 /* Snow.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1CCB53A12B02A40D00A78BC8 /* Snow.sks */; };
+		1CCB53A62B03F22800A78BC8 /* GSSetupLifeNodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB53A52B03F22800A78BC8 /* GSSetupLifeNodes.swift */; };
 		680506892B026A91009D8223 /* GSObstacles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680506882B026A91009D8223 /* GSObstacles.swift */; };
 		6805068B2B029206009D8223 /* GSSpawnTrees.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6805068A2B029206009D8223 /* GSSpawnTrees.swift */; };
 		6805068F2B02BB09009D8223 /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6805068E2B02BB09009D8223 /* PlayView.swift */; };
@@ -53,6 +55,8 @@
 		1C452ED82AF2C3BD001F696B /* GSSetupPauseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupPauseButton.swift; sourceTree = "<group>"; };
 		1C6B5C052AFAA3AA00F66A5E /* GSSpawnEnemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSpawnEnemy.swift; sourceTree = "<group>"; };
 		1CCB539D2B02901A00A78BC8 /* GSSetupAvalanche.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupAvalanche.swift; sourceTree = "<group>"; };
+		1CCB53A12B02A40D00A78BC8 /* Snow.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Snow.sks; sourceTree = "<group>"; };
+		1CCB53A52B03F22800A78BC8 /* GSSetupLifeNodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupLifeNodes.swift; sourceTree = "<group>"; };
 		680506882B026A91009D8223 /* GSObstacles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSObstacles.swift; sourceTree = "<group>"; };
 		6805068A2B029206009D8223 /* GSSpawnTrees.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSpawnTrees.swift; sourceTree = "<group>"; };
 		6805068E2B02BB09009D8223 /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
@@ -122,7 +126,6 @@
 			isa = PBXGroup;
 			children = (
 				6869E82F2AFD44790017C8F1 /* GSSetup */,
-				E7178B172AFD570A00673BD5 /* GSContactDelegate.swift */,
 				68F190302AFD270A005B5030 /* GSGameState.swift */,
 				68F190362AFD2A9F005B5030 /* GSMovements.swift */,
 				68F1902A2AFD2536005B5030 /* GSStartDate.swift */,
@@ -135,6 +138,7 @@
 				68F190342AFD27CA005B5030 /* GSDataSharing.swift */,
 				685A59702AF58ECE0026A307 /* GSTouchesBegan.swift */,
 				E7C5580C2AF93B4700F07740 /* GSGKMatchDelegate.swift */,
+				E7178B172AFD570A00673BD5 /* GSContactDelegate.swift */,
 			);
 			path = GSExtensions;
 			sourceTree = "<group>";
@@ -151,6 +155,7 @@
 				E7C5580A2AF92EEA00F07740 /* GSSetupCommands.swift */,
 				E7C558102AFC603C00F07740 /* GSSetupTimer.swift */,
 				1CCB539D2B02901A00A78BC8 /* GSSetupAvalanche.swift */,
+				1CCB53A52B03F22800A78BC8 /* GSSetupLifeNodes.swift */,
 			);
 			path = GSSetup;
 			sourceTree = "<group>";
@@ -185,6 +190,7 @@
 				E7D119602AE9E60300ECA9BE /* View */,
 				E7D1193A2ADE077E00ECA9BE /* Assets.xcassets */,
 				E7D1193C2ADE077E00ECA9BE /* Preview Content */,
+				1CCB53A12B02A40D00A78BC8 /* Snow.sks */,
 			);
 			path = PsiquesAndMore;
 			sourceTree = "<group>";
@@ -303,6 +309,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CCB53A22B02A40D00A78BC8 /* Snow.sks in Resources */,
 				E7D1193E2ADE077E00ECA9BE /* Preview Assets.xcassets in Resources */,
 				E7D1193B2ADE077E00ECA9BE /* Assets.xcassets in Resources */,
 			);
@@ -325,6 +332,7 @@
 				685A59712AF58ECE0026A307 /* GSTouchesBegan.swift in Sources */,
 				6806C3E62AEAF94300EDED8E /* PlayerAuthState.swift in Sources */,
 				68F190332AFD2758005B5030 /* GSNotifications.swift in Sources */,
+				1CCB53A62B03F22800A78BC8 /* GSSetupLifeNodes.swift in Sources */,
 				68F1902F2AFD26A0005B5030 /* GSSubscriptions.swift in Sources */,
 				E7D119622AE9E62600ECA9BE /* FirstView.swift in Sources */,
 				E7D1196E2AE9EB8400ECA9BE /* CreditsView.swift in Sources */,
