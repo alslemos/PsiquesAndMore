@@ -1,13 +1,12 @@
 import SwiftUI
 
 struct SplashView: View {
-    @ObservedObject var matchManager = MatchManager()
     @State var isActive: Bool = false
     
     var body: some View {
         ZStack {
             if self.isActive {
-                PlayView(matchManager: matchManager)
+                InitialScreenView()
             } else {
                 Rectangle()
                     .background(Color.black)

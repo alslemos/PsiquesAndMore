@@ -1,9 +1,16 @@
+//
+//  PickLevelView.swift
+//  RememberingViews
+//
+//  Created by Alexandre Lemos da Silva on 13/11/23.
+//
+
 import SwiftUI
 import SpriteKit
 import GameKit
 
 
-struct FirstView: View {
+struct PickLevelView: View {
     @ObservedObject var matchManager: MatchManager
     
     // NotificationCenter for view display control
@@ -15,12 +22,11 @@ struct FirstView: View {
     let readyPublisher = NotificationCenter.default.publisher(for: .readyToPlayGameNotificationName)
     let lobbyCreationPublisher = NotificationCenter.default.publisher(for: .lobbyCreationNotificationName)
     
-    // View display control variables
-    @State var showCredits : Bool = false
-    @State var showInstructions: Bool = false
     @State var showPauseGameView: Bool = false
     @State var showGameOverView: Bool = false
     @State var showGameScene: Bool = false
+    
+    @State private var index = 0
     
     var scene: GameScene
     
@@ -33,6 +39,11 @@ struct FirstView: View {
         scene.scaleMode = .fill
         self.scene = scene
     }
+    
+    var fundo = Color(red: 33 / 255, green: 60 / 255, blue: 85 / 255)
+    var clique = Color(red: 253 / 255, green: 169 / 255, blue: 101 / 255)
+    var semclique = Color(red: 255 / 255, green: 236 / 255, blue: 215 / 255)
+    
     
     var body: some View {
         ZStack {
@@ -53,50 +64,33 @@ struct FirstView: View {
                     GameOverView()
                 }
             } else {
-                NavigationStack {
-                    // link para o jogo, com imagem, sem texto
-                    VStack {
-                        Button {
-                            matchManager.sendReadyState {
-                                self.showGameScene = true
-                            }
-                        } label: {
-                            Image("playButton")
-                        }
-                    }
-
-                    // link para as instrucoes
-                    VStack {
-                        Button("Instructions") {
-                            showInstructions = true
-                        }
-                    }
-                    .navigationDestination(isPresented:  $showInstructions) {
-                        VStack {
-                            InstructionsView().ignoresSafeArea().navigationBarBackButtonHidden(false)
-                        }
-                    }
+                ZStack {
+                    Color(red: 33 / 255, green: 60 / 255, blue: 85 / 255)
                     
-                    // link para as creditos
-                    VStack {
-                        Button("Credits") {
-                            showCredits = true
-                        }
-                    }
-                    .navigationDestination(isPresented: $showCredits) {
-                        VStack {
-                            CreditsView().ignoresSafeArea().navigationBarBackButtonHidden(false)
-                        }
-                    }
                     
-                    // link para as criar lobby
-                    VStack {
-                        Button("Lobby creation") {
-                            matchManager.sendLobbyCreationData {
-                                self.matchManager.isGamePresented = false
+                    VStack() {
+                        
+                        Spacer()
+                        
+                        Text("Pick an adventure to explore!")
+                            .font(.custom("LuckiestGuy-Regular", size: 24)) //LuckiestGuy-Regular
+                            .foregroundColor(clique)
+                            .padding(.all)
+                        
+                        HStack {
+                            //                TabView(selection: $index) {
+                            ForEach((0..<3), id: \.self) { index in
+                                CardView(matchManager: matchManager, showGameScene: $showGameScene)
+                                //             eu l       }
                             }
+                            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                            
                         }
+                     
+                        Spacer()
+                        
                     }
+                
                 }.ignoresSafeArea()
             }
         }

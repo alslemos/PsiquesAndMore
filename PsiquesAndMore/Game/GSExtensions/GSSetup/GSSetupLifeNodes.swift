@@ -9,9 +9,7 @@ import Foundation
 import SpriteKit
 
 extension GameScene {
-    
     func setupLifeNodes() {
-        
         var aux: CGFloat = 0
         
         for i in 0..<3 {
@@ -32,7 +30,6 @@ extension GameScene {
     }
     
     func updateLifeNodes() {
-        
         switch(lifes) {
             case 2:
                 self.lifeNodes[0].texture = SKTexture(image: UIImage(systemName: "heart") ?? UIImage())
@@ -43,6 +40,10 @@ extension GameScene {
                 self.lifeNodes[0].texture = SKTexture(image: UIImage(systemName: "heart") ?? UIImage())
                 self.lifeNodes[1].texture = SKTexture(image: UIImage(systemName: "heart") ?? UIImage())
                 self.lifeNodes[2].texture = SKTexture(image: UIImage(systemName: "heart") ?? UIImage())
+                
+                self.sendNotificationData(.gameOver) {
+                    self.notify(.gameOver)
+                }
             default:
                 print("tried to update lifeNodes with <0 hearts")
         }

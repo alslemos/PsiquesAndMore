@@ -24,10 +24,6 @@ extension GameScene {
             print("DEBUG: touched obstacle")
             
             self.lifes -= 1
-            
-//            self.sendNotificationData(.gameOver) {
-//                self.notify(.gameOver)
-//            }
         }
         
         // check for player touching ground
