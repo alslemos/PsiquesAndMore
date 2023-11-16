@@ -41,9 +41,10 @@ extension GameScene {
                 self.lifeNodes[1].texture = SKTexture(image: UIImage(systemName: "heart") ?? UIImage())
                 self.lifeNodes[2].texture = SKTexture(image: UIImage(systemName: "heart") ?? UIImage())
                 
-                self.sendNotificationData(.gameOver) {
-                    self.notify(.gameOver)
-                }
+                #warning("uncomment this afterwards")
+//                self.sendNotificationData(.gameOver) {
+//                    self.notify(.gameOver)
+//                }
             default:
                 print("tried to update lifeNodes with <0 hearts")
         }

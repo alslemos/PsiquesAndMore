@@ -12,20 +12,33 @@ extension GameScene {
     func moveSprite(_ movement: Movement) {
         switch movement {
             case .up:
+                self.isPlayerMoving = true
+                
                 self.square.physicsBody?.applyImpulse(CGVector(dx: 15, dy: 15))
             case .down:
-                self.setSpriteDownBody()
+                self.isPlayerMoving = true
+                
+                self.littleSpriteBody()
             case .right:
+                self.isPlayerMoving = true
+                
                 self.square.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 0))
             case .left:
+                self.isPlayerMoving = true
+                
                 self.square.physicsBody?.applyImpulse(CGVector(dx: -10, dy: 0))
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.isPlayerMoving = false
+            
+            self.normalSpriteBody()
+        }
+        
     }
     
-    func setSpriteDownBody() {
-        let originalSquareSize: CGSize = square.size
-        
-        square.size = CGSize(width: originalSquareSize.width, height: originalSquareSize.height / 2)
+    func littleSpriteBody() {
+        square.size = CGSize(width: 30, height: 15)
         
         let pb = SKPhysicsBody(rectangleOf: square.size, center: CGPoint(x: square.size.width / 2, y: square.frame.height / 2))
         
@@ -35,23 +48,25 @@ extension GameScene {
 
         pb.categoryBitMask = PhysicsCategory.characterNode
         pb.contactTestBitMask = PhysicsCategory.obstacleNode
+        pb.collisionBitMask = PhysicsCategory.floorNode + PhysicsCategory.limitNode
         
         square.physicsBody = pb
+    }
+    
+    func normalSpriteBody() {
+        square.size = CGSize(width: 30, height: 30)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.square.size = originalSquareSize
-            
-            let pb = SKPhysicsBody(rectangleOf: self.square.size, center: CGPoint(x: self.square.size.width / 2, y: self.square.size.height / 2))
-            
-            pb.allowsRotation = false
-            pb.isDynamic = true
-            pb.affectedByGravity = true
+        let pb = SKPhysicsBody(rectangleOf: self.square.size, center: CGPoint(x: self.square.size.width / 2, y: self.square.size.height / 2))
+        
+        pb.allowsRotation = false
+        pb.isDynamic = true
+        pb.affectedByGravity = true
 
-            pb.categoryBitMask = PhysicsCategory.characterNode
-            pb.contactTestBitMask = PhysicsCategory.obstacleNode
-            
-            self.square.physicsBody = pb
-        }
+        pb.categoryBitMask = PhysicsCategory.characterNode
+        pb.contactTestBitMask = PhysicsCategory.obstacleNode
+        pb.collisionBitMask = PhysicsCategory.floorNode + PhysicsCategory.limitNode
+        
+        self.square.physicsBody = pb
     }
 }
 

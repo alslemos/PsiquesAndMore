@@ -45,7 +45,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // personagem
     var velocityX: CGFloat = 0.0
     var velocityY: CGFloat = 0.0
+    
+    var isPlayerMoving: Bool = false
     var isPlayerTouchingFloor: Bool = false // variável controle que diz se o personagem tá tocando no chão
+    
     var square = SKSpriteNode(imageNamed: "personagem") // nodo em si
     var snowParticle = SKEmitterNode() // partícula acoplada ao personagem
     

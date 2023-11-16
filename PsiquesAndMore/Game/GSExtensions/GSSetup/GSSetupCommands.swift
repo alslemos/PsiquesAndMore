@@ -95,15 +95,23 @@ extension GameScene {
                     print("Clicked left")
                     leftButton?.sfSymbolsName = "arrowshape.left"
                     
-                    self.sendMovementData(.left) {
-                        self.moveSprite(.left)
+                    if !self.isPlayerMoving {
+                        self.sendMovementData(.left) {
+                            self.moveSprite(.left)
+                        }
+                    } else {
+                        print("cannot move")
                     }
                 } else {
                     print("Clicked right")
                     leftButton?.sfSymbolsName = "arrowshape.right"
                     
-                    self.sendMovementData(.right) {
-                        self.moveSprite(.right)
+                    if !self.isPlayerMoving {
+                        self.sendMovementData(.right) {
+                            self.moveSprite(.right)
+                        }
+                    } else {
+                        print("cannot move")
                     }
                 }
             }
@@ -115,15 +123,23 @@ extension GameScene {
                     print("Clicked up") //arrow.up
                     rightButton?.sfSymbolsName = "arrow.up"
                     
-                    self.sendMovementData(.up) {
-                        self.moveSprite(.up)
+                    if !self.isPlayerMoving {
+                        self.sendMovementData(.up) {
+                            self.moveSprite(.up)
+                        }
+                    } else {
+                        print("cannot move")
                     }
                 } else {
                     print("Clicked down")
                     rightButton?.sfSymbolsName = "arrow.down"
                     
-                    self.sendMovementData(.down) {
-                        self.moveSprite(.down)
+                    if !self.isPlayerMoving {
+                        self.sendMovementData(.down) {
+                            self.moveSprite(.down)
+                        }
+                    } else {
+                        print("cannot move")
                     }
                 }
             }
