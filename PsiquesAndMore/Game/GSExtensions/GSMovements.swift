@@ -14,31 +14,35 @@ extension GameScene {
             case .up:
                 self.isPlayerMoving = true
                 
-                self.square.physicsBody?.applyImpulse(CGVector(dx: 15, dy: 15))
+                self.square.physicsBody?.applyImpulse(CGVector(dx: 50, dy: 50))
             case .down:
+                updateAssetSeAbaixando()
+                
                 self.isPlayerMoving = true
                 
                 self.littleSpriteBody()
             case .right:
                 self.isPlayerMoving = true
                 
-                self.square.physicsBody?.applyImpulse(CGVector(dx: 10, dy: 0))
+                self.square.physicsBody?.applyImpulse(CGVector(dx: 70, dy: 0))
             case .left:
                 self.isPlayerMoving = true
                 
-                self.square.physicsBody?.applyImpulse(CGVector(dx: -10, dy: 0))
+                self.square.physicsBody?.applyImpulse(CGVector(dx: -50, dy: 0))
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.isPlayerMoving = false
             
             self.normalSpriteBody()
+            
+            self.updateAsset()
         }
         
     }
     
     func littleSpriteBody() {
-        square.size = CGSize(width: 30, height: 15)
+        square.size = CGSize(width: 60, height: 30)
         
         let pb = SKPhysicsBody(rectangleOf: square.size, center: CGPoint(x: square.size.width / 2, y: square.frame.height / 2))
         
@@ -54,7 +58,7 @@ extension GameScene {
     }
     
     func normalSpriteBody() {
-        square.size = CGSize(width: 30, height: 30)
+        square.size = CGSize(width: 60, height: 60)
         
         let pb = SKPhysicsBody(rectangleOf: self.square.size, center: CGPoint(x: self.square.size.width / 2, y: self.square.size.height / 2))
         

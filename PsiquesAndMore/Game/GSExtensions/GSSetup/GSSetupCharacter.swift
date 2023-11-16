@@ -12,12 +12,12 @@ extension GameScene {
     func setupCharacter() {
         print("Disparando personagem")
         
-        let pb = SKPhysicsBody(rectangleOf: CGSize(width: 30, height: 30), center: CGPoint(x: square.size.width / 2, y: square.size.height / 2))
+        let pb = SKPhysicsBody(rectangleOf: square.size, center: CGPoint(x: square.size.width / 2, y: square.size.height / 2))
         
         pb.allowsRotation = false
         pb.isDynamic = true
         pb.affectedByGravity = true
-
+        
         pb.categoryBitMask = PhysicsCategory.characterNode
         pb.contactTestBitMask = PhysicsCategory.obstacleNode
         pb.collisionBitMask = PhysicsCategory.floorNode + PhysicsCategory.limitNode
@@ -40,6 +40,8 @@ extension GameScene {
         
         self.addChild(square)
         createLimits()
+        
+        updateAsset()
     }
     
     func createLimits() {
@@ -96,12 +98,37 @@ extension GameScene {
             }
             .sink { count in
                 if !self.isPaused {
-                    self.characterVelocity += 1
+                    self.characterVelocity += 5
                     
                     let applyImpulse = SKAction.applyImpulse(CGVector(dx: -(self.characterVelocity), dy: 0), duration: 1)
                     self.square.run(applyImpulse)
                 }
             }.store(in: &cancellables)
+    }
+    
+    func updateAsset() {
+        print("debug: texture atlas: \(textureAtlasss.textureNames.count)")
+        
+        for i in 0..<textureAtlasss.textureNames.count {
+            let textureNames = "Vector" + "-" + String(i)
+            entidadeFrames.append(textureAtlasss.textureNamed(textureNames))
+        }
+
+        print(entidadeFrames.count)
+        
+        square.run(SKAction.repeatForever(SKAction.animate(with: entidadeFrames, timePerFrame: 0.2)))
+    }
+    
+    func updateAssetSeAbaixando() {
+        print("debug: texture atlas abaixando: \(textureAtlassAbaixando.textureNames.count)")
+        
+        for i in 0..<textureAtlassAbaixando.textureNames.count {
+            let textureNames = "Vector" + "+" + String(i)
+            entidadeFramesAbaixando.append(textureAtlassAbaixando.textureNamed(textureNames))
+        }
+        print(entidadeFramesAbaixando.count)
+        
+        square.run(SKAction.animate(with: entidadeFramesAbaixando, timePerFrame: 0.2))
     }
 }
 

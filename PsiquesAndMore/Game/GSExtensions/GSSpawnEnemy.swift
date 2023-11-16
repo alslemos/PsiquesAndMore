@@ -53,7 +53,7 @@ extension GameScene {
         
         let moveAction = SKAction.move(to: CGPoint(
             x: -100,
-            y: (verticalThresholdPoint + offsetY + (100 * tan(rotationAngle)))),
+            y: (verticalThresholdPoint + offsetY + (90 * tan(rotationAngle)))),
             duration: enemyMovement.time
         )
         

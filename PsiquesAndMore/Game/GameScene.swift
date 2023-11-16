@@ -8,8 +8,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var viewFrame: CGRect = CGRect()
     
     var rectangle = SKSpriteNode()
+
+    var square = SKSpriteNode(texture: SKTexture(imageNamed: "Vector-0"), size: CGSize(width: 60, height: 60))
     
-    var characterVelocity: CGFloat = 10
+    var entidadeFramesAbaixando: [SKTexture] = []
+    var textureAtlassAbaixando = SKTextureAtlas(named: "entidadeAbaixando")
+    
+    var entidadeFrames: [SKTexture] = []
+    var textureAtlasss = SKTextureAtlas(named: "entidadeAnimada")
+    
+    var characterVelocity: CGFloat = 80
     
     // Don't forget to cancel this afterwards
     var cancellables = Set<AnyCancellable>()
@@ -49,7 +57,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var isPlayerMoving: Bool = false
     var isPlayerTouchingFloor: Bool = false // variável controle que diz se o personagem tá tocando no chão
     
-    var square = SKSpriteNode(imageNamed: "personagem") // nodo em si
     var snowParticle = SKEmitterNode() // partícula acoplada ao personagem
     
     var lifes: Int = 3 {
