@@ -25,7 +25,7 @@ extension GameScene {
         
         physicsBodyTree.categoryBitMask = PhysicsCategory.obstacleNode
         physicsBodyTree.contactTestBitMask = PhysicsCategory.characterNode
-        physicsBodyTree.collisionBitMask = 0
+        physicsBodyTree.collisionBitMask = PhysicsCategory.floorNode
         
         tree.physicsBody = physicsBodyTree
         

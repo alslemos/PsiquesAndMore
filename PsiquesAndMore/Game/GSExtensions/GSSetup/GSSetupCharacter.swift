@@ -20,6 +20,7 @@ extension GameScene {
 
         pb.categoryBitMask = PhysicsCategory.characterNode
         pb.contactTestBitMask = PhysicsCategory.obstacleNode
+        pb.collisionBitMask = PhysicsCategory.floorNode + PhysicsCategory.limitNode
         
         square.anchorPoint = CGPoint(x: 0, y: 0)
         square.physicsBody = pb
