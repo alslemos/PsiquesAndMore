@@ -20,8 +20,8 @@ extension GameScene {
             self.localPlayerIndex = 0
             self.remotePlayerIndex = 1
             
-            getStartDate {
-                self.setGame {
+            setGame {
+                self.getStartDate {
                     self.startGamePublisher()
                 }
             }
