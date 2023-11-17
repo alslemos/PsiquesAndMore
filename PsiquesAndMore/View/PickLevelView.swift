@@ -132,11 +132,9 @@ struct PickLevelView: View {
                 scene.isPlayAgainOrderGiven = false
             }
             
-            showGameOverView = false
-            scene.isPaused = false
+            // logica de apresentar nova scene
             
-            scene.restartGame()
-            scene.timerLabel.text = ""
+            showGameOverView = false
         }
         .onReceive(goToMenuPublisher) { _ in
             scene.virtualController?.disconnect()
