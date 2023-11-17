@@ -6,7 +6,11 @@ struct SplashView: View {
     var body: some View {
         ZStack {
             if self.isActive {
-                InitialScreenView()
+                if isOnboardingSeen() {
+                    InitialScreenView()
+                } else {
+                    InstructionsView1()
+                }
             } else {
                 Rectangle()
                     .background(Color.black)
@@ -24,7 +28,10 @@ struct SplashView: View {
             }
         }
     }
-        
+}
+
+func isOnboardingSeen() -> Bool {
+    return UserDefaults.standard.bool(forKey: "completedOnboarding")
 }
 
 struct SplashView_Previews: PreviewProvider {
