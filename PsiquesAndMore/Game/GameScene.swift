@@ -9,7 +9,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var rectangle = SKSpriteNode()
 
-    var square = SKSpriteNode(texture: SKTexture(imageNamed: "Vector-0"), size: CGSize(width: 60, height: 60))
+    var square = SKSpriteNode(texture: SKTexture(imageNamed: "animada0"), size: CGSize(width: 60, height: 60))
     
     var entidadeFramesAbaixando: [SKTexture] = []
     var textureAtlassAbaixando = SKTextureAtlas(named: "entidadeAbaixando")

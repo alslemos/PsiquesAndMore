@@ -111,7 +111,7 @@ extension GameScene {
         print("debug: texture atlas: \(textureAtlasss.textureNames.count)")
         
         for i in 0..<textureAtlasss.textureNames.count {
-            let textureNames = "Vector" + "-" + String(i)
+            let textureNames = "animada" + String(i)
             entidadeFrames.append(textureAtlasss.textureNamed(textureNames))
         }
 
