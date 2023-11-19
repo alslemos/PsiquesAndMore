@@ -47,6 +47,8 @@ struct InitialScreenView: View {
                                 if matchManager.authenticationState != .authenticated {
                                     matchManager.authenticatePlayer()
                                 }
+                                
+                                UserDefaults.standard.set(true, forKey: "completedOnboarding")
                             }
                             .onDisappear {
                                 GKAccessPoint.shared.isActive = false

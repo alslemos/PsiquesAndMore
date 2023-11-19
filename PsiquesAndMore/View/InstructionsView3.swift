@@ -30,7 +30,6 @@ struct InstructionsView3: View {
                 VStack {
                     Button("Enjoy") {
                         showInstruction4 = true
-                        UserDefaults.standard.set(true, forKey: "completedOnboarding")
                     }
                 }
                 .font(.custom("LuckiestGuy-Regular", size: 24))
