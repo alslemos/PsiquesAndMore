@@ -9,6 +9,18 @@ import SwiftUI
 import SpriteKit
 import GameKit
 
+class GameSceneBox: ObservableObject {
+    @Published var gameScene: GameScene {
+        willSet {
+            gameScene.clean()
+        }
+    }
+    
+    init(gameScene: GameScene) {
+        self.gameScene = gameScene
+    }
+}
+
 struct PickLevelView: View {
     @ObservedObject var matchManager: MatchManager
     
@@ -29,17 +41,27 @@ struct PickLevelView: View {
     
     @State private var index = 0
     
-    var scene: GameScene
+    @ObservedObject var gameSceneBox: GameSceneBox
+    @State private var refreshToggle: Bool = false
+    
+//    var scene: GameScene
     
     init(matchManager: ObservedObject<MatchManager>) {
         self._matchManager = matchManager
+        let scene = Self.createGameScene(withMatchManager: matchManager.wrappedValue)
+        gameSceneBox = GameSceneBox(gameScene: scene)
+//        self.scene = scene
+    }
+    
+    private static func createGameScene(withMatchManager matchManager: MatchManager) -> GameScene {
         let scene = GameScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        scene.matchManager = matchManager.wrappedValue
-        scene.match = matchManager.wrappedValue.match
+        scene.matchManager = matchManager
+        scene.match = matchManager.match
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .fill
-        scene.isHost = matchManager.wrappedValue.isHost
-        self.scene = scene
+        scene.isHost = matchManager.isHost
+        
+        return scene
     }
     
     var fundo = Color(red: 33 / 255, green: 60 / 255, blue: 85 / 255)
@@ -49,8 +71,12 @@ struct PickLevelView: View {
     var body: some View {
         ZStack {
             if showGameScene {
+                let _ = Self._printChanges()
                 VStack {
-                    SpriteView(scene: scene).ignoresSafeArea().navigationBarBackButtonHidden(true)
+                    SpriteView(scene: $gameSceneBox.gameScene.wrappedValue)
+                        .id(refreshToggle)
+                        .ignoresSafeArea()
+                        .navigationBarBackButtonHidden(true)
                 }
                 .onAppear {
                     showPauseGameView = false
@@ -110,57 +136,59 @@ struct PickLevelView: View {
         }
         .onReceive(gameOverPublisher) { _ in
             showGameOverView = true
-            scene.isPaused = true
+            $gameSceneBox.gameScene.wrappedValue.isPaused = true
         }
         .onReceive(pauseGamePublisher) { _ in
-            scene.isPaused = true
+            $gameSceneBox.gameScene.wrappedValue.isPaused = true
             showPauseGameView = true
         }
         .onReceive(continueGamePublisher) { _ in
-            if !scene.isContinueOrderGiven {
-                scene.sendNotificationData(.continueGame) {
+            if !$gameSceneBox.gameScene.wrappedValue.isContinueOrderGiven {
+                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.continueGame) {
                     print("sending continue game data")
                 }
             } else {
-                scene.isContinueOrderGiven = false
+                $gameSceneBox.gameScene.wrappedValue.isContinueOrderGiven = false
             }
             
-            scene.isPaused = false
+            $gameSceneBox.gameScene.wrappedValue.isPaused = false
             self.showPauseGameView = false
         }
         .onReceive(playAgainPublisher) { _ in
-            if !scene.isPlayAgainOrderGiven {
-                scene.sendNotificationData(.playAgain) {
+            if !$gameSceneBox.gameScene.wrappedValue.isPlayAgainOrderGiven {
+                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.playAgain) {
                     print("sending play again data")
                 }
                 matchManager.isHost = true
             } else {
-                scene.isPlayAgainOrderGiven = false
+                $gameSceneBox.gameScene.wrappedValue.isPlayAgainOrderGiven = false
                 matchManager.isHost = false
             }
             
             showGameOverView = false
+            gameSceneBox.gameScene = Self.createGameScene(withMatchManager: matchManager)
+            refreshToggle.toggle()
         }
         .onReceive(goToMenuPublisher) { _ in
-            scene.virtualController?.disconnect()
+            $gameSceneBox.gameScene.wrappedValue.virtualController?.disconnect()
             
-            if !scene.isGoToMenuOrderGiven {
-                scene.sendNotificationData(.goToMenu) {
-                    scene.isGoToMenuOrderGiven = true
+            if !$gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven {
+                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.goToMenu) {
+                    $gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven = true
                 }
             } else {
-                scene.isGoToMenuOrderGiven = false
+                $gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven = false
             }
             
             showPauseGameView = false
             
-            scene.gameOver {
+            $gameSceneBox.gameScene.wrappedValue.gameOver {
                 print("bye bye")
             }
             
             showGameScene = false
             
-            guard let match = scene.match else { return }
+            guard let match = $gameSceneBox.gameScene.wrappedValue.match else { return }
             
             matchManager.startGame(newMatch: match)
         }
@@ -168,7 +196,7 @@ struct PickLevelView: View {
             print("DEBUG: entered loadingGamePublisher onReceive")
             
             self.showLoadingGameView = false
-            self.scene.setupCommands()
+            self.$gameSceneBox.gameScene.wrappedValue.setupCommands()
         }
     }
 }

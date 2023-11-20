@@ -117,4 +117,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         didGameStart = false
     }
+    
+    func clean() {
+        self.removeAllActions()
+        self.removeAllChildren()
+        
+        for cancellable in cancellables {
+            cancellable.cancel()
+        }
+        
+        spawnObstaclesSubscription?.cancel()
+    }
 }
