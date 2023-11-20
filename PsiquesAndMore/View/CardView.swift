@@ -10,11 +10,13 @@ import SwiftUI
 struct CardView: View {
     @ObservedObject var matchManager: MatchManager
     @Binding var showGameScene: Bool
+    @Binding var showLoadingGameView: Bool
     
     var body: some View {
         Button {
             matchManager.sendReadyState {
                 self.showGameScene = true
+                self.showLoadingGameView = true
             }
         } label: {
             Image("grupoMona")

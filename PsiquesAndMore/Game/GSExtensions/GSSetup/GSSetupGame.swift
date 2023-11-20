@@ -50,6 +50,7 @@ extension GameScene {
                 
                 if numberOfSeconds == startDate + 4 {
                     self.didGameStart = true
+                    self.notify(.loading)
                 }
             }
     }

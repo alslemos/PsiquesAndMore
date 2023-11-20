@@ -67,6 +67,13 @@ extension GameScene: GKMatchDelegate {
                 
                 notify(.playAgain)
             }
+            
+            if actionString == "loading" {
+                print("loading data received")
+                
+                notify(.loading)
+            }
+
         }
         
         // Check if it's the obstacles movements data
