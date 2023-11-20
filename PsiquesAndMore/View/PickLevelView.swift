@@ -9,7 +9,6 @@ import SwiftUI
 import SpriteKit
 import GameKit
 
-
 struct PickLevelView: View {
     @ObservedObject var matchManager: MatchManager
     
@@ -21,9 +20,11 @@ struct PickLevelView: View {
     let goToMenuPublisher = NotificationCenter.default.publisher(for: .goToMenuGameNotificationName)
     let readyPublisher = NotificationCenter.default.publisher(for: .readyToPlayGameNotificationName)
     let lobbyCreationPublisher = NotificationCenter.default.publisher(for: .lobbyCreationNotificationName)
+    let loadingGamePublisher = NotificationCenter.default.publisher(for: .loadingGameNotificationName)
     
     @State var showPauseGameView: Bool = false
     @State var showGameOverView: Bool = false
+    @State var showLoadingGameView: Bool = false
     @State var showGameScene: Bool = false
     
     @State private var index = 0
@@ -45,7 +46,6 @@ struct PickLevelView: View {
     var clique = Color(red: 253 / 255, green: 169 / 255, blue: 101 / 255)
     var semclique = Color(red: 255 / 255, green: 236 / 255, blue: 215 / 255)
     
-    
     var body: some View {
         ZStack {
             if showGameScene {
@@ -64,10 +64,14 @@ struct PickLevelView: View {
                 if showGameOverView {
                     GameOverView()
                 }
+                
+                if showLoadingGameView {
+                    LoadingGameView()
+                }
+                
             } else {
                 ZStack {
-                    Color(red: 33 / 255, green: 60 / 255, blue: 85 / 255)
-                    
+                    fundo
                     
                     VStack() {
                         
@@ -81,7 +85,7 @@ struct PickLevelView: View {
                         HStack {
                             //                TabView(selection: $index) {
                             ForEach((0..<3), id: \.self) { index in
-                                CardView(matchManager: matchManager, showGameScene: $showGameScene)
+                                CardView(matchManager: matchManager, showGameScene: $showGameScene, showLoadingGameView: $showLoadingGameView)
                                 //             eu l       }
                             }
                             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -102,6 +106,7 @@ struct PickLevelView: View {
             print("inside notification handler")
             
             showGameScene = true
+            showLoadingGameView = true
         }
         .onReceive(gameOverPublisher) { _ in
             showGameOverView = true
@@ -128,11 +133,11 @@ struct PickLevelView: View {
                 scene.sendNotificationData(.playAgain) {
                     print("sending play again data")
                 }
+                matchManager.isHost = true
             } else {
                 scene.isPlayAgainOrderGiven = false
+                matchManager.isHost = false
             }
-            
-            // logica de apresentar nova scene
             
             showGameOverView = false
         }
@@ -158,6 +163,12 @@ struct PickLevelView: View {
             guard let match = scene.match else { return }
             
             matchManager.startGame(newMatch: match)
+        }
+        .onReceive(loadingGamePublisher) { _ in
+            print("DEBUG: entered loadingGamePublisher onReceive")
+            
+            self.showLoadingGameView = false
+            self.scene.setupCommands()
         }
     }
 }

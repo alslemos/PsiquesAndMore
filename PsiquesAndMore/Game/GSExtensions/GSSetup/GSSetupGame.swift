@@ -49,7 +49,8 @@ extension GameScene {
                 print("debug: current date: \(numberOfSeconds)")
                 
                 if numberOfSeconds == startDate + 4 {
-                    self.didGameStart = true
+                    self.didGameStart = true                    
+                    self.notify(.loading)
                 }
             }
     }

@@ -19,6 +19,7 @@ enum NotificationType {
     case goToMenu
     case gameOver
     case playAgain
+    case loading
     
     var name: NSNotification.Name {
         switch self {
@@ -32,6 +33,8 @@ enum NotificationType {
                 return .gameOverGameNotificationName
             case .playAgain:
                 return .playAgainGameNotificationName
+            case .loading:
+                return .loadingGameNotificationName
         }
     }
     
@@ -47,6 +50,8 @@ enum NotificationType {
                 return "gameOver"
             case .playAgain:
                 return "playAgain"
+            case .loading:
+                return "loading"
         }
     }
     
@@ -62,6 +67,8 @@ enum NotificationType {
                 return "send game over data failed"
             case .playAgain:
                 return "send play again data failed"
+            case .loading:
+                return "send loading data failed"
         }
     }
 }

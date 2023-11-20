@@ -14,7 +14,6 @@ extension GameScene: GKMatchDelegate {
         // Check if it's the players data
         if let players = try? JSONDecoder().decode([Player].self, from: data) {
             self.players = players
-            self.setupCommands()
         }
         
         // Check if it's the movement data
@@ -66,6 +65,12 @@ extension GameScene: GKMatchDelegate {
                 isPlayAgainOrderGiven = true
                 
                 notify(.playAgain)
+            }
+            
+            if actionString == "loading" {
+                print("loading data received")
+                
+                notify(.loading)
             }
         }
         

@@ -39,7 +39,7 @@ struct InitialScreenView: View {
                             Button {
                                 matchManager.startMatchmaking()
                             } label: {
-                                Text("Create session!")
+                                Text("Create session")
                                     .font(.custom("LuckiestGuy-Regular", size: 24)) //LuckiestGuy-Regular
                                     .foregroundColor(clique)
                             }

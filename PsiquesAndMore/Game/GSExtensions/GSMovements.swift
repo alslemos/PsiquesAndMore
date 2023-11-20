@@ -10,35 +10,36 @@ import SpriteKit
 
 extension GameScene {
     func moveSprite(_ movement: Movement) {
-        switch movement {
-            case .up:
-                self.isPlayerMoving = true
-                
-                self.square.physicsBody?.applyImpulse(CGVector(dx: 50, dy: 50))
-            case .down:
-                updateAssetSeAbaixando()
-                
-                self.isPlayerMoving = true
-                
-                self.littleSpriteBody()
-            case .right:
-                self.isPlayerMoving = true
-                
-                self.square.physicsBody?.applyImpulse(CGVector(dx: 70, dy: 0))
-            case .left:
-                self.isPlayerMoving = true
-                
-                self.square.physicsBody?.applyImpulse(CGVector(dx: -50, dy: 0))
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.isPlayerMoving = false
+        if !self.isPaused {
+            switch movement {
+                case .up:
+                    self.isPlayerMoving = true
+                    
+                    self.square.physicsBody?.applyImpulse(CGVector(dx: 50, dy: 50))
+                case .down:
+                    updateAssetSeAbaixando()
+                    
+                    self.isPlayerMoving = true
+                    
+                    self.littleSpriteBody()
+                case .right:
+                    self.isPlayerMoving = true
+                    
+                    self.square.physicsBody?.applyImpulse(CGVector(dx: 70, dy: 0))
+                case .left:
+                    self.isPlayerMoving = true
+                    
+                    self.square.physicsBody?.applyImpulse(CGVector(dx: -50, dy: 0))
+            }
             
-            self.normalSpriteBody()
-            
-            self.updateAsset()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.isPlayerMoving = false
+                
+                self.normalSpriteBody()
+                
+                self.updateAsset()
+            }
         }
-        
     }
     
     func littleSpriteBody() {

@@ -20,7 +20,7 @@ struct InstructionsView1: View {
                         .padding(.all)
                         .padding(.bottom)
                     
-                    Text("ON THIS MULTIPLAYER GAME, THE COMMUNICATION IS KEY!")
+                    Text("ON THIS MULTIPLAYER GAME, COMMUNICATION IS KEY!")
                         .lineLimit(2)
                         .font(.custom("LuckiestGuy-Regular", size: 24))
                         .foregroundColor(semclique)

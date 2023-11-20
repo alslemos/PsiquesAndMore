@@ -36,7 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    var gameDuration: Int = 60
+    var gameDuration: Int = 5
     
     var virtualController: GCVirtualController?
     

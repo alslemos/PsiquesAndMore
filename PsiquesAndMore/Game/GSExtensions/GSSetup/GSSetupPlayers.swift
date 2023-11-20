@@ -37,9 +37,6 @@ extension GameScene {
         players[1].controls = controls[1]
         
         sendPlayerData {
-            print("triggering commands")
-            self.setupCommands()
-            
             print("sending obstacles movements")
             self.sendEnemiesMovements()
             
