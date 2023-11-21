@@ -216,6 +216,7 @@ struct PickLevelView: View {
             Button {
                 backToInitialScreen.toggle()
                 $gameSceneBox.gameScene.wrappedValue.match?.disconnect()
+                $gameSceneBox.gameScene.wrappedValue.clean()
                 matchManager.match?.disconnect()
             } label: {
                 HStack {
