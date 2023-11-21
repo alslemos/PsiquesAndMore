@@ -23,6 +23,7 @@ class GameSceneBox: ObservableObject {
 
 struct PickLevelView: View {
     @ObservedObject var matchManager: MatchManager
+    @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
     
     // NotificationCenter for view display control
     let gameOverPublisher = NotificationCenter.default.publisher(for: .gameOverGameNotificationName)
@@ -235,12 +236,8 @@ struct PickLevelView: View {
                 }
             }
         )
-        .navigationDestination(isPresented: $backToInitialScreen) {
-            InitialScreenView()
-                .navigationBarBackButtonHidden(true)
-        }
-        .onAppear {
-            backToInitialScreen = false
+        .onChange(of: backToInitialScreen) { _ in
+            self.presentationMode.wrappedValue.dismiss()
         }
     }
 }
