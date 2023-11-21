@@ -2,6 +2,8 @@ import Foundation
 import SwiftUI
 
 struct InstructionsView3: View {
+    @Environment(\.presentationMode) private var presentationMode: Binding<PresentationMode>
+    
     var fundo = Color(red: 33/255, green: 60/255, blue: 85/255)
     var clique = Color(red: 253/255, green: 169/255, blue: 101/255)
     var semclique = Color(red: 255/255, green: 236/255, blue: 215/255)
@@ -41,5 +43,18 @@ struct InstructionsView3: View {
                 }
             }
         }.ignoresSafeArea()
+            .navigationBarItems(leading:
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "arrowshape.turn.up.backward.fill")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(clique)
+                      
+                    }
+                }
+            )
     }
 }

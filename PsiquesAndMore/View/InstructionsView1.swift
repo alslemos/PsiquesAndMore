@@ -36,12 +36,11 @@ struct InstructionsView1: View {
                     .navigationDestination(isPresented: $showInstruction2) {
                         VStack {
                             InstructionsView2().ignoresSafeArea().navigationBarBackButtonHidden(true)
-                                .navigationBarItems(leading: CustomBackButton())
-                                .navigationBarItems(trailing: CustomJumpButton())
                         }
                     }
                 }
             }.ignoresSafeArea()
+            .navigationBarItems(trailing: CustomJumpButton())
         }
     }
 }

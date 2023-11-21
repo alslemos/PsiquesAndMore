@@ -19,7 +19,7 @@ struct CustomJumpButton: View {
                 .navigationBarBackButtonHidden(true)
         } label: {
             HStack {
-                Text("JUMP")
+                Text("SKIP")
                     .font(.custom("LuckiestGuy-Regular", size: 24))
                     .foregroundColor(clique)
             }

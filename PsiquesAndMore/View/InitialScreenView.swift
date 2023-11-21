@@ -57,6 +57,7 @@ struct InitialScreenView: View {
                             // ainda tem esse bag
                             NavigationLink {
                                InstructionsView1().ignoresSafeArea().navigationBarBackButtonHidden(true)
+                                    .navigationBarItems(leading: CustomBackButton())
                             } label: {
                                 // ZStack {
                                     Text("Instructions")
