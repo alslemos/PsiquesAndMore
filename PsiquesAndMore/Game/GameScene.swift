@@ -127,5 +127,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         spawnObstaclesSubscription?.cancel()
+        
+        virtualController?.disconnect()
     }
 }

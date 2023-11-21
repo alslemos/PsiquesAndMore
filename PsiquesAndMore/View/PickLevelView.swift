@@ -44,6 +44,8 @@ struct PickLevelView: View {
     @ObservedObject var gameSceneBox: GameSceneBox
     @State private var refreshToggle: Bool = false
     
+    @State var backToInitialScreen: Bool = false
+    
     init(matchManager: ObservedObject<MatchManager>) {
         self._matchManager = matchManager
         let scene = Self.createGameScene(withMatchManager: matchManager.wrappedValue)
@@ -51,6 +53,8 @@ struct PickLevelView: View {
     }
     
     private static func createGameScene(withMatchManager matchManager: MatchManager) -> GameScene {
+        print("creating new scene")
+        
         let scene = GameScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         scene.matchManager = matchManager
         scene.match = matchManager.match
@@ -179,11 +183,9 @@ struct PickLevelView: View {
                 $gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven = false
             }
             
-            showPauseGameView = false
+            matchManager.isHost = false
             
-            $gameSceneBox.gameScene.wrappedValue.gameOver {
-                print("bye bye")
-            }
+            showPauseGameView = false
             
             showGameScene = false
             
@@ -195,7 +197,39 @@ struct PickLevelView: View {
             print("DEBUG: entered loadingGamePublisher onReceive")
             
             self.showLoadingGameView = false
-            self.$gameSceneBox.gameScene.wrappedValue.setupCommands()
+        }
+        .navigationBarItems(leading: showGameScene ?
+            Button {
+                //
+            } label: {
+                HStack {
+                    Image(systemName: "apple.logo")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(clique)
+                        .opacity(0)
+                }
+            }
+                            
+            :
+                            
+            Button {
+                backToInitialScreen.toggle()
+                $gameSceneBox.gameScene.wrappedValue.match?.disconnect()
+                matchManager.match?.disconnect()
+            } label: {
+                HStack {
+                    Image(systemName: "arrowshape.turn.up.backward.fill")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(clique)
+                        .opacity(1)
+                  
+                }
+            }
+        )
+        .navigationDestination(isPresented: $backToInitialScreen) {
+            InitialScreenView()
         }
     }
 }
