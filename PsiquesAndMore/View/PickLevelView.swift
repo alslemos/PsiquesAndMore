@@ -230,6 +230,7 @@ struct PickLevelView: View {
         )
         .navigationDestination(isPresented: $backToInitialScreen) {
             InitialScreenView()
+                .navigationBarBackButtonHidden(true)
         }
     }
 }
