@@ -239,5 +239,8 @@ struct PickLevelView: View {
             InitialScreenView()
                 .navigationBarBackButtonHidden(true)
         }
+        .onAppear {
+            backToInitialScreen = false
+        }
     }
 }
