@@ -237,7 +237,7 @@ struct PickLevelView: View {
             }
         )
         .onChange(of: backToInitialScreen) { _ in
-            self.presentationMode.wrappedValue.dismiss()
+            self.matchManager.isGamePresented = false
         }
     }
 }
