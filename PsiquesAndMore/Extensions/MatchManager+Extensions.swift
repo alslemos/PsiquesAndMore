@@ -31,6 +31,12 @@ extension MatchManager: GKMatchDelegate {
                 
                 NotificationCenter.default.post(name: .lobbyCreationNotificationName, object: nil)
             }
+            
+            if actionString == "initial" {
+                print("back to initial data received")
+                
+                NotificationCenter.default.post(name: .backToInitialScreenNotificationName, object: nil)
+            }
         }
     }
 }

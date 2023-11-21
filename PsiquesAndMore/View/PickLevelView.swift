@@ -33,6 +33,7 @@ struct PickLevelView: View {
     let readyPublisher = NotificationCenter.default.publisher(for: .readyToPlayGameNotificationName)
     let lobbyCreationPublisher = NotificationCenter.default.publisher(for: .lobbyCreationNotificationName)
     let loadingGamePublisher = NotificationCenter.default.publisher(for: .loadingGameNotificationName)
+    let backToInitialScreenPublisher = NotificationCenter.default.publisher(for: .backToInitialScreenNotificationName)
     
     @State var showPauseGameView: Bool = false
     @State var showGameOverView: Bool = false
@@ -194,9 +195,10 @@ struct PickLevelView: View {
             matchManager.startGame(newMatch: match)
         }
         .onReceive(loadingGamePublisher) { _ in
-            print("DEBUG: entered loadingGamePublisher onReceive")
-            
             self.showLoadingGameView = false
+        }
+        .onReceive(backToInitialScreenPublisher) { _ in
+            backToInitialScreen.toggle()
         }
         .navigationBarItems(leading: showGameScene ?
             Button {
@@ -214,9 +216,13 @@ struct PickLevelView: View {
             :
                             
             Button {
-                backToInitialScreen.toggle()
-                $gameSceneBox.gameScene.wrappedValue.match?.disconnect()
+                matchManager.sendBackToInitialData {
+                    self.backToInitialScreen.toggle()
+                }
+        
                 $gameSceneBox.gameScene.wrappedValue.clean()
+            
+                $gameSceneBox.gameScene.wrappedValue.match?.disconnect()
                 matchManager.match?.disconnect()
             } label: {
                 HStack {

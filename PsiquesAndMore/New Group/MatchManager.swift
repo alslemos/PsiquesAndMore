@@ -112,4 +112,15 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, 
             print("send lobby creation data failed")
         }
     }
+    
+    func sendBackToInitialData(_ completion: @escaping () -> ()) {
+        print("sending back to initial data")
+        do {
+            guard let data = try? JSONEncoder().encode("initial") else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+            completion()
+        } catch {
+            print("send back to initial data failed")
+        }
+    }
 }

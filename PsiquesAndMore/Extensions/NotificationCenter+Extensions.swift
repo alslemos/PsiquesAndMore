@@ -16,4 +16,5 @@ extension NSNotification.Name {
     static var readyToPlayGameNotificationName: NSNotification.Name = NSNotification.Name("Ready")
     static var lobbyCreationNotificationName: NSNotification.Name = NSNotification.Name("LobbyCreation")
     static var loadingGameNotificationName: NSNotification.Name = NSNotification.Name("LoadingGame")
+    static var backToInitialScreenNotificationName: NSNotification.Name = NSNotification.Name("BackToInitial")
 }
