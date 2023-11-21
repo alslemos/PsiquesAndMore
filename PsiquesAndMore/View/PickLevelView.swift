@@ -44,13 +44,10 @@ struct PickLevelView: View {
     @ObservedObject var gameSceneBox: GameSceneBox
     @State private var refreshToggle: Bool = false
     
-//    var scene: GameScene
-    
     init(matchManager: ObservedObject<MatchManager>) {
         self._matchManager = matchManager
         let scene = Self.createGameScene(withMatchManager: matchManager.wrappedValue)
         gameSceneBox = GameSceneBox(gameScene: scene)
-//        self.scene = scene
     }
     
     private static func createGameScene(withMatchManager matchManager: MatchManager) -> GameScene {
@@ -168,6 +165,8 @@ struct PickLevelView: View {
             showGameOverView = false
             gameSceneBox.gameScene = Self.createGameScene(withMatchManager: matchManager)
             refreshToggle.toggle()
+            
+            showLoadingGameView = true
         }
         .onReceive(goToMenuPublisher) { _ in
             $gameSceneBox.gameScene.wrappedValue.virtualController?.disconnect()
