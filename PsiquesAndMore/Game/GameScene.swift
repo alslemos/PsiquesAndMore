@@ -36,7 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    var gameDuration: Int = 5
+    var gameDuration: Int = 60
     
     var virtualController: GCVirtualController?
     
@@ -64,6 +64,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.updateLifeNodes()
         }
     }
+    
+    var isPlayerInvincible: Bool = false {
+        didSet {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.isPlayerInvincible = false
+                print("DEBUG: \(self.isPlayerInvincible)")
+            }
+        }
+    }
+    
     // n∘ de vidas do personagem
     var lifeNodes = [SKSpriteNode]() // nodos das vidas do personagem
     

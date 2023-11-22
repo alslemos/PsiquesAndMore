@@ -76,10 +76,11 @@ struct PickLevelView: View {
             if showGameScene {
                 let _ = Self._printChanges()
                 VStack {
-                    SpriteView(scene: $gameSceneBox.gameScene.wrappedValue)
+                    SpriteView(scene: $gameSceneBox.gameScene.wrappedValue, debugOptions: [.showsFPS, .showsPhysics, .showsQuadCount])
                         .id(refreshToggle)
                         .ignoresSafeArea()
                         .navigationBarBackButtonHidden(true)
+                        
                 }
                 .onAppear {
                     showPauseGameView = false
