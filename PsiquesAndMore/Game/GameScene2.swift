@@ -226,16 +226,11 @@ class GameScene2: SKScene {
     
     
     private func triggerFloor(){
-        // floor
         let pb = SKPhysicsBody(texture: floor.texture!,
                                size: floor.texture!.size())
         
         pb.isDynamic = false
         pb.node?.physicsBody?.friction = 0.0
-        
-        // pb.categoryBitMask
-        // pb.contactTestBitMask
-        // pb.collisionBitMask
         floor.zPosition = 1
         floor.physicsBody = pb
         floor.name = "floor"
@@ -243,38 +238,44 @@ class GameScene2: SKScene {
         floor.position = CGPoint(x: (self.view?.frame.midX)!, y: (self.view?.frame.minY)! + 100 )
         self.addChild(floor)
     }
-    
+        
     ///
     // pegando os valores dos comandos
     func getInputCommand() {
         let left = createHeartBezierPath1()
+       
+       
         let right = createHeartBezierPath2()
         
-        print("inside get input command function")
-        
-        //    guard let index = localPlayerIndex else { return }
-        
+      
         var leftButton: GCControllerButtonInput?
         var rightButton: GCControllerButtonInput?
         var stickXAxis: GCControllerAxisInput?
         
         func createHeartBezierPath1() -> UIBezierPath {
-            let heartPath = UIBezierPath()
+            let path = UIBezierPath()
+
+            path.move(to: CGPoint(x: 0, y: 0))
+            path.addLine(to: CGPoint(x: -0.7, y:0))
+            path.addLine(to: CGPoint(x: -0.3, y:0.09))
+            path.addLine(to: CGPoint(x: -0.3, y:0.02))
+            // meio
+            path.addLine(to: CGPoint(x: 0.3, y:0.02))
+            path.addLine(to: CGPoint(x: 0.3, y:0.09))
+            path.addLine(to: CGPoint(x: 0.7, y:0))
+            // agora voltando
+            path.addLine(to: CGPoint(x: 0.3, y: -0.09))
+            path.addLine(to: CGPoint(x: 0.3, y: -0.02))
             
-            // Define the main heart shape
-            heartPath.move(to: CGPoint(x: -10, y: -20))
-            heartPath.addCurve(to: CGPoint(x: -75, y: -75),
-                               controlPoint1: CGPoint(x: 150, y: 110),
-                               controlPoint2: CGPoint(x: 125, y: 75))
-            heartPath.addCurve(to: CGPoint(x: 0, y: 140),
-                               controlPoint1: CGPoint(x: 25, y: 75),
-                               controlPoint2: CGPoint(x: 0, y: 110))
-            heartPath.addLine(to: CGPoint(x: 150, y: 260))
-            heartPath.addLine(to: CGPoint(x: 300, y: 140))
-            heartPath.addLine(to: CGPoint(x: 150, y: 20))
-            heartPath.close()
+            path.addLine(to: CGPoint(x: -0.3, y: -0.02))
+            path.addLine(to: CGPoint(x: -0.3, y: -0.09))
             
-            return heartPath
+            path.addLine(to: CGPoint(x: -0.7, y: 0))
+ 
+            
+            path.close()
+            
+            return path
         }
         
         func createHeartBezierPath2() -> UIBezierPath {
@@ -296,10 +297,7 @@ class GameScene2: SKScene {
             return heartPath
             
         }
-        
-        // Usage
-        
-        
+       
         if let virtualController, let controller = virtualController.controller, let extendedGamepad = controller.extendedGamepad {
             let element = GCInputButtonX
             

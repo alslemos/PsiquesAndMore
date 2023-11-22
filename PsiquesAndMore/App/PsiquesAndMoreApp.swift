@@ -33,3 +33,4 @@ func iniciaGameKit(){
     
     print(GKAccessPoint.shared.isActive)
 }
+
