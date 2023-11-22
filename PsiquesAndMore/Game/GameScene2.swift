@@ -258,16 +258,16 @@ class GameScene2: SKScene {
             path.move(to: CGPoint(x: 0, y: 0))
             path.addLine(to: CGPoint(x: -0.7, y:0))
             path.addLine(to: CGPoint(x: -0.3, y:0.09))
-            path.addLine(to: CGPoint(x: -0.3, y:0.02))
+            path.addLine(to: CGPoint(x: -0.3, y:0.04))
             // meio
-            path.addLine(to: CGPoint(x: 0.3, y:0.02))
+            path.addLine(to: CGPoint(x: 0.3, y:0.04))
             path.addLine(to: CGPoint(x: 0.3, y:0.09))
             path.addLine(to: CGPoint(x: 0.7, y:0))
             // agora voltando
             path.addLine(to: CGPoint(x: 0.3, y: -0.09))
-            path.addLine(to: CGPoint(x: 0.3, y: -0.02))
+            path.addLine(to: CGPoint(x: 0.3, y: -0.04))
             
-            path.addLine(to: CGPoint(x: -0.3, y: -0.02))
+            path.addLine(to: CGPoint(x: -0.3, y: -0.04))
             path.addLine(to: CGPoint(x: -0.3, y: -0.09))
             
             path.addLine(to: CGPoint(x: -0.7, y: 0))
