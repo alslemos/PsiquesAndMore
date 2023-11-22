@@ -279,22 +279,27 @@ class GameScene2: SKScene {
         }
         
         func createHeartBezierPath2() -> UIBezierPath {
-            let heartPath = UIBezierPath()
+            let path = UIBezierPath()
+
+            path.move(to: CGPoint(x: 0, y: 0))
+            path.addLine(to: CGPoint(x: 0, y:0.02))
+            path.addLine(to: CGPoint(x: 0.01, y:0.01))
+            path.addLine(to: CGPoint(x: 0.005, y:0.01))
+            /// MEIO
+            path.addLine(to: CGPoint(x: 0.005, y: -0.01))
+           //
+            path.addLine(to: CGPoint(x: 0.01, y: -0.01))
+            path.addLine(to: CGPoint(x: 0, y: -0.02))
+            // voltando
+            path.addLine(to: CGPoint(x: -0.01, y: -0.01))
+            path.addLine(to: CGPoint(x: -0.005, y: -0.01))
             
-            // Define the main heart shape
-            heartPath.move(to: CGPoint(x: 100, y: 40))
-            heartPath.addCurve(to: CGPoint(x: 75, y: 75),
-                               controlPoint1: CGPoint(x: 150, y: 110),
-                               controlPoint2: CGPoint(x: 125, y: 75))
-            heartPath.addCurve(to: CGPoint(x: 0, y: 140),
-                               controlPoint1: CGPoint(x: 25, y: 75),
-                               controlPoint2: CGPoint(x: 0, y: 110))
-            heartPath.addLine(to: CGPoint(x: 150, y: 260))
-            heartPath.addLine(to: CGPoint(x: 300, y: 140))
-            heartPath.addLine(to: CGPoint(x: 150, y: 20))
-            heartPath.close()
+            path.addLine(to: CGPoint(x: -0.005, y: 0.01))
+            path.addLine(to: CGPoint(x: -0.01, y: 0.01))
+            path.addLine(to: CGPoint(x: 0, y: 0.02))
             
-            return heartPath
+            path.close()
+            return path
             
         }
        
