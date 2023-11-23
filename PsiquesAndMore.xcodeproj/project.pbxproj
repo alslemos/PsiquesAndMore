@@ -15,6 +15,10 @@
 		6806C3EC2AEB03EF00EDED8E /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3EB2AEB03EF00EDED8E /* Player.swift */; };
 		E752F4C92AF2D30F00AC7DB2 /* GameScene2.swift in Sources */ = {isa = PBXBuildFile; fileRef = E752F4C82AF2D30F00AC7DB2 /* GameScene2.swift */; };
 		E78E6EEA2B0E690700722E00 /* bezier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78E6EE92B0E690700722E00 /* bezier.swift */; };
+		E78E6EF42B0FAF9A00722E00 /* GameCenterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78E6EF32B0FAF9A00722E00 /* GameCenterHelper.swift */; };
+		E78E6EF72B0FAFCD00722E00 /* AchievementsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78E6EF62B0FAFCD00722E00 /* AchievementsHelper.swift */; };
+		E78E6EF92B0FB04B00722E00 /* EndOfTheGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78E6EF82B0FB04B00722E00 /* EndOfTheGame.swift */; };
+		E78E6EFB2B0FB13D00722E00 /* SubmitScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E78E6EFA2B0FB13D00722E00 /* SubmitScore.swift */; };
 		E7D119372ADE077C00ECA9BE /* PsiquesAndMoreApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D119362ADE077C00ECA9BE /* PsiquesAndMoreApp.swift */; };
 		E7D1193B2ADE077E00ECA9BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7D1193A2ADE077E00ECA9BE /* Assets.xcassets */; };
 		E7D1193E2ADE077E00ECA9BE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7D1193D2ADE077E00ECA9BE /* Preview Assets.xcassets */; };
@@ -37,6 +41,10 @@
 		E752F4C52AEC305600AC7DB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E752F4C82AF2D30F00AC7DB2 /* GameScene2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene2.swift; sourceTree = "<group>"; };
 		E78E6EE92B0E690700722E00 /* bezier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bezier.swift; sourceTree = "<group>"; };
+		E78E6EF32B0FAF9A00722E00 /* GameCenterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterHelper.swift; sourceTree = "<group>"; };
+		E78E6EF62B0FAFCD00722E00 /* AchievementsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsHelper.swift; sourceTree = "<group>"; };
+		E78E6EF82B0FB04B00722E00 /* EndOfTheGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndOfTheGame.swift; sourceTree = "<group>"; };
+		E78E6EFA2B0FB13D00722E00 /* SubmitScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitScore.swift; sourceTree = "<group>"; };
 		E7D119332ADE077C00ECA9BE /* PsiquesAndMore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PsiquesAndMore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7D119362ADE077C00ECA9BE /* PsiquesAndMoreApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PsiquesAndMoreApp.swift; sourceTree = "<group>"; };
 		E7D1193A2ADE077E00ECA9BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -76,6 +84,17 @@
 			path = Misc;
 			sourceTree = "<group>";
 		};
+		E78E6EF52B0FAFA200722E00 /* GameCenter */ = {
+			isa = PBXGroup;
+			children = (
+				E78E6EF32B0FAF9A00722E00 /* GameCenterHelper.swift */,
+				E78E6EF62B0FAFCD00722E00 /* AchievementsHelper.swift */,
+				E78E6EF82B0FB04B00722E00 /* EndOfTheGame.swift */,
+				E78E6EFA2B0FB13D00722E00 /* SubmitScore.swift */,
+			);
+			path = GameCenter;
+			sourceTree = "<group>";
+		};
 		E7D1192A2ADE077C00ECA9BE = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +114,7 @@
 		E7D119352ADE077C00ECA9BE /* PsiquesAndMore */ = {
 			isa = PBXGroup;
 			children = (
+				E78E6EF52B0FAFA200722E00 /* GameCenter */,
 				E752F4C52AEC305600AC7DB2 /* Info.plist */,
 				6806C3ED2AEB08F000EDED8E /* PsiquesAndMore.entitlements */,
 				6806C3E42AEAF92E00EDED8E /* Misc */,
@@ -241,15 +261,19 @@
 				6806C3E62AEAF94300EDED8E /* PlayerAuthState.swift in Sources */,
 				E752F4C92AF2D30F00AC7DB2 /* GameScene2.swift in Sources */,
 				E7D119622AE9E62600ECA9BE /* FirstView.swift in Sources */,
+				E78E6EFB2B0FB13D00722E00 /* SubmitScore.swift in Sources */,
 				E7D1196E2AE9EB8400ECA9BE /* CreditsView.swift in Sources */,
 				6806C3EC2AEB03EF00EDED8E /* Player.swift in Sources */,
 				E78E6EEA2B0E690700722E00 /* bezier.swift in Sources */,
 				6806C3EA2AEB03CA00EDED8E /* GameModel.swift in Sources */,
 				6806C3E82AEB034C00EDED8E /* GameScene.swift in Sources */,
+				E78E6EF72B0FAFCD00722E00 /* AchievementsHelper.swift in Sources */,
 				E7D119682AE9E8E100ECA9BE /* OldGameScene.swift in Sources */,
 				6806C3E12AEAF70D00EDED8E /* MatchManager.swift in Sources */,
+				E78E6EF42B0FAF9A00722E00 /* GameCenterHelper.swift in Sources */,
 				E7D119372ADE077C00ECA9BE /* PsiquesAndMoreApp.swift in Sources */,
 				6806C3E32AEAF84900EDED8E /* MatchManager+Extensions.swift in Sources */,
+				E78E6EF92B0FB04B00722E00 /* EndOfTheGame.swift in Sources */,
 				E7D119712AE9EE8100ECA9BE /* SplashView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

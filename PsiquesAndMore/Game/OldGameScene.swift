@@ -333,9 +333,28 @@ class OldGameScene: SKScene, SKPhysicsContactDelegate {
         scene?.enumerateChildNodes(withName: "ghost", using: { node, _ in
             node.removeFromParent()
         })
+        
+        
+        submitScore()
+        
+        var isWinner: Bool = true
+        var achievements: [GKAchievement] = []
+        achievements.append(AchievementsHelper.firstWinAchievement(didWin: isWinner))
+        GameKitHelper.shared.reportAchievements(achievements: achievements)
+        
     }
     
-    
+    func submitScore(){
+        /// open class func submitScore(_ score: Int, context: Int, player: GKPlayer, leaderboardIDs: [String])
+        
+        GKLeaderboard.submitScore(1, context: 0, player: GKLocalPlayer.local,
+                                  leaderboardIDs: ["firstLeaderboard"]) { error in
+            if error != nil {
+                print("Error: \(error!.localizedDescription).")
+                print("TAZ MANIA") // QUAL A CHANCE DELE OBTER O localplayer? 3
+            }
+        }
+    }
     
     
     
