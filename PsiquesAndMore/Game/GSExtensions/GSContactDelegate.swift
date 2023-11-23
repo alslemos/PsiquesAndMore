@@ -46,6 +46,7 @@ extension GameScene {
             print("DEBUG: player is not touching ground")
             
             self.isPlayerTouchingFloor = false
+            self.characterVelocity = 0
             self.snowParticle.particleBirthRate = 0
         }
     }

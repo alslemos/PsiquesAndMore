@@ -17,7 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var entidadeFrames: [SKTexture] = []
     var textureAtlasss = SKTextureAtlas(named: "entidadeAnimada")
     
-    var characterVelocity: CGFloat = 0
+    var characterVelocity: CGFloat = 70
     
     // Don't forget to cancel this afterwards
     var cancellables = Set<AnyCancellable>()

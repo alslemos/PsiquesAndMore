@@ -15,7 +15,8 @@ struct GameOverView: View {
     
     var body: some View {
         ZStack {
-            semclique
+//            Color(.red).opacity(0.7)
+            fundo
             
             ZStack {
                 Rectangle()

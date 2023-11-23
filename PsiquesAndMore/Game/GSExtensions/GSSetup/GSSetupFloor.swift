@@ -37,7 +37,7 @@ extension GameScene {
         
         pb.isDynamic = false
         
-        pb.friction = 1
+        pb.friction = 0.2
         pb.categoryBitMask = PhysicsCategory.floorNode
         pb.contactTestBitMask = PhysicsCategory.characterNode
         pb.collisionBitMask = 0
