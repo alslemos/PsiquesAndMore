@@ -141,6 +141,7 @@
 		6806C3E42AEAF92E00EDED8E /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+				68E492A42B0FC73300C06F31 /* Textures.swift */,
 				6806C3E52AEAF94300EDED8E /* PlayerAuthState.swift */,
 				68A8874D2B068B0E00C64E76 /* LuckiestGuy-Regular.ttf */,
 			);
@@ -173,13 +174,13 @@
 			children = (
 				68F190282AFD24E3005B5030 /* GSSetupGame.swift */,
 				68F1902C2AFD2671005B5030 /* GSSetupPlayers.swift */,
+				1CCB539D2B02901A00A78BC8 /* GSSetupAvalanche.swift */,
 				1C452ED82AF2C3BD001F696B /* GSSetupPauseButton.swift */,
 				E7C558062AF5A82200F07740 /* GSSetupCharacter.swift */,
 				E7C558082AF92A2B00F07740 /* GSSetupFloor.swift */,
 				E7C5580E2AFC5D6900F07740 /* GSSetupBackground.swift */,
 				E7C5580A2AF92EEA00F07740 /* GSSetupCommands.swift */,
 				E7C558102AFC603C00F07740 /* GSSetupTimer.swift */,
-				1CCB539D2B02901A00A78BC8 /* GSSetupAvalanche.swift */,
 				1CCB53A52B03F22800A78BC8 /* GSSetupLifeNodes.swift */,
 			);
 			path = GSSetup;
@@ -251,7 +252,6 @@
 				E7D1196D2AE9EB8400ECA9BE /* CreditsView.swift */,
 				1C452ED62AF2BB07001F696B /* GameOverView.swift */,
 				1C452ED42AF2BAF2001F696B /* PauseGameView.swift */,
-				68E492A42B0FC73300C06F31 /* Textures.swift */,
 				68A8873B2B067D7500C64E76 /* BackButton.swift */,
 				68A8873D2B067D8F00C64E76 /* JumpButton.swift */,
 				1CEE63412B07DF8900B62496 /* LoadingGameView.swift */,

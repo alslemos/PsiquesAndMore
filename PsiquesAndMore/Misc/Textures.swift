@@ -9,4 +9,6 @@ struct Textures {
     static let trunkTexture = SKTexture(imageNamed: "trunk")
     static let branchTexture = SKTexture(imageNamed: "branch")
     static let floorTexture = SKTexture(imageNamed: "floor")
+    static let heartFillTexture = SKTexture(image: UIImage(systemName: "heart.fill") ?? UIImage())
+    static let heartTexture = SKTexture(image: UIImage(systemName: "heart") ?? UIImage())
 }

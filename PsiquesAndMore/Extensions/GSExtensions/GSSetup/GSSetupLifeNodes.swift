@@ -13,11 +13,11 @@ extension GameScene {
         var aux: CGFloat = 0
         
         for i in 0..<3 {
-            let heart = SKSpriteNode(texture: SKTexture(image: UIImage(systemName: "heart.fill") ?? UIImage()))
+            let heart = SKSpriteNode(texture: Textures.heartFillTexture)
             
             aux += heart.size.width + 8
             
-            heart.position = CGPoint(x: viewFrame.minX + aux, y: viewFrame.maxY - 32)
+            heart.position = CGPoint(x: viewFrame.minX + aux, y: viewFrame.maxY - 40)
             heart.zPosition = 10
             heart.name = "heart\(i + 1)"
             
@@ -32,14 +32,14 @@ extension GameScene {
     func updateLifeNodes() {
         switch(lifes) {
             case 2:
-                self.lifeNodes[0].texture = SKTexture(image: UIImage(systemName: "heart") ?? UIImage())
+                self.lifeNodes[0].texture = Textures.heartTexture
             case 1:
-                self.lifeNodes[0].texture = SKTexture(image: UIImage(systemName: "heart") ?? UIImage())
-                self.lifeNodes[1].texture = SKTexture(image: UIImage(systemName: "heart") ?? UIImage())
+                self.lifeNodes[0].texture = Textures.heartTexture
+                self.lifeNodes[1].texture = Textures.heartTexture
             case 0:
-                self.lifeNodes[0].texture = SKTexture(image: UIImage(systemName: "heart") ?? UIImage())
-                self.lifeNodes[1].texture = SKTexture(image: UIImage(systemName: "heart") ?? UIImage())
-                self.lifeNodes[2].texture = SKTexture(image: UIImage(systemName: "heart") ?? UIImage())
+                self.lifeNodes[0].texture = Textures.heartTexture
+                self.lifeNodes[1].texture = Textures.heartTexture
+                self.lifeNodes[2].texture = Textures.heartTexture
                 
                 self.sendNotificationData(.gameOver) {
                     self.notify(.gameOver)

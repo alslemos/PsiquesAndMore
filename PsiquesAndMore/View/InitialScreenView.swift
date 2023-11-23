@@ -27,7 +27,10 @@ struct InitialScreenView: View {
                         VStack(spacing: 10) {
                            
                             VStack {
-                               Text("CHAOS ")
+                               Image("splashIcon")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 150, height: 50)
                             }
 
                             .font(.custom("LuckiestGuy-Regular", size: 32)) //LuckiestGuy-Regular

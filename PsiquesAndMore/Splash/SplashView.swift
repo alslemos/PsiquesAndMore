@@ -3,21 +3,25 @@ import SwiftUI
 struct SplashView: View {
     @State var isActive: Bool = false
     
+    var fundo = Color(red: 33/255, green: 60/255, blue: 85/255)
+    
     var body: some View {
         ZStack {
-            if self.isActive {
-                if isOnboardingSeen() {
-                    InitialScreenView()
+            fundo
+            
+            VStack {
+                if self.isActive {
+                    if isOnboardingSeen() {
+                        InitialScreenView()
+                    } else {
+                        InstructionsView1()
+                    }
                 } else {
-                    InstructionsView1()
+                    Image("splashIcon")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 300, height: 300)
                 }
-            } else {
-                Rectangle()
-                    .background(Color.black)
-                Image("splashIcon")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 300, height: 300)
             }
         }
         .onAppear {
@@ -27,6 +31,7 @@ struct SplashView: View {
                 }
             }
         }
+        .ignoresSafeArea()
     }
 }
 
