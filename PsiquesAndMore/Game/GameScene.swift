@@ -17,7 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var entidadeFrames: [SKTexture] = []
     var textureAtlasss = SKTextureAtlas(named: "entidadeAnimada")
     
-    var characterVelocity: CGFloat = 80
+    var characterVelocity: CGFloat = 0
     
     // Don't forget to cancel this afterwards
     var cancellables = Set<AnyCancellable>()
@@ -67,9 +67,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var isPlayerInvincible: Bool = false {
         didSet {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.isPlayerInvincible = false
-                print("DEBUG: \(self.isPlayerInvincible)")
+            if isPlayerInvincible {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.isPlayerInvincible = false
+                    print("DEBUG: invincible? : \(self.isPlayerInvincible)")
+                }
             }
         }
     }
@@ -79,7 +81,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // obstáculos
     
-    var spawnObstacleDelay: TimeInterval = 2
+    var spawnObstacleDelay: TimeInterval = 6
     
     // avalanche
     

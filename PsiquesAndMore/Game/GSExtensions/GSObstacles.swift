@@ -17,7 +17,7 @@ enum Obstacle: CaseIterable, Codable {
 extension GameScene {
     // MARK: - Obstacles Subscriptions
     func obstacleRemover() {
-        let publisher = Timer.publish(every: 0.001, on: .main, in: .common)
+        let publisher = Timer.publish(every: 0.01, on: .main, in: .common)
             .autoconnect()
         
         let subscription = publisher

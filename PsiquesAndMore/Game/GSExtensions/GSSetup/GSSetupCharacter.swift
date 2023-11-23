@@ -18,6 +18,8 @@ extension GameScene {
         pb.isDynamic = true
         pb.affectedByGravity = true
         
+        pb.friction = 0.5
+        
         pb.categoryBitMask = PhysicsCategory.characterNode
         pb.contactTestBitMask = PhysicsCategory.obstacleNode
         pb.collisionBitMask = PhysicsCategory.floorNode + PhysicsCategory.limitNode
@@ -99,9 +101,9 @@ extension GameScene {
             }
             .sink { count in
                 if !self.isPaused {
-                    self.characterVelocity += 5
+                    self.characterVelocity += 0
                     
-                    let applyImpulse = SKAction.applyImpulse(CGVector(dx: -(self.characterVelocity), dy: 0), duration: 1)
+                    let applyImpulse = SKAction.applyImpulse(CGVector(dx: (self.characterVelocity), dy: 0), duration: 1)
                     self.square.run(applyImpulse)
                 }
             }.store(in: &cancellables)

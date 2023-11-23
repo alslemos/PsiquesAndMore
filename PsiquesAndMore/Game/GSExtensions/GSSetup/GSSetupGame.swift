@@ -36,7 +36,7 @@ extension GameScene {
     func startGamePublisher() {
         print("starting game publisher")
 
-        startGameSubscription = Timer.publish(every: 0.001, on: .main, in: .common)
+        startGameSubscription = Timer.publish(every: 0.01, on: .main, in: .common)
             .autoconnect()
             .map { _ in
                 return self.startDate

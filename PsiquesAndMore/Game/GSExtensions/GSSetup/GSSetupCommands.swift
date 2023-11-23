@@ -124,8 +124,10 @@ extension GameScene {
                     rightButton?.sfSymbolsName = "arrow.up"
                     
                     if !self.isPlayerMoving {
-                        self.sendMovementData(.up) {
-                            self.moveSprite(.up)
+                        if self.isPlayerTouchingFloor {
+                            self.sendMovementData(.up) {
+                                self.moveSprite(.up)
+                            }
                         }
                     } else {
                         print("cannot move")

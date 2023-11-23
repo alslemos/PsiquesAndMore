@@ -12,7 +12,7 @@ extension GameScene {
     
     func setupAvalanche() {
         
-        let avalanche = SKSpriteNode(texture: SKTexture(imageNamed: "avalanche"))
+        let avalanche = SKSpriteNode(texture: Textures.avalancheTexture)
         
         avalanche.size = CGSize(width: 300, height: 260)
         avalanche.anchorPoint = CGPoint(x: 0, y: 0)

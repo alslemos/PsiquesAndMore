@@ -24,7 +24,7 @@ extension GameScene {
         
         rectangleHeigth = sin(rotationAngle) * (viewFrame.width)
 
-        rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "floor")!),
+        rectangle = SKSpriteNode(texture: SKTexture(imageNamed: "floor"),
                                  size: CGSize(width: rectangleWidth * 2, height: rectangleHeigth))
       
         rectangle.name = "floor"
@@ -37,6 +37,7 @@ extension GameScene {
         
         pb.isDynamic = false
         
+        pb.friction = 1
         pb.categoryBitMask = PhysicsCategory.floorNode
         pb.contactTestBitMask = PhysicsCategory.characterNode
         pb.collisionBitMask = 0
@@ -57,7 +58,7 @@ extension GameScene {
     
     // MARK: - Floor Subscription
     func createFloorPositionUpdater() {
-        let publisher = Timer.publish(every: 0.001, on: .main, in: .common)
+        let publisher = Timer.publish(every: 0.01, on: .main, in: .common)
             .autoconnect()
         let subscription = publisher
         
@@ -73,7 +74,7 @@ extension GameScene {
     }
     
     func createFloorVelocityUpdater() {
-        let publisher = Timer.publish(every: 0.001, on: .main, in: .common)
+        let publisher = Timer.publish(every: 0.01, on: .main, in: .common)
             .autoconnect()
         let subscription = publisher
         

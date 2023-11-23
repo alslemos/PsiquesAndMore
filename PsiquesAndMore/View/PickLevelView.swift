@@ -76,7 +76,7 @@ struct PickLevelView: View {
             if showGameScene {
                 let _ = Self._printChanges()
                 VStack {
-                    SpriteView(scene: $gameSceneBox.gameScene.wrappedValue, debugOptions: [.showsFPS, .showsPhysics, .showsQuadCount])
+                    SpriteView(scene: $gameSceneBox.gameScene.wrappedValue, debugOptions: [.showsFPS, .showsPhysics, .showsNodeCount, .showsDrawCount])
                         .id(refreshToggle)
                         .ignoresSafeArea()
                         .navigationBarBackButtonHidden(true)
@@ -174,6 +174,7 @@ struct PickLevelView: View {
             refreshToggle.toggle()
             
             showLoadingGameView = true
+            showPauseGameView = false
         }
         .onReceive(goToMenuPublisher) { _ in
             $gameSceneBox.gameScene.wrappedValue.virtualController?.disconnect()

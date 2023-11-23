@@ -20,7 +20,7 @@ extension GameScene {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
         // check for player touching obstacles
-        if !self.isPlayerInvincible {
+        if !isPlayerInvincible {
             if contactMask == PhysicsCategory.characterNode | PhysicsCategory.obstacleNode {
                 print("DEBUG: touched obstacle")
                 

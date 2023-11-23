@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct GameOverView: View {
+    
+    var fundo = Color(red: 33/255, green: 60/255, blue: 85/255)
+    var clique = Color(red: 253/255, green: 169/255, blue: 101/255)
+    var semclique = Color(red: 254/255, green: 211/255, blue: 166/255)
+    
     var body: some View {
         ZStack {
             Color(.black).opacity(0.7)
@@ -15,40 +20,39 @@ struct GameOverView: View {
             
             ZStack {
                 Rectangle()
-                    .frame(maxWidth: 400, maxHeight: 300)
-                    .foregroundColor(.white)
+                    .foregroundColor(fundo)
                 
-                VStack(spacing: 64) {
+                VStack(spacing: 24) {
                     Text("GAME OVER")
-                        .font(.largeTitle)
-                        .foregroundStyle(.black)
+                        .font(.custom("LuckiestGuy-Regular", size: 36))
+                        .foregroundColor(semclique)
                     
-                    HStack {
+                    VStack {
                         
                         Button {
                             NotificationCenter.default.post(name: .playAgainGameNotificationName, object: nil)
                             print("DEBUG: play again")
                         } label: {
                             Text("TRY AGAIN")
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(.black)
-                                .cornerRadius(8)
+                                .font(.custom("LuckiestGuy-Regular", size: 24))
+                                .foregroundColor(clique)
+                                .padding(4)
                         }
                         
                         Button {
                             NotificationCenter.default.post(name: .goToMenuGameNotificationName, object: nil)
                         } label: {
-                            Text("MENU")
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(.black)
-                                .cornerRadius(8)
+                            Text("GO TO MENU")
+                                .font(.custom("LuckiestGuy-Regular", size: 24))
+                                .foregroundColor(clique)
+                                .padding(4)
                         }
                     }
                 }
             }
-            .cornerRadius(4)        }
+            .frame(maxWidth: 360, maxHeight: 245)
+            .cornerRadius(8)
+        }
     }
 }
 

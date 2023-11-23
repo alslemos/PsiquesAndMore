@@ -13,9 +13,9 @@ extension GameScene {
         if !self.isPaused {
             switch movement {
                 case .up:
-                    self.isPlayerMoving = true
-                    
-                    self.square.physicsBody?.applyImpulse(CGVector(dx: 50, dy: 50))
+                        self.isPlayerMoving = true
+                        
+                        self.square.physicsBody?.applyImpulse(CGVector(dx: 100, dy: 90))
                 case .down:
                     updateAssetSeAbaixando()
                     
@@ -25,14 +25,14 @@ extension GameScene {
                 case .right:
                     self.isPlayerMoving = true
                     
-                    self.square.physicsBody?.applyImpulse(CGVector(dx: 70, dy: 0))
+                    self.square.physicsBody?.applyImpulse(CGVector(dx: 100, dy: 0))
                 case .left:
                     self.isPlayerMoving = true
                     
-                    self.square.physicsBody?.applyImpulse(CGVector(dx: -50, dy: 0))
+                    self.square.physicsBody?.applyImpulse(CGVector(dx: -80, dy: 0))
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                 self.isPlayerMoving = false
                 
                 self.normalSpriteBody()

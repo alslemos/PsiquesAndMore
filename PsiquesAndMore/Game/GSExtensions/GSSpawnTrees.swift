@@ -10,7 +10,7 @@ import SpriteKit
 
 extension GameScene {
     func setUpTree(_ completion: @escaping (SKSpriteNode) -> ()) {
-        let tree = SKSpriteNode(texture: SKTexture(imageNamed: "fullTree"), size: CGSize(width: 80, height: 80))
+        let tree = SKSpriteNode(texture: Textures.treeTexture, size: CGSize(width: 80, height: 80))
         tree.anchorPoint = CGPoint(x: 0, y: 0)
         tree.position = CGPoint(x: viewFrame.maxX, y: -100)
         tree.zPosition = 1
