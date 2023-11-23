@@ -16,14 +16,13 @@ struct PauseGameView: View {
     var body: some View {
         ZStack {
             Color(.black).opacity(0.7)
-                .ignoresSafeArea()
             
             ZStack {
                 Rectangle()
                     .foregroundColor(fundo)
                 
                 VStack(spacing: 24) {
-                    Text("GAME PAUSED")
+                    Text("PAUSED GAME")
                         .font(.custom("LuckiestGuy-Regular", size: 36))
                         .foregroundColor(semclique)
                     
@@ -62,6 +61,7 @@ struct PauseGameView: View {
             .frame(maxWidth: 360, maxHeight: 245)
             .cornerRadius(8)
         }
+        .ignoresSafeArea()
     }
 }
 

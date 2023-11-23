@@ -28,7 +28,6 @@ struct CreditsView: View {
                     .padding(.all)
                     .padding(.bottom)
                 
-                
                 Text("Alexandre Lemos")
                     .font(.custom("LuckiestGuy-Regular", size: 16)) //LuckiestGuy-Regular
                     .foregroundColor(semclique)

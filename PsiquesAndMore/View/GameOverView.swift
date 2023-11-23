@@ -15,8 +15,7 @@ struct GameOverView: View {
     
     var body: some View {
         ZStack {
-            Color(.black).opacity(0.7)
-                .ignoresSafeArea()
+            semclique
             
             ZStack {
                 Rectangle()
@@ -42,7 +41,7 @@ struct GameOverView: View {
                         Button {
                             NotificationCenter.default.post(name: .goToMenuGameNotificationName, object: nil)
                         } label: {
-                            Text("GO TO MENU")
+                            Text("PICK ANOTHER GAME")
                                 .font(.custom("LuckiestGuy-Regular", size: 24))
                                 .foregroundColor(clique)
                                 .padding(4)
@@ -53,6 +52,7 @@ struct GameOverView: View {
             .frame(maxWidth: 360, maxHeight: 245)
             .cornerRadius(8)
         }
+        .ignoresSafeArea()
     }
 }
 
