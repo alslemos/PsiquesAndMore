@@ -63,16 +63,6 @@ extension GameScene {
         }
     }
     
-    func sendRocksMovements() {
-        print("sending rocks movements data")
-        do {
-            guard let data = try? JSONEncoder().encode(rocksMovements) else { return }
-            try self.match?.sendData(toAllPlayers: data, with: .reliable)
-        } catch {
-            print("send rocks movements data failed")
-        }
-    }
-    
     func sendObstaclesOrder() {
         print("sending obstacles order data")
         do {

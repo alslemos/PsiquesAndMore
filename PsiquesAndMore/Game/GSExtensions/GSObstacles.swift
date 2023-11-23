@@ -16,7 +16,7 @@ enum Obstacle: CaseIterable, Codable {
 
 extension GameScene {
     // MARK: - Obstacles Subscriptions
-    func obstacleRemover() {
+    func obstaclePositionUpdater() {
         let publisher = Timer.publish(every: 0.001, on: .main, in: .common)
             .autoconnect()
         
@@ -24,11 +24,11 @@ extension GameScene {
         
         subscription
             .sink { _ in
-                self.removeObstacles()
+                self.repositionObstacles()
             }.store(in: &cancellables)
     }
     
-    func obstacleSpawner() {
+    func obstaclePusher() {
         var lastObstacle: Int = 0
         
         spawnObstaclesSubscription = Timer.publish(every: self.spawnObstacleDelay, on: .main, in: .common)
@@ -54,21 +54,11 @@ extension GameScene {
                             
                             let enemyMovement = self.enemiesMovements[self.currentEnemyMovement % self.enemiesMovements.count]
                             
-                            self.setupObstacle(for: .enemy) { enemy in
-                                self.moveObstacle(for: .enemy, with: enemy, enemyMovement: enemyMovement)
-                            }
+                            self.moveObstacle(for: .enemy, enemyMovement: enemyMovement)
                         case .rock:
-                            self.currentRockMovement += 1
-                            
-                            let rockMovement = self.rocksMovements[self.currentRockMovement % self.rocksMovements.count]
-                            
-                            self.setupObstacle(for: .rock) { rock in
-                                self.moveObstacle(for: .rock, with: rock, rockMovement: rockMovement)
-                            }
+                            self.moveObstacle(for: .rock)
                         case .tree:
-                            self.setupObstacle(for: .tree) { tree in
-                                self.moveObstacle(for: .tree, with: tree)
-                            }
+                            self.moveObstacle(for: .tree)
                     }
                 }
             }
@@ -94,7 +84,7 @@ extension GameScene {
     func removeObstacleSpawner() {
         if self.spawnObstacleDelay > 0 {
             spawnObstaclesSubscription = nil
-            obstacleSpawner()
+            obstaclePusher()
         }
     }
     
@@ -113,14 +103,6 @@ extension GameScene {
             
             enemiesMovements.append(randomEnemyMovement)
             
-            // Creating rocks array
-            let offsetX = Double.random(in: 5.0...20.0)
-            let rockTime = Double.random(in: 0.5...1.0)
-            
-            let randomRockMovement = RockMovement(offsetX: offsetX, time: rockTime)
-            
-            rocksMovements.append(randomRockMovement)
-            
             // Creating obstacles array
             let obstacleCases: [Obstacle] = Obstacle.allCases
             let randomObstacle = obstacleCases.randomElement()
@@ -131,59 +113,35 @@ extension GameScene {
         }
     }
     
-    func setupObstacle(for obstacle: Obstacle,_ completion: @escaping (SKSpriteNode) -> ()) {
-        switch obstacle {
-            case .enemy:
-                setupEnemy { enemy in
-                    completion(enemy)
-                }
-            case .rock:
-                setupRock { rock in
-                    completion(rock)
-                }
-            case .tree:
-                setUpTree { tree in
-                    completion(tree)
-                }
+    func repositionObstacles() {
+        if enemy.position.x <= -50 {
+            enemy.position = CGPoint(x: viewFrame.maxX, y: -10)
+            enemy.removeAllActions()
+        }
+        
+        if rock.position.x >= viewFrame.width {
+            rock.position = CGPoint(x: 0, y: ((viewFrame.maxY)))
+            rock.physicsBody?.affectedByGravity = false
+            rock.physicsBody?.isDynamic = false
+        }
+        
+        if tree.position.x <= 0 {
+            tree.position = CGPoint(x: viewFrame.maxX, y: tree.size.height - 8)
+            tree.removeAllActions()
         }
     }
     
-    func removeObstacles() {
-        if obstacles.count > 0 {
-            if obstacles[0].name == "enemy" {
-                if obstacles[0].position.x <= -50 {
-                    print("removing enemy")
-                    obstacles[0].removeFromParent()
-                    obstacles.remove(at: 0)
-                }
-            } else if obstacles[0].name == "rock" {
-                if obstacles[0].position.x >= viewFrame.width {
-                    print("removing rock")
-                    obstacles[0].removeFromParent()
-                    obstacles.remove(at: 0)
-                }
-            } else if obstacles[0].name == "tree" {
-                if obstacles[0].position.x <= 0 {
-                    print("removing tree")
-                    obstacles[0].removeFromParent()
-                    obstacles.remove(at: 0)
-                }
-            }
-        }
-    }
-    
-    func moveObstacle(for obstacle: Obstacle, with node: SKSpriteNode, enemyMovement: EnemyMovement? = nil, rockMovement: RockMovement? = nil) {
+    func moveObstacle(for obstacle: Obstacle, enemyMovement: EnemyMovement? = nil) {
         switch obstacle {
             case .enemy:
                 guard let enemyMovement = enemyMovement else { return }
                 
-                moveEnemy(enemy: node, enemyMovement: enemyMovement)
+                moveEnemy(enemyMovement: enemyMovement)
             case .rock:
-                guard let rockMovement = rockMovement else { return }
                 
-                moveRock(rock: node, rockMovement: rockMovement)
+                moveRock()
             case .tree:
-                moveTree(tree: node)
+                moveTree()
         }
     }
 }

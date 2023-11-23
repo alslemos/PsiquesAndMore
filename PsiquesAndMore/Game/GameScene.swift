@@ -64,15 +64,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.updateLifeNodes()
         }
     }
+    
     // n∘ de vidas do personagem
     var lifeNodes = [SKSpriteNode]() // nodos das vidas do personagem
     
     // obstáculos
+    let enemy = SKSpriteNode(texture: SKTexture(imageNamed: "bird"), size: CGSize(width: 30, height: 30))
+    let rock = SKSpriteNode(color: .gray, size: CGSize(width: 40, height: 30))
+    let tree = SKSpriteNode(texture: SKTexture(imageNamed: "trunk"), size: CGSize(width: 25, height: 50))
     
     var spawnObstacleDelay: TimeInterval = 2
+    var enemiesMovements: [EnemyMovement] = []
+    var obstaclesOrder: [Obstacle] = []
+    var currentEnemyMovement: Int = 0
+    var currentObstacle: Int = 0
+    
+    var spawnObstaclesSubscription: AnyCancellable?
     
     // avalanche
-    
     var avalanche = SKSpriteNode()
     
     // logica do jogo
@@ -85,12 +94,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var players: [Player] = []
     
-    var enemiesMovements: [EnemyMovement] = []
-    var rocksMovements: [RockMovement] = []
-    
-    var obstacles: [SKSpriteNode] = []
-    var obstaclesOrder: [Obstacle] = []
-    
     var startDate: Int = 0
     
     var didGameStart: Bool! {
@@ -100,12 +103,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     var startGameSubscription: AnyCancellable?
-    
-    var spawnObstaclesSubscription: AnyCancellable?
-    
-    var currentEnemyMovement: Int = 0
-    var currentRockMovement: Int = 0
-    var currentObstacle: Int = 0
     
     var isHost: Bool = false
     

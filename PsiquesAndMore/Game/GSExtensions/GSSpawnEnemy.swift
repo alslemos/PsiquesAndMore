@@ -9,8 +9,7 @@ import Foundation
 import SpriteKit
 
 extension GameScene {
-    func setupEnemy(_ completion: @escaping (SKSpriteNode) -> ()) {
-        let enemy = SKSpriteNode(texture: SKTexture(imageNamed: "bird"), size: CGSize(width: 50, height: 50))
+    func setupEnemy() {
         enemy.anchorPoint = CGPoint(x: 0, y: 0)
         enemy.position = CGPoint(x: viewFrame.maxX, y: -10)
         enemy.zPosition = 1
@@ -30,12 +29,9 @@ extension GameScene {
         enemy.physicsBody = physicsBodyEnemy
         
         self.addChild(enemy)
-        self.obstacles.append(enemy)
-        
-        completion(enemy)
     }
     
-    func moveEnemy(enemy: SKSpriteNode, enemyMovement: EnemyMovement) {
+    func moveEnemy(enemyMovement: EnemyMovement) {
         let yPosition = enemyMovement.yPosition
         
         var offsetY: CGFloat = 0
@@ -44,20 +40,20 @@ extension GameScene {
             case .low:
                offsetY = 0
             case .medium:
-                offsetY = (square.frame.height / 2) / cos(rotationAngle)
+                offsetY = 30 / cos(rotationAngle)
             case .high:
-                offsetY = square.frame.height / cos(rotationAngle)
+                offsetY = 60 / cos(rotationAngle)
         }
         
-        enemy.position = CGPoint(x: enemy.position.x, y: enemy.position.y + offsetY)
+        self.enemy.position = CGPoint(x: enemy.position.x, y: enemy.position.y + offsetY)
         
         let moveAction = SKAction.move(to: CGPoint(
             x: -100,
-            y: (verticalThresholdPoint + offsetY + (90 * tan(rotationAngle)))),
+            y: (verticalThresholdPoint + offsetY - 10 + (100 * tan(rotationAngle)))),
             duration: enemyMovement.time
         )
         
-        enemy.run(moveAction)
+        self.enemy.run(moveAction)
     }
 }
 

@@ -9,15 +9,22 @@ import Foundation
 import SpriteKit
 
 extension GameScene {
-    func setUpTree(_ completion: @escaping (SKSpriteNode) -> ()) {
-        let tree = SKSpriteNode(texture: SKTexture(imageNamed: "fullTree"), size: CGSize(width: 80, height: 80))
-        tree.anchorPoint = CGPoint(x: 0, y: 0)
-        tree.position = CGPoint(x: viewFrame.maxX, y: -100)
-        tree.zPosition = 1
+    func setupTree() {
+        tree.anchorPoint = CGPoint(x: 0, y: 1)
+        tree.position = CGPoint(x: viewFrame.maxX, y: tree.size.height - 8)
+        tree.zPosition = 2
         tree.zRotation = -(rotationAngle)
         tree.name = "tree"
         
-        let physicsBodyTree = SKPhysicsBody(rectangleOf: tree.size, center: CGPoint(x: tree.size.width / 2, y: tree.size.height / 2))
+        let branchWidth = tree.size.width * 3.4
+        let branchHeigth = branchWidth * 1.5
+        
+        let branch = SKSpriteNode(texture: SKTexture(imageNamed: "branch"), size: CGSize(width: branchWidth, height: branchHeigth))
+        branch.anchorPoint = CGPoint(x: 0, y: 0.97)
+        
+        tree.addChild(branch)
+        
+        let physicsBodyTree = SKPhysicsBody(rectangleOf: CGSize(width: tree.size.width, height: tree.size.height / 2), center: CGPoint(x: tree.size.width / 2, y: -(tree.size.width / 4)))
         
         physicsBodyTree.affectedByGravity = false
         physicsBodyTree.allowsRotation = false
@@ -30,17 +37,14 @@ extension GameScene {
         tree.physicsBody = physicsBodyTree
         
         self.addChild(tree)
-        self.obstacles.append(tree)
-        
-        completion(tree)
     }
     
-    func moveTree(tree: SKSpriteNode) {
+    func moveTree() {
         let deltaX = 30.0
         let deltaY = deltaX * Double(tan(.pi - rotationAngle))
         
         let moveAction = SKAction.move(by: CGVector(dx: -(deltaX * backgroundSpeed), dy: -(deltaY * backgroundSpeed)), duration: 1)
         
-        tree.run(SKAction.repeatForever(moveAction))
+        self.tree.run(SKAction.repeatForever(moveAction))
     }
 }

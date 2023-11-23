@@ -8,9 +8,8 @@
 import Foundation
 import SpriteKit
 
-extension GameScene {    
-    func setupRock(_ completion: @escaping (SKSpriteNode) -> Void) {
-        let rock = SKSpriteNode(color: .gray, size: CGSize(width: 40, height: 30))
+extension GameScene {
+    func setupRock() {
         rock.texture = SKTexture(imageNamed: "rock")
         rock.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         rock.position = CGPoint(x: 0, y: ((viewFrame.maxY)))
@@ -18,9 +17,9 @@ extension GameScene {
         
         let physicsBodyRock = SKPhysicsBody(texture: rock.texture!, size: rock.size)
         
-        physicsBodyRock.affectedByGravity = true
+        physicsBodyRock.affectedByGravity = false
         physicsBodyRock.allowsRotation = true
-        physicsBodyRock.isDynamic = true
+        physicsBodyRock.isDynamic = false
         
         physicsBodyRock.categoryBitMask = PhysicsCategory.obstacleNode
         physicsBodyRock.contactTestBitMask = PhysicsCategory.characterNode
@@ -29,19 +28,10 @@ extension GameScene {
         rock.physicsBody = physicsBodyRock
         
         self.addChild(rock)
-        self.obstacles.append(rock)
-        
-        completion(rock)
     }
     
-    func moveRock(rock: SKSpriteNode, rockMovement: RockMovement) {
-        let applyImpulse = SKAction.applyImpulse(CGVector(dx: rockMovement.offsetX, dy: 0), duration: rockMovement.time)
-        
-        rock.run(applyImpulse)
+    func moveRock() {
+        self.rock.physicsBody?.affectedByGravity = true
+        self.rock.physicsBody?.isDynamic = true
     }
-}
-
-struct RockMovement: Codable {
-    var offsetX: Double
-    var time: Double
 }

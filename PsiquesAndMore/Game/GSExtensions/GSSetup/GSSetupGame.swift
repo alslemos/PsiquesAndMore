@@ -19,6 +19,9 @@ extension GameScene {
         self.setupAvalanche()
         self.setupTimer()
         self.setupLifeNodes()
+        self.setupEnemy()
+        self.setupRock()
+        self.setupTree()
         
         if isHost {
             print("creating obstacles array")

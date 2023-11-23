@@ -40,9 +40,6 @@ extension GameScene {
             print("sending obstacles movements")
             self.sendEnemiesMovements()
             
-            print("sending rocks movements")
-            self.sendRocksMovements()
-            
             print("sending obstacles order")
             self.sendObstaclesOrder()
             
