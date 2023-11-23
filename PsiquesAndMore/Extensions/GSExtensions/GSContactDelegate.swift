@@ -12,7 +12,8 @@ struct PhysicsCategory {
     static let characterNode: UInt32 = 0x1 << 0
     static let floorNode: UInt32 = 0x1 << 1
     static let obstacleNode: UInt32 = 0x1 << 2
-    static let limitNode: UInt32 = 0x1 << 3
+    static let avalancheNode: UInt32 = 0x1 << 3
+    static let limitNode: UInt32 = 0x1 << 4
 }
 
 extension GameScene {
@@ -20,10 +21,20 @@ extension GameScene {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
         // check for player touching obstacles
-        if contactMask == PhysicsCategory.characterNode | PhysicsCategory.obstacleNode {
+        if !isPlayerInvincible {
+            if contactMask == PhysicsCategory.characterNode | PhysicsCategory.obstacleNode {
+                print("DEBUG: touched obstacle")
+                
+                self.lifes -= 1
+                self.isPlayerInvincible = true
+            }
+        }
+        
+        // check for player touching avalanche
+        if contactMask == PhysicsCategory.characterNode | PhysicsCategory.avalancheNode {
             print("DEBUG: touched obstacle")
             
-            self.lifes -= 1
+            self.lifes = 0
         }
         
         // check for player touching ground

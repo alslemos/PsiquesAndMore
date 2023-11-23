@@ -8,8 +8,6 @@
 import Foundation
 import GameController
 
-
-
 class GameViewController: UIViewController {
     // Virtual Onscreen Controller
     private var _virtualController: Any?
@@ -123,7 +121,7 @@ extension GameScene {
                     print("Clicked up") //arrow.up
                     rightButton?.sfSymbolsName = "arrow.up"
                     
-                    if !self.isPlayerMoving {
+                    if !self.isPlayerMoving && self.isPlayerTouchingFloor {
                         self.sendMovementData(.up) {
                             self.moveSprite(.up)
                         }
@@ -153,42 +151,53 @@ extension GameScene {
 }
 
 func createHeartBezierPath1() -> UIBezierPath {
-    let heartPath = UIBezierPath()
+    let path = UIBezierPath()
     
-    // Define the main heart shape
-    heartPath.move(to: CGPoint(x: -10, y: -20))
-    heartPath.addCurve(to: CGPoint(x: -75, y: -75),
-                       controlPoint1: CGPoint(x: 150, y: 110),
-                       controlPoint2: CGPoint(x: 125, y: 75))
-    heartPath.addCurve(to: CGPoint(x: 0, y: 140),
-                       controlPoint1: CGPoint(x: 25, y: 75),
-                       controlPoint2: CGPoint(x: 0, y: 110))
-    heartPath.addLine(to: CGPoint(x: 150, y: 260))
-    heartPath.addLine(to: CGPoint(x: 300, y: 140))
-    heartPath.addLine(to: CGPoint(x: 150, y: 20))
-    heartPath.close()
+    path.move(to: CGPoint(x: 0, y: 0))
+    path.addLine(to: CGPoint(x: -0.7, y:0))
+    path.addLine(to: CGPoint(x: -0.3, y:0.09))
+    path.addLine(to: CGPoint(x: -0.3, y:0.04))
+    // meio
+    path.addLine(to: CGPoint(x: 0.3, y:0.04))
+    path.addLine(to: CGPoint(x: 0.3, y:0.09))
+    path.addLine(to: CGPoint(x: 0.7, y:0))
+    // agora voltando
+    path.addLine(to: CGPoint(x: 0.3, y: -0.09))
+    path.addLine(to: CGPoint(x: 0.3, y: -0.04))
     
-    return heartPath
+    path.addLine(to: CGPoint(x: -0.3, y: -0.04))
+    path.addLine(to: CGPoint(x: -0.3, y: -0.09))
+    
+    path.addLine(to: CGPoint(x: -0.7, y: 0))
+    
+    
+    path.close()
+    
+    return path
 }
 
 func createHeartBezierPath2() -> UIBezierPath {
-    let heartPath = UIBezierPath()
+    let path = UIBezierPath()
     
-    // Define the main heart shape
-    heartPath.move(to: CGPoint(x: 100, y: 40))
-    heartPath.addCurve(to: CGPoint(x: 75, y: 75),
-                       controlPoint1: CGPoint(x: 150, y: 110),
-                       controlPoint2: CGPoint(x: 125, y: 75))
-    heartPath.addCurve(to: CGPoint(x: 0, y: 140),
-                       controlPoint1: CGPoint(x: 25, y: 75),
-                       controlPoint2: CGPoint(x: 0, y: 110))
-    heartPath.addLine(to: CGPoint(x: 150, y: 260))
-    heartPath.addLine(to: CGPoint(x: 300, y: 140))
-    heartPath.addLine(to: CGPoint(x: 150, y: 20))
-    heartPath.close()
+    path.move(to: CGPoint(x: 0, y: 0))
+    path.addLine(to: CGPoint(x: 0, y:0.02))
+    path.addLine(to: CGPoint(x: 0.01, y:0.01))
+    path.addLine(to: CGPoint(x: 0.005, y:0.01))
+    /// MEIO
+    path.addLine(to: CGPoint(x: 0.005, y: -0.01))
+    //
+    path.addLine(to: CGPoint(x: 0.01, y: -0.01))
+    path.addLine(to: CGPoint(x: 0, y: -0.02))
+    // voltando
+    path.addLine(to: CGPoint(x: -0.01, y: -0.01))
+    path.addLine(to: CGPoint(x: -0.005, y: -0.01))
     
-    return heartPath
+    path.addLine(to: CGPoint(x: -0.005, y: 0.01))
+    path.addLine(to: CGPoint(x: -0.01, y: 0.01))
+    path.addLine(to: CGPoint(x: 0, y: 0.02))
     
+    path.close()
+    return path
 }
 
-  
+

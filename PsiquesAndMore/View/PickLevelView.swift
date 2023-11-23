@@ -138,6 +138,10 @@ struct PickLevelView: View {
             showLoadingGameView = true
         }
         .onReceive(gameOverPublisher) { _ in
+            $gameSceneBox.gameScene.wrappedValue.virtualController?.disconnect()
+            
+            $gameSceneBox.gameScene.wrappedValue.enviarResultados()
+            
             showGameOverView = true
             $gameSceneBox.gameScene.wrappedValue.isPaused = true
         }
@@ -173,10 +177,10 @@ struct PickLevelView: View {
             refreshToggle.toggle()
             
             showLoadingGameView = true
+            
+            showPauseGameView = false
         }
         .onReceive(goToMenuPublisher) { _ in
-            $gameSceneBox.gameScene.wrappedValue.virtualController?.disconnect()
-            
             if !$gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven {
                 $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.goToMenu) {
                     $gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven = true

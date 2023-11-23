@@ -1,10 +1,3 @@
-//
-//  GSMovements.swift
-//  PsiquesAndMore
-//
-//  Created by Arthur Sobrosa on 09/11/23.
-//
-
 import Foundation
 import SpriteKit
 
@@ -15,7 +8,7 @@ extension GameScene {
                 case .up:
                     self.isPlayerMoving = true
                     
-                    self.square.physicsBody?.applyImpulse(CGVector(dx: 50, dy: 50))
+                    self.square.physicsBody?.applyImpulse(CGVector(dx: 100, dy: 90))
                 case .down:
                     updateAssetSeAbaixando()
                     
@@ -25,14 +18,14 @@ extension GameScene {
                 case .right:
                     self.isPlayerMoving = true
                     
-                    self.square.physicsBody?.applyImpulse(CGVector(dx: 70, dy: 0))
+                    self.square.physicsBody?.applyImpulse(CGVector(dx: 100, dy: 0))
                 case .left:
                     self.isPlayerMoving = true
                     
-                    self.square.physicsBody?.applyImpulse(CGVector(dx: -50, dy: 0))
+                    self.square.physicsBody?.applyImpulse(CGVector(dx: -80, dy: 0))
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                 self.isPlayerMoving = false
                 
                 self.normalSpriteBody()
@@ -50,7 +43,7 @@ extension GameScene {
         pb.allowsRotation = false
         pb.isDynamic = true
         pb.affectedByGravity = true
-
+        
         pb.categoryBitMask = PhysicsCategory.characterNode
         pb.contactTestBitMask = PhysicsCategory.obstacleNode
         pb.collisionBitMask = PhysicsCategory.floorNode + PhysicsCategory.limitNode
@@ -66,7 +59,7 @@ extension GameScene {
         pb.allowsRotation = false
         pb.isDynamic = true
         pb.affectedByGravity = true
-
+        
         pb.categoryBitMask = PhysicsCategory.characterNode
         pb.contactTestBitMask = PhysicsCategory.obstacleNode
         pb.collisionBitMask = PhysicsCategory.floorNode + PhysicsCategory.limitNode

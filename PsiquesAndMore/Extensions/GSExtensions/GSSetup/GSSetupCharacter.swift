@@ -19,7 +19,7 @@ extension GameScene {
         pb.affectedByGravity = true
         
         pb.categoryBitMask = PhysicsCategory.characterNode
-        pb.contactTestBitMask = PhysicsCategory.obstacleNode
+        pb.contactTestBitMask = PhysicsCategory.obstacleNode + PhysicsCategory.avalancheNode
         pb.collisionBitMask = PhysicsCategory.floorNode + PhysicsCategory.limitNode
         
         square.anchorPoint = CGPoint(x: 0, y: 0)

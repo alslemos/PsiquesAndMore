@@ -37,6 +37,8 @@ extension GameScene {
                 self.timerLabel.text = "\(count)"
                 print("counter: \(count)")
                 
+                self.timeCounter = count
+                
                 if !self.isPaused {
                     if count >= self.gameDuration {
                         print("time's up")

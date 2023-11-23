@@ -24,7 +24,7 @@ extension GameScene {
         
         rectangleHeigth = sin(rotationAngle) * (viewFrame.width)
 
-        rectangle = SKSpriteNode(texture: SKTexture(image: UIImage(named: "floor")!),
+        rectangle = SKSpriteNode(texture: Textures.floorTexture,
                                  size: CGSize(width: rectangleWidth * 2, height: rectangleHeigth))
       
         rectangle.name = "floor"

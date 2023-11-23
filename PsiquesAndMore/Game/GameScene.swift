@@ -8,7 +8,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var viewFrame: CGRect = CGRect()
     
     var rectangle = SKSpriteNode()
-
+    
     var square = SKSpriteNode(texture: SKTexture(imageNamed: "animada0"), size: CGSize(width: 60, height: 60))
     
     var entidadeFramesAbaixando: [SKTexture] = []
@@ -36,7 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    var gameDuration: Int = 5
+    var gameDuration: Int = 60
     
     var virtualController: GCVirtualController?
     
@@ -65,13 +65,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    var isPlayerInvincible: Bool = false {
+        didSet {
+            if isPlayerInvincible {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.isPlayerInvincible = false
+                    print("DEBUG: invincible? : \(self.isPlayerInvincible)")
+                }
+            }
+        }
+    }
+    
     // n∘ de vidas do personagem
     var lifeNodes = [SKSpriteNode]() // nodos das vidas do personagem
     
     // obstáculos
-    let enemy = SKSpriteNode(texture: SKTexture(imageNamed: "bird"), size: CGSize(width: 30, height: 30))
-    let rock = SKSpriteNode(color: .gray, size: CGSize(width: 40, height: 30))
-    let tree = SKSpriteNode(texture: SKTexture(imageNamed: "trunk"), size: CGSize(width: 25, height: 50))
+    let enemy = SKSpriteNode(texture: Textures.birdTexture, size: CGSize(width: 30, height: 30))
+    let rock = SKSpriteNode(texture: Textures.rockTexture, size: CGSize(width: 40, height: 30))
+    let tree = SKSpriteNode(texture: Textures.trunkTexture, size: CGSize(width: 25, height: 50))
     
     var spawnObstacleDelay: TimeInterval = 2
     var enemiesMovements: [EnemyMovement] = []
@@ -106,6 +117,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var isHost: Bool = false
     
+    var timeCounter: Int = 0
+    
     override func didMove(to view: SKView) {
         match?.delegate = self
         physicsWorld.contactDelegate = self
@@ -126,5 +139,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         spawnObstaclesSubscription?.cancel()
         
         virtualController?.disconnect()
+        
+        enviarResultados()
+    }
+    
+    func enviarResultados() {
+        let score = calculaPontuacao()
+        
+        submitScore(score)
+                
+        var achievements: [GKAchievement] = []
+        achievements.append(AchievementsHelper.firstWinAchievement(didWin: true))
+        GameKitHelper.shared.reportAchievements(achievements: achievements)
+    }
+    
+    func calculaPontuacao() -> Int {
+        var resultado = Int((self.timeCounter * 100) / 60)
+        resultado += (self.lifes * 10)
+        
+        return resultado
     }
 }

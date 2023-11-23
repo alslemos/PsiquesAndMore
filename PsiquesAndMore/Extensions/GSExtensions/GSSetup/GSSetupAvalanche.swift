@@ -12,7 +12,7 @@ extension GameScene {
     
     func setupAvalanche() {
         
-        let avalanche = SKSpriteNode(texture: SKTexture(imageNamed: "avalanche"))
+        let avalanche = SKSpriteNode(texture: Textures.avalancheTexture)
         
         avalanche.size = CGSize(width: 300, height: 260)
         avalanche.anchorPoint = CGPoint(x: 0, y: 0)
@@ -34,7 +34,7 @@ extension GameScene {
         physicsBodyAvalanche.allowsRotation = false
         physicsBodyAvalanche.isDynamic = false
         
-        physicsBodyAvalanche.categoryBitMask = PhysicsCategory.obstacleNode
+        physicsBodyAvalanche.categoryBitMask = PhysicsCategory.avalancheNode
         physicsBodyAvalanche.contactTestBitMask = PhysicsCategory.characterNode
         physicsBodyAvalanche.collisionBitMask = 16
         

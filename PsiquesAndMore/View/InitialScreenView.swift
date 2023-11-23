@@ -22,7 +22,7 @@ struct InitialScreenView: View {
                     PickLevelView(matchManager: _matchManager)
                 } else {
                     ZStack(alignment: .center) {
-                        Color(red: 33 / 255, green: 60 / 255, blue: 85 / 255)
+                        fundo
                         
                         VStack(spacing: 10) {
                            

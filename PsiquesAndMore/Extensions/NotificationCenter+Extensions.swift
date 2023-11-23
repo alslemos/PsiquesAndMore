@@ -17,4 +17,8 @@ extension NSNotification.Name {
     static var lobbyCreationNotificationName: NSNotification.Name = NSNotification.Name("LobbyCreation")
     static var loadingGameNotificationName: NSNotification.Name = NSNotification.Name("LoadingGame")
     static var backToInitialScreenNotificationName: NSNotification.Name = NSNotification.Name("BackToInitial")
+    
+    //Notifies authentication
+    static let presentAuthenticationViewController =
+    Notification.Name("presentAuthenticationViewController")
 }
