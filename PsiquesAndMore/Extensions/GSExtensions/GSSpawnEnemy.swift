@@ -12,7 +12,7 @@ extension GameScene {
     func setupEnemy() {
         enemy.anchorPoint = CGPoint(x: 0, y: 0)
         enemy.position = CGPoint(x: viewFrame.maxX, y: 0)
-        enemy.zPosition = 1
+        enemy.zPosition = Layers.entity
         enemy.zRotation = -(rotationAngle)
         enemy.name = "enemy"
         

@@ -16,7 +16,7 @@ extension GameScene {
         timerLabel.fontColor = .white
         timerLabel.numberOfLines = 1
         timerLabel.fontSize = 20
-        timerLabel.zPosition = 1
+        timerLabel.zPosition = Layers.UIElement
         addChild(timerLabel)
     }
     

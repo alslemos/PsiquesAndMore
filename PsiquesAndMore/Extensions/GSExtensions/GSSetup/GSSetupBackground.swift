@@ -10,7 +10,7 @@ import SpriteKit
 
 extension GameScene {
     func setupBackground(){
-        backgroundImage.zPosition = 0
+        backgroundImage.zPosition = Layers.background
         backgroundImage.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
 
         addChild(backgroundImage)

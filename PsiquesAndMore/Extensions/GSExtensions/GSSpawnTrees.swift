@@ -12,7 +12,7 @@ extension GameScene {
     func setupTree() {
         tree.anchorPoint = CGPoint(x: 0, y: 1)
         tree.position = CGPoint(x: viewFrame.maxX, y: tree.size.height - 8)
-        tree.zPosition = 2
+        tree.zPosition = Layers.entity
         tree.zRotation = -(rotationAngle)
         tree.name = "tree"
         

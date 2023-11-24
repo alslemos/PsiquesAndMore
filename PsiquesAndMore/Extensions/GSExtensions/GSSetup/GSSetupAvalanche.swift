@@ -17,7 +17,7 @@ extension GameScene {
         avalanche.position = CGPoint(
             x: viewFrame.minX - 40,
             y: viewFrame.midY)
-        avalanche.zPosition = 10
+        avalanche.zPosition = Layers.avalanche
         avalanche.zRotation = -(rotationAngle)
         avalanche.name = "avalanche"
         

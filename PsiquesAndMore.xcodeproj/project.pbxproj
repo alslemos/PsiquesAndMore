@@ -11,6 +11,7 @@
 		1C452ED72AF2BB07001F696B /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C452ED62AF2BB07001F696B /* GameOverView.swift */; };
 		1C452ED92AF2C3BD001F696B /* GSSetupPauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C452ED82AF2C3BD001F696B /* GSSetupPauseButton.swift */; };
 		1C6B5C062AFAA3AA00F66A5E /* GSSpawnEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6B5C052AFAA3AA00F66A5E /* GSSpawnEnemy.swift */; };
+		1C93C7D52B111FE400D829B2 /* Layers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93C7D42B111FE400D829B2 /* Layers.swift */; };
 		1CCB539E2B02901A00A78BC8 /* GSSetupAvalanche.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB539D2B02901A00A78BC8 /* GSSetupAvalanche.swift */; };
 		1CCB53A22B02A40D00A78BC8 /* Snow.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1CCB53A12B02A40D00A78BC8 /* Snow.sks */; };
 		1CCB53A62B03F22800A78BC8 /* GSSetupLifeNodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCB53A52B03F22800A78BC8 /* GSSetupLifeNodes.swift */; };
@@ -66,6 +67,7 @@
 		1C452ED62AF2BB07001F696B /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
 		1C452ED82AF2C3BD001F696B /* GSSetupPauseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupPauseButton.swift; sourceTree = "<group>"; };
 		1C6B5C052AFAA3AA00F66A5E /* GSSpawnEnemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSpawnEnemy.swift; sourceTree = "<group>"; };
+		1C93C7D42B111FE400D829B2 /* Layers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layers.swift; sourceTree = "<group>"; };
 		1CCB539D2B02901A00A78BC8 /* GSSetupAvalanche.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupAvalanche.swift; sourceTree = "<group>"; };
 		1CCB53A12B02A40D00A78BC8 /* Snow.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Snow.sks; sourceTree = "<group>"; };
 		1CCB53A52B03F22800A78BC8 /* GSSetupLifeNodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupLifeNodes.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				68E492A42B0FC73300C06F31 /* Textures.swift */,
+				1C93C7D42B111FE400D829B2 /* Layers.swift */,
 				6806C3E52AEAF94300EDED8E /* PlayerAuthState.swift */,
 				68A8874D2B068B0E00C64E76 /* LuckiestGuy-Regular.ttf */,
 			);
@@ -415,6 +418,7 @@
 				E7C5580B2AF92EEA00F07740 /* GSSetupCommands.swift in Sources */,
 				E7D119712AE9EE8100ECA9BE /* SplashView.swift in Sources */,
 				E7C558092AF92A2B00F07740 /* GSSetupFloor.swift in Sources */,
+				1C93C7D52B111FE400D829B2 /* Layers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,10 +548,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PsiquesAndMore/PsiquesAndMore.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PsiquesAndMore/Preview Content\"";
-				DEVELOPMENT_TEAM = N7QW85QF8V;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = N7QW85QF8V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PsiquesAndMore/Info.plist;
@@ -564,6 +570,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Alslemos.PsiquesAndMore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = PsiquesAndMoreProfile;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -580,10 +587,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PsiquesAndMore/PsiquesAndMore.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PsiquesAndMore/Preview Content\"";
-				DEVELOPMENT_TEAM = N7QW85QF8V;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = N7QW85QF8V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PsiquesAndMore/Info.plist;
@@ -600,6 +609,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Alslemos.PsiquesAndMore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = PsiquesAndMoreProfile;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

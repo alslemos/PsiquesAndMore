@@ -26,14 +26,14 @@ extension GameScene {
         square.physicsBody = pb
         square.name = "square"
         square.position = CGPoint(x: (viewFrame.midX), y: (viewFrame.midY) + 100)
-        square.zPosition = 1
+        square.zPosition = Layers.entity
         
         let emitter = SKEmitterNode(fileNamed: "Snow")
         emitter?.position = CGPoint(x: 0.0, y: 0.0)
         emitter?.particleSize = CGSize(width: 32, height: 32)
         emitter?.zRotation = -rotationAngle
         emitter?.particleBirthRate = 0
-        emitter?.zPosition = 10
+        emitter?.zPosition = Layers.particle
         emitter?.name = "snow"
         emitter?.targetNode = self.scene
         self.snowParticle = emitter ?? SKEmitterNode()
@@ -92,7 +92,7 @@ extension GameScene {
         rightSyncLimitNode.name = "rightSyncLimit"
         rightSyncLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
         rightSyncLimitNode.position = CGPoint(x: viewFrame.midX + 40, y: 0)
-        rightSyncLimitNode.zPosition = 20
+        rightSyncLimitNode.zPosition = Layers.limit
         
         let rightSyncLimitNodePhysicsBody = SKPhysicsBody(rectangleOf: rightSyncLimitNode.size, center: CGPoint(x: rightSyncLimitNode.frame.width / 2, y: rightSyncLimitNode.frame.height / 2))
         
@@ -114,7 +114,7 @@ extension GameScene {
         leftSyncLimitNode.name = "leftSyncLimit"
         leftSyncLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
         leftSyncLimitNode.position = CGPoint(x: viewFrame.midX - 40, y: 0)
-        leftSyncLimitNode.zPosition = 20
+        leftSyncLimitNode.zPosition = Layers.limit
         
         let leftSyncLimitNodePhysicsBody = SKPhysicsBody(rectangleOf: leftSyncLimitNode.size, center: CGPoint(x: leftSyncLimitNode.frame.width / 2, y: leftSyncLimitNode.frame.height / 2))
         

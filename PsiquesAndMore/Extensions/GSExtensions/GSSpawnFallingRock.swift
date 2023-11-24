@@ -12,6 +12,7 @@ extension GameScene {
     func setupRock() {
         rock.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         rock.position = CGPoint(x: 0, y: ((viewFrame.maxY)))
+        rock.zPosition = Layers.entity
         rock.name = "rock"
         
         let physicsBodyRock = SKPhysicsBody(texture: Textures.rockPhysicsTexture, size: rock.size)

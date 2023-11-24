@@ -18,7 +18,7 @@ extension GameScene {
             aux += heart.size.width + 8
             
             heart.position = CGPoint(x: viewFrame.minX + aux, y: viewFrame.maxY - 40)
-            heart.zPosition = 10
+            heart.zPosition = Layers.UIElement
             heart.name = "heart\(i + 1)"
             
             self.lifeNodes.append(heart)
