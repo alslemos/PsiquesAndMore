@@ -20,13 +20,15 @@ extension GameScene {
     func didBegin(_ contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
-        // check for player touching obstacles
-        if !isPlayerInvincible {
-            if contactMask == PhysicsCategory.characterNode | PhysicsCategory.obstacleNode {
-                print("DEBUG: touched obstacle")
-                
-                self.lifes -= 1
-                self.isPlayerInvincible = true
+        if isHost {
+            // check for player touching obstacles
+            if !isPlayerInvincible {
+                if contactMask == PhysicsCategory.characterNode | PhysicsCategory.obstacleNode {
+                    print("DEBUG: touched obstacle")
+                    
+                    self.lifes -= 1
+                    self.isPlayerInvincible = true
+                }
             }
         }
         

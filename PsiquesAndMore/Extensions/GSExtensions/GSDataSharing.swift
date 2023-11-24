@@ -72,4 +72,14 @@ extension GameScene {
             print("send obstacles order data failed")
         }
     }
+    
+    func sendLifeData() {
+        print("sending life data")
+        do {
+            guard let data = try? JSONEncoder().encode("damage") else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+        } catch {
+            print("send life data failed")
+        }
+    }
 }

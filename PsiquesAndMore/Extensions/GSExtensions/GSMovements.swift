@@ -18,6 +18,14 @@ extension GameScene {
                     self.isPlayerMoving = true
                     
                     self.littleSpriteBody()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + movementDelay) {
+                        self.isPlayerMoving = false
+                        
+                        self.normalSpriteBody()
+                        
+                        self.updateAsset()
+                    }
                 case .right:
                     self.isPlayerMoving = true
                     
@@ -34,12 +42,12 @@ extension GameScene {
                     self.square.physicsBody?.applyImpulse(CGVector(dx: deltaX, dy: deltaY))
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + movementDelay) {
-                self.isPlayerMoving = false
-                
-                self.normalSpriteBody()
-                
-                self.updateAsset()
+            if movement != .down {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                    self.isPlayerMoving = false
+                    
+                    self.updateAsset()
+                }
             }
         }
     }

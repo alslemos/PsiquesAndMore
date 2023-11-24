@@ -62,6 +62,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lifes: Int = 3 {
         didSet {
             self.updateLifeNodes()
+            
+            if isHost {
+                self.sendLifeData()
+            }
         }
     }
     
@@ -119,7 +123,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var timeCounter: Int = 0
     
-    var movementDelay: TimeInterval = 2
+    var movementDelay: TimeInterval = 0.5
     
     var movementImpulse: CGFloat = 10
     

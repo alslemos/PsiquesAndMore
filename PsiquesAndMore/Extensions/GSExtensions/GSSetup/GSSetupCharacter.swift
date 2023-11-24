@@ -41,6 +41,7 @@ extension GameScene {
         
         self.addChild(square)
         createLimits()
+        createPositionSyncLimits()
         
         updateAsset()
     }
@@ -67,7 +68,7 @@ extension GameScene {
         
         minLimitNode.name = "minLimit"
         minLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
-        minLimitNode.position = CGPoint(x: viewFrame.width * 0.1, y: 0)
+        minLimitNode.position = CGPoint(x: 0, y: 0)
         
         let minLimitBody = SKPhysicsBody(rectangleOf: minLimitNode.size, center: CGPoint(x: minLimitNode.frame.width / 2, y: minLimitNode.frame.height / 2))
         
@@ -82,6 +83,56 @@ extension GameScene {
         
         addChild(maxLimitNode)
         addChild(minLimitNode)
+    }
+    
+    func createPositionSyncLimits() {
+        // right sync node
+        let rightSyncLimitNode = SKSpriteNode(color: .red, size: CGSize(width: 10, height: viewFrame.height * 3))
+        
+        rightSyncLimitNode.name = "rightSyncLimit"
+        rightSyncLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
+        rightSyncLimitNode.position = CGPoint(x: viewFrame.midX + 40, y: 0)
+        rightSyncLimitNode.zPosition = 20
+        
+        let rightSyncLimitNodePhysicsBody = SKPhysicsBody(rectangleOf: rightSyncLimitNode.size, center: CGPoint(x: rightSyncLimitNode.frame.width / 2, y: rightSyncLimitNode.frame.height / 2))
+        
+        rightSyncLimitNodePhysicsBody.allowsRotation = false
+        rightSyncLimitNodePhysicsBody.isDynamic = false
+        rightSyncLimitNodePhysicsBody.affectedByGravity = false
+        
+        rightSyncLimitNodePhysicsBody.categoryBitMask = PhysicsCategory.limitNode
+        rightSyncLimitNodePhysicsBody.collisionBitMask = PhysicsCategory.characterNode
+        
+        rightSyncLimitNode.physicsBody = rightSyncLimitNodePhysicsBody
+        
+        self.addChild(rightSyncLimitNode)
+        
+        // left sync node
+        
+        let leftSyncLimitNode = SKSpriteNode(color: .red, size: CGSize(width: 10, height: viewFrame.height * 3))
+        
+        leftSyncLimitNode.name = "leftSyncLimit"
+        leftSyncLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
+        leftSyncLimitNode.position = CGPoint(x: viewFrame.midX - 40, y: 0)
+        leftSyncLimitNode.zPosition = 20
+        
+        let leftSyncLimitNodePhysicsBody = SKPhysicsBody(rectangleOf: leftSyncLimitNode.size, center: CGPoint(x: leftSyncLimitNode.frame.width / 2, y: leftSyncLimitNode.frame.height / 2))
+        
+        leftSyncLimitNodePhysicsBody.allowsRotation = false
+        leftSyncLimitNodePhysicsBody.isDynamic = false
+        leftSyncLimitNodePhysicsBody.affectedByGravity = false
+        
+        leftSyncLimitNodePhysicsBody.categoryBitMask = PhysicsCategory.limitNode
+        leftSyncLimitNodePhysicsBody.collisionBitMask = PhysicsCategory.characterNode
+        
+        leftSyncLimitNode.physicsBody = leftSyncLimitNodePhysicsBody
+        
+        self.addChild(leftSyncLimitNode)
+    }
+    
+    func removePositionSyncLimits() {
+        self.childNode(withName: "rightSyncLimit")?.removeFromParent()
+        self.childNode(withName: "leftSyncLimit")?.removeFromParent()
     }
     
     func createCharacterVelocityUpdater() {
@@ -101,8 +152,8 @@ extension GameScene {
                 if !self.isPaused {
                     self.characterVelocity += 2
                     
-                    let applyImpulse = SKAction.applyImpulse(CGVector(dx: -(self.characterVelocity), dy: 0), duration: 1)
-                    self.square.run(applyImpulse)
+                    let applyForce = SKAction.applyForce(CGVector(dx: -(self.characterVelocity), dy: 0), duration: 1)
+                    self.square.run(applyForce)
                 }
             }.store(in: &cancellables)
     }
@@ -114,7 +165,7 @@ extension GameScene {
             let textureNames = "animada" + String(i)
             entidadeFrames.append(textureAtlasss.textureNamed(textureNames))
         }
-
+        
         print(entidadeFrames.count)
         
         square.run(SKAction.repeatForever(SKAction.animate(with: entidadeFrames, timePerFrame: 0.15)))

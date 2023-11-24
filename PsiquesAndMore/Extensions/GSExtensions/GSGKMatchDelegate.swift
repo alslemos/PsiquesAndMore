@@ -72,6 +72,12 @@ extension GameScene: GKMatchDelegate {
                 
                 notify(.loading)
             }
+            
+            if actionString == "damage" {
+                print("damage data received")
+                
+                self.lifes -= 1
+            }
         }
         
         // Check if it's the obstacles movements data
