@@ -37,8 +37,8 @@ class GameScene2: SKScene {
         setupPauseButton()
         triggerTimer()
         triggerLives()
-        updateAsset()
-//          updateAssetSeAbaixando()
+//        updateAsset()
+        updateAssetSeAbaixando()
         
         
         
@@ -62,7 +62,7 @@ class GameScene2: SKScene {
             var auxiliar: Int = 0
             
             for i in 0..<textureAtlassAbaixando.textureNames.count {
-                let textureNames = "Vector" + "-" + String(i)
+                let textureNames = "abaixando" + String(i)
                 entidadeFramesAbaixando.append(textureAtlassAbaixando.textureNamed(textureNames))
             }
             print(entidadeFramesAbaixando.count)
