@@ -31,7 +31,7 @@ extension GameScene {
         rectangle.anchorPoint = CGPoint(x: 0, y: 1)
         rectangle.position = CGPoint(x: 0, y: verticalThresholdPoint)
         rectangle.zRotation = -(rotationAngle)
-        rectangle.zPosition = Layers.entity
+        rectangle.zPosition = Layers.floor
         
         let pb = SKPhysicsBody(rectangleOf: rectangle.size, center: CGPoint(x: rectangleWidth, y: -(rectangleHeigth / 2) - 10))
         
@@ -81,8 +81,8 @@ extension GameScene {
             .sink { _ in
                 self.backgroundSpeed += 1
                 
-                if (self.movementDelay - 0.125) >= 0.25 {
-                    self.movementDelay -= 0.125
+                if (self.movementDelay - 0.0625) >= 0.25 {
+                    self.movementDelay -= 0.0625
                 }
                 
                 if (self.movementImpulse + 10) <= 100 {

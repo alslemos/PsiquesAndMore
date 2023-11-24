@@ -64,7 +64,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.updateLifeNodes()
             
             if isHost {
-                self.sendLifeData()
+                if self.lifes <= 0 {
+                    self.sendInstaKillData()
+                } else {
+                    self.sendLifeData()
+                }
             }
         }
     }
@@ -97,7 +101,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var spawnObstaclesSubscription: AnyCancellable?
     
     // avalanche
-    var avalanche = SKSpriteNode()
+    var avalanche = SKSpriteNode(texture: SKTexture(imageNamed: "avalanche0"))
     
     // logica do jogo
     var matchManager: MatchManager?

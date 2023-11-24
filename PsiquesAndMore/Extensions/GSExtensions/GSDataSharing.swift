@@ -82,4 +82,14 @@ extension GameScene {
             print("send life data failed")
         }
     }
+    
+    func sendInstaKillData() {
+        print("sending insta kill data")
+        do {
+            guard let data = try? JSONEncoder().encode("instaKill") else { return }
+            try self.match?.sendData(toAllPlayers: data, with: .reliable)
+        } catch {
+            print("send insta kill data failed")
+        }
+    }
 }

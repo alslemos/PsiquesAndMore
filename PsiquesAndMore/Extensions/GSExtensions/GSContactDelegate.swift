@@ -34,7 +34,7 @@ extension GameScene {
         
         // check for player touching avalanche
         if contactMask == PhysicsCategory.characterNode | PhysicsCategory.avalancheNode {
-            print("DEBUG: touched obstacle")
+            print("DEBUG: touched avalanche")
             
             self.lifes = 0
         }

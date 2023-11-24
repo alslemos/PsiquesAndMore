@@ -78,6 +78,12 @@ extension GameScene: GKMatchDelegate {
                 
                 self.lifes -= 1
             }
+            
+            if actionString == "instaKill" {
+                print("insta kill data received")
+                
+                self.lifes = 0
+            }
         }
         
         // Check if it's the obstacles movements data
