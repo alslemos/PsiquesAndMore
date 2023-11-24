@@ -19,12 +19,12 @@ extension GameScene {
         let branchWidth = tree.size.width * 3.4
         let branchHeigth = branchWidth * 1.5
         
-        let branch = SKSpriteNode(texture: SKTexture(imageNamed: "branch"), size: CGSize(width: branchWidth, height: branchHeigth))
+        let branch = SKSpriteNode(texture: Textures.branchTexture, size: CGSize(width: branchWidth, height: branchHeigth))
         branch.anchorPoint = CGPoint(x: 0, y: 0.97)
         
         tree.addChild(branch)
         
-        let physicsBodyTree = SKPhysicsBody(rectangleOf: CGSize(width: tree.size.width, height: tree.size.height / 2), center: CGPoint(x: tree.size.width / 2, y: -(tree.size.width / 4)))
+        let physicsBodyTree = SKPhysicsBody(rectangleOf: CGSize(width: tree.size.width / 2, height: tree.size.height / 4), center: CGPoint(x: tree.size.width / 2, y: -(tree.size.width / 6)))
         
         physicsBodyTree.affectedByGravity = false
         physicsBodyTree.allowsRotation = false

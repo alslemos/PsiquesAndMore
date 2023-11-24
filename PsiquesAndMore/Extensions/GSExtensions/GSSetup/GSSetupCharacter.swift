@@ -99,7 +99,7 @@ extension GameScene {
             }
             .sink { count in
                 if !self.isPaused {
-                    self.characterVelocity += 5
+                    self.characterVelocity += 2
                     
                     let applyImpulse = SKAction.applyImpulse(CGVector(dx: -(self.characterVelocity), dy: 0), duration: 1)
                     self.square.run(applyImpulse)

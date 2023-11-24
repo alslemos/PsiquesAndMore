@@ -8,7 +8,10 @@ extension GameScene {
                 case .up:
                     self.isPlayerMoving = true
                     
-                    self.square.physicsBody?.applyImpulse(CGVector(dx: 100, dy: 90))
+                    let deltaX = isRockFalling ? 0 : Int(movementImpulse)
+                    let deltaY = Int(movementImpulse * 0.9)
+                    
+                    self.square.physicsBody?.applyImpulse(CGVector(dx: deltaX, dy: deltaY))
                 case .down:
                     updateAssetSeAbaixando()
                     
@@ -18,14 +21,20 @@ extension GameScene {
                 case .right:
                     self.isPlayerMoving = true
                     
-                    self.square.physicsBody?.applyImpulse(CGVector(dx: 100, dy: 0))
+                    let deltaX = Int(movementImpulse)
+                    let deltaY = 0
+                    
+                    self.square.physicsBody?.applyImpulse(CGVector(dx: deltaX, dy: deltaY))
                 case .left:
                     self.isPlayerMoving = true
                     
-                    self.square.physicsBody?.applyImpulse(CGVector(dx: -80, dy: 0))
+                    let deltaX = -Int(movementImpulse * 0.8)
+                    let deltaY = 0
+                    
+                    self.square.physicsBody?.applyImpulse(CGVector(dx: deltaX, dy: deltaY))
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + movementDelay) {
                 self.isPlayerMoving = false
                 
                 self.normalSpriteBody()

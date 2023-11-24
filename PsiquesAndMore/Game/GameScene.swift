@@ -17,7 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var entidadeFrames: [SKTexture] = []
     var textureAtlasss = SKTextureAtlas(named: "entidadeAnimada")
     
-    var characterVelocity: CGFloat = 80
+    var characterVelocity: CGFloat = 20
     
     // Don't forget to cancel this afterwards
     var cancellables = Set<AnyCancellable>()
@@ -84,7 +84,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let rock = SKSpriteNode(texture: Textures.rockTexture, size: CGSize(width: 40, height: 30))
     let tree = SKSpriteNode(texture: Textures.trunkTexture, size: CGSize(width: 25, height: 50))
     
-    var spawnObstacleDelay: TimeInterval = 2
+    var spawnObstacleDelay: TimeInterval = 4
     var enemiesMovements: [EnemyMovement] = []
     var obstaclesOrder: [Obstacle] = []
     var currentEnemyMovement: Int = 0
@@ -119,6 +119,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var timeCounter: Int = 0
     
+    var movementDelay: TimeInterval = 2
+    
+    var movementImpulse: CGFloat = 10
+    
+    var isRockFalling: Bool = false
+    
     override func didMove(to view: SKView) {
         match?.delegate = self
         physicsWorld.contactDelegate = self
@@ -129,6 +135,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func clean() {
+        print("cleaning scene")
+        
         self.removeAllActions()
         self.removeAllChildren()
         

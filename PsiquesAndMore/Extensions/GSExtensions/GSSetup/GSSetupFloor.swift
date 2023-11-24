@@ -23,10 +23,10 @@ extension GameScene {
         square.zRotation = -(rotationAngle)
         
         rectangleHeigth = sin(rotationAngle) * (viewFrame.width)
-
+        
         rectangle = SKSpriteNode(texture: Textures.floorTexture,
                                  size: CGSize(width: rectangleWidth * 2, height: rectangleHeigth))
-      
+        
         rectangle.name = "floor"
         rectangle.anchorPoint = CGPoint(x: 0, y: 1)
         rectangle.position = CGPoint(x: 0, y: verticalThresholdPoint)
@@ -40,16 +40,16 @@ extension GameScene {
         pb.categoryBitMask = PhysicsCategory.floorNode
         pb.contactTestBitMask = PhysicsCategory.characterNode
         pb.collisionBitMask = 0
-
+        
         rectangle.physicsBody = pb
         
         self.addChild(rectangle)
     }
     
-     func moveBackground() {
+    func moveBackground() {
         let deltaX = 30.0
         let deltaY = deltaX * Double(tan(.pi - rotationAngle))
-    
+        
         let moveAction = SKAction.move(by: CGVector(dx: -(deltaX * backgroundSpeed), dy: -(deltaY * backgroundSpeed)), duration: 1)
         
         rectangle.run(SKAction.repeatForever(moveAction))
@@ -73,14 +73,21 @@ extension GameScene {
     }
     
     func createFloorVelocityUpdater() {
-        let publisher = Timer.publish(every: 0.001, on: .main, in: .common)
+        let publisher = Timer.publish(every: 1, on: .main, in: .common)
             .autoconnect()
         let subscription = publisher
         
         subscription
-            .throttle(for: .seconds(1), scheduler: DispatchQueue.main, latest: true)
             .sink { _ in
                 self.backgroundSpeed += 1
+                
+                if (self.movementDelay - 0.125) >= 0.25 {
+                    self.movementDelay -= 0.125
+                }
+                
+                if (self.movementImpulse + 10) <= 100 {
+                    self.movementImpulse += 10
+                }
             }.store(in: &cancellables)
     }
 }

@@ -67,9 +67,7 @@ struct PickLevelView: View {
         return scene
     }
     
-    var fundo = Color(red: 33 / 255, green: 60 / 255, blue: 85 / 255)
-    var clique = Color(red: 253 / 255, green: 169 / 255, blue: 101 / 255)
-    var semclique = Color(red: 255 / 255, green: 236 / 255, blue: 215 / 255)
+    let cards: [Card] = Card.allCases
     
     var body: some View {
         ZStack {
@@ -100,7 +98,7 @@ struct PickLevelView: View {
                 
             } else {
                 ZStack {
-                    fundo
+                    Color(.fundo)
                     
                     VStack() {
                         
@@ -108,13 +106,13 @@ struct PickLevelView: View {
                         
                         Text("Pick an adventure to explore!")
                             .font(.custom("LuckiestGuy-Regular", size: 24)) //LuckiestGuy-Regular
-                            .foregroundColor(clique)
+                            .foregroundColor(Color(.clique))
                             .padding(.all)
                         
                         HStack {
                             //                TabView(selection: $index) {
-                            ForEach((0..<3), id: \.self) { index in
-                                CardView(matchManager: matchManager, showGameScene: $showGameScene, showLoadingGameView: $showLoadingGameView)
+                            ForEach(cards, id: \.self) { card in
+                                CardView(matchManager: matchManager, showGameScene: $showGameScene, showLoadingGameView: $showLoadingGameView, game: card)
                                 //             eu l       }
                             }
                             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -189,6 +187,10 @@ struct PickLevelView: View {
                 $gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven = false
             }
             
+            $gameSceneBox.gameScene.wrappedValue.virtualController?.disconnect()
+            
+            $gameSceneBox.gameScene.wrappedValue.clean()
+            
             matchManager.isHost = false
             
             showPauseGameView = false
@@ -213,7 +215,7 @@ struct PickLevelView: View {
                     Image(systemName: "apple.logo")
                         .resizable()
                         .frame(width: 30, height: 30)
-                        .foregroundColor(clique)
+                        .foregroundColor(Color(.clique))
                         .opacity(0)
                 }
             }
@@ -234,7 +236,7 @@ struct PickLevelView: View {
                     Image(systemName: "arrowshape.turn.up.backward.fill")
                         .resizable()
                         .frame(width: 30, height: 30)
-                        .foregroundColor(clique)
+                        .foregroundColor(Color(.clique))
                         .opacity(1)
                   
                 }

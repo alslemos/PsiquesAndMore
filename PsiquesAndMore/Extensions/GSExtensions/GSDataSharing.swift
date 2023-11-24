@@ -23,7 +23,7 @@ extension GameScene {
     func sendMovementData(_ movement: Movement, _ completion: @escaping () -> ()) {
         do {
             guard let data = try? JSONEncoder().encode(movement) else { return }
-            try match?.sendData(toAllPlayers: data, with: .reliable)
+            try match?.sendData(toAllPlayers: data, with: .unreliable)
             completion()
         } catch {
             print("send movement data failed")

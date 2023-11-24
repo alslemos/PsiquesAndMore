@@ -3,11 +3,9 @@ import SwiftUI
 struct SplashView: View {
     @State var isActive: Bool = false
     
-    var fundo = Color(red: 33/255, green: 60/255, blue: 85/255)
-    
     var body: some View {
         ZStack {
-            fundo
+            Color(.fundo)
             
             VStack {
                 if self.isActive {

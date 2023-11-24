@@ -55,17 +55,23 @@ extension GameScene {
                             let enemyMovement = self.enemiesMovements[self.currentEnemyMovement % self.enemiesMovements.count]
                             
                             self.moveObstacle(for: .enemy, enemyMovement: enemyMovement)
+                            
+                            self.isRockFalling = false
                         case .rock:
                             self.moveObstacle(for: .rock)
+                            
+                            self.isRockFalling = true
                         case .tree:
                             self.moveObstacle(for: .tree)
+                            
+                            self.isRockFalling = false
                     }
                 }
             }
     }
     
     func createDelayDecreasers() {
-        let timer = Timer.publish(every: 4, on: .main, in: .common)
+        let timer = Timer.publish(every: 8, on: .main, in: .common)
             .autoconnect()
         
         let obstacleSubscription = timer
@@ -97,7 +103,7 @@ extension GameScene {
             
             guard let yPosition = randomYPosition else { return }
             
-            let enemyTime = Double.random(in: 0.5...2.0)
+            let enemyTime = Double.random(in: 1.5...2.0)
             
             let randomEnemyMovement = EnemyMovement(yPosition: yPosition, time: enemyTime)
             
@@ -115,7 +121,7 @@ extension GameScene {
     
     func repositionObstacles() {
         if enemy.position.x <= -50 {
-            enemy.position = CGPoint(x: viewFrame.maxX, y: -10)
+            enemy.position = CGPoint(x: viewFrame.maxX, y: 0)
             enemy.removeAllActions()
         }
         

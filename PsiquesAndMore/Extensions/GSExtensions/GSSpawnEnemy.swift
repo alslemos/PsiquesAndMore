@@ -11,12 +11,12 @@ import SpriteKit
 extension GameScene {
     func setupEnemy() {
         enemy.anchorPoint = CGPoint(x: 0, y: 0)
-        enemy.position = CGPoint(x: viewFrame.maxX, y: -10)
+        enemy.position = CGPoint(x: viewFrame.maxX, y: 0)
         enemy.zPosition = 1
         enemy.zRotation = -(rotationAngle)
         enemy.name = "enemy"
         
-        let physicsBodyEnemy = SKPhysicsBody(rectangleOf: enemy.size, center: CGPoint(x: enemy.size.width / 2, y: enemy.size.height / 2))
+        let physicsBodyEnemy = SKPhysicsBody(rectangleOf: CGSize(width: enemy.size.width * 0.3, height: enemy.size.height * 0.5), center: CGPoint(x: enemy.size.width / 2, y: enemy.size.height / 2))
         
         physicsBodyEnemy.affectedByGravity = false
         physicsBodyEnemy.allowsRotation = false

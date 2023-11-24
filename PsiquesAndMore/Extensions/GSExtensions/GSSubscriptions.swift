@@ -17,9 +17,7 @@ extension GameScene {
         createCharacterVelocityUpdater()
         obstaclePositionUpdater()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.obstaclePusher()
-            self.createDelayDecreasers()
-        }
+        obstaclePusher()
+        createDelayDecreasers()
     }
 }
