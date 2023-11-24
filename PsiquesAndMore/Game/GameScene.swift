@@ -109,7 +109,7 @@ class GameScene: SKScene {
     // personagem
    
     func triggerCharacter(){
-        square = SKSpriteNode(color: .red, size: CGSize(width: 150, height: 50))
+        square = SKSpriteNode(color: .red, size: CGSize(width: 152, height: 152))
         square.anchorPoint = CGPoint(x: 0.5, y: 0)
         
         let physicsBodyCharacter = SKPhysicsBody(rectangleOf: CGSize(width: 150, height: 50))

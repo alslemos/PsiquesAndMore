@@ -37,17 +37,9 @@ class GameScene2: SKScene {
         setupPauseButton()
         triggerTimer()
         triggerLives()
-//        updateAsset()
-        updateAssetSeAbaixando()
+        updateAsset()
+//          updateAssetSeAbaixando()
         
-//        for node in self.children {
-//            if node.name == "square" {
-//                if let someTileMap: SKTileMapNode = node as? SKTileMapNode {
-//                    ti
-//
-//                }
-//            }
-//        }
         
         
         func updateAsset(){
@@ -55,12 +47,12 @@ class GameScene2: SKScene {
             var auxiliar: Int = 0
             
             for i in 0..<textureAtlass.textureNames.count {
-                let textureNames = "Vector" + "-" + String(i)
+                let textureNames = "Frame" + String(i)
                 entidadeFrames.append(textureAtlass.textureNamed(textureNames))
             }
             print(entidadeFrames.count)
             
-            square.run(SKAction.repeatForever(SKAction.animate(with: entidadeFrames, timePerFrame: 0.5)))
+            square.run(SKAction.repeatForever(SKAction.animate(with: entidadeFrames, timePerFrame: 0.15)))
             
         }
         
@@ -155,7 +147,9 @@ class GameScene2: SKScene {
     func triggerCharacter(){
         print("Disparou personagem")
         
-        let pb = SKPhysicsBody(rectangleOf: CGSize(width: 30, height: 30))// SKPhysicsBody(texture: square.texture!, size: square.texture!.size())
+        let pb = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 50))
+        //  SKPhysicsBody(rectangleOf: CGSize(width: 150, height: 150))
+        // SKPhysicsBody(texture: square.texture!, size: square.texture!.size())
         
         //        square.anchorPoint = CGPoint(x: 0.0, y: 0)
         
