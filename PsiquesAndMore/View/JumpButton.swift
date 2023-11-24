@@ -13,8 +13,8 @@ struct CustomJumpButton: View {
     var body: some View {
         
         NavigationLink {
-            InitialScreenView()
-                .navigationBarBackButtonHidden(true)
+//            InitialScreenView()
+//                .navigationBarBackButtonHidden(true)
         } label: {
             HStack {
                 Text("SKIP")

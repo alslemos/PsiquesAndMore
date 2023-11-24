@@ -110,13 +110,10 @@ struct PickLevelView: View {
                             .padding(.all)
                         
                         HStack {
-                            //                TabView(selection: $index) {
                             ForEach(cards, id: \.self) { card in
                                 CardView(matchManager: matchManager, showGameScene: $showGameScene, showLoadingGameView: $showLoadingGameView, game: card)
-                                //             eu l       }
                             }
                             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                            
                         }
                      
                         Spacer()

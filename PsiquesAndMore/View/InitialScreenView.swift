@@ -8,8 +8,9 @@ struct InitialScreenView: View {
     @State private var isPhonemeDex: Bool = false
     @State private var isAbout: Bool = false
     
+    @State var showInstructions: Bool
+    
     var body: some View {
-        
         NavigationStack {
             ZStack {
                 if matchManager.isGamePresented {
@@ -22,8 +23,8 @@ struct InitialScreenView: View {
                            Image("splashIcon")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 150, height: 50)
-                                .padding(.bottom, 80)
+                                .frame(width: 250)
+                                .padding(.bottom, 40)
                             
                             VStack(spacing: 10) {
                                 // botao para jogar
@@ -38,22 +39,21 @@ struct InitialScreenView: View {
                                     if matchManager.authenticationState != .authenticated {
                                         matchManager.authenticatePlayer()
                                     }
-                                    
-                                    UserDefaults.standard.set(true, forKey: "completedOnboarding")
                                 }
                                 .onDisappear {
                                     GKAccessPoint.shared.isActive = false
                                 }
+                                .padding(.bottom)
                                 
                                 // ainda tem esse bag
-                                NavigationLink {
-                                   InstructionsView1().ignoresSafeArea().navigationBarBackButtonHidden(true)
-                                        .navigationBarItems(leading: CustomBackButton())
+                                Button {
+                                    showInstructions = true
                                 } label: {
                                     Text("Instructions")
                                         .font(.custom("LuckiestGuy-Regular", size: 24))
                                         .foregroundColor(Color(.clique))
                                 }
+                                .padding(.bottom)
                                 
                                 // botao para Fonedex
                                 NavigationLink {
@@ -69,6 +69,10 @@ struct InitialScreenView: View {
                         }
                         .padding()
                         .ignoresSafeArea()
+                        
+                        if showInstructions {
+                            InstructionsTabView(showInstructions: $showInstructions)
+                        }
                     }
                     .ignoresSafeArea()
                 }

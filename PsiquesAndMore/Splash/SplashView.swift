@@ -7,19 +7,13 @@ struct SplashView: View {
         ZStack {
             Color(.fundo)
             
-            VStack {
-                if self.isActive {
-                    if isOnboardingSeen() {
-                        InitialScreenView()
-                    } else {
-                        InstructionsView1()
-                    }
-                } else {
-                    Image("splashIcon")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 300, height: 300)
-                }
+            if self.isActive {
+                InitialScreenView(showInstructions: !isOnboardingSeen())
+            } else {
+                Image("splashIcon")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 300, height: 300)
             }
         }
         .onAppear {

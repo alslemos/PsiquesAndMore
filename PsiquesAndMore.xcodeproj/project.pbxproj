@@ -25,6 +25,7 @@
 		6806C3EC2AEB03EF00EDED8E /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3EB2AEB03EF00EDED8E /* Player.swift */; };
 		685A59712AF58ECE0026A307 /* GSTouchesBegan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685A59702AF58ECE0026A307 /* GSTouchesBegan.swift */; };
 		6869E8312AFD451A0017C8F1 /* GSSpawnFallingRock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6869E8302AFD451A0017C8F1 /* GSSpawnFallingRock.swift */; };
+		687F43612B11343C0079FCF9 /* InstructionsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687F43602B11343C0079FCF9 /* InstructionsTabView.swift */; };
 		68A8873C2B067D7500C64E76 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A8873B2B067D7500C64E76 /* BackButton.swift */; };
 		68A8873E2B067D8F00C64E76 /* JumpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A8873D2B067D8F00C64E76 /* JumpButton.swift */; };
 		68A887402B067EBC00C64E76 /* InitialScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A8873F2B067EBC00C64E76 /* InitialScreenView.swift */; };
@@ -82,6 +83,7 @@
 		6806C3ED2AEB08F000EDED8E /* PsiquesAndMore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PsiquesAndMore.entitlements; sourceTree = "<group>"; };
 		685A59702AF58ECE0026A307 /* GSTouchesBegan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTouchesBegan.swift; sourceTree = "<group>"; };
 		6869E8302AFD451A0017C8F1 /* GSSpawnFallingRock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSpawnFallingRock.swift; sourceTree = "<group>"; };
+		687F43602B11343C0079FCF9 /* InstructionsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsTabView.swift; sourceTree = "<group>"; };
 		68A8873B2B067D7500C64E76 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		68A8873D2B067D8F00C64E76 /* JumpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpButton.swift; sourceTree = "<group>"; };
 		68A8873F2B067EBC00C64E76 /* InitialScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialScreenView.swift; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				68A8873F2B067EBC00C64E76 /* InitialScreenView.swift */,
 				68A887412B067EFC00C64E76 /* PickLevelView.swift */,
 				68A887432B067F2A00C64E76 /* CardView.swift */,
+				687F43602B11343C0079FCF9 /* InstructionsTabView.swift */,
 				68A887472B067FCF00C64E76 /* InstructionsView1.swift */,
 				68A887492B067FD700C64E76 /* InstructionsView2.swift */,
 				68A8874B2B067FE200C64E76 /* InstructionsView3.swift */,
@@ -403,6 +406,7 @@
 				E7C5580F2AFC5D6900F07740 /* GSSetupBackground.swift in Sources */,
 				680506892B026A91009D8223 /* GSObstacles.swift in Sources */,
 				68A887442B067F2A00C64E76 /* CardView.swift in Sources */,
+				687F43612B11343C0079FCF9 /* InstructionsTabView.swift in Sources */,
 				1C452ED72AF2BB07001F696B /* GameOverView.swift in Sources */,
 				68F190292AFD24E3005B5030 /* GSSetupGame.swift in Sources */,
 				E7C5580D2AF93B4700F07740 /* GSGKMatchDelegate.swift in Sources */,
