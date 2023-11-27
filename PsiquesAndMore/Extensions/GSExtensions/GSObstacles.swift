@@ -48,23 +48,16 @@ extension GameScene {
                 if count != lastObstacle {
                     let obstacle = self.obstaclesOrder[self.currentObstacle % self.obstaclesOrder.count]
                     
-                    switch obstacle {
-                        case .enemy:
-                            self.currentEnemyMovement += 1
-                            
-                            let enemyMovement = self.enemiesMovements[self.currentEnemyMovement % self.enemiesMovements.count]
-                            
-                            self.moveObstacle(for: .enemy, enemyMovement: enemyMovement)
-                            
-                            self.isRockFalling = false
-                        case .rock:
-                            self.moveObstacle(for: .rock)
-                            
-                            self.isRockFalling = true
-                        case .tree:
-                            self.moveObstacle(for: .tree)
-                            
-                            self.isRockFalling = false
+                    if obstacle == .enemy {
+                        self.currentEnemyMovement += 1
+                        
+                        let enemyMovement = self.enemiesMovements[self.currentEnemyMovement % self.enemiesMovements.count]
+                        
+                        self.moveObstacle(for: obstacle, enemyMovement: enemyMovement)
+                        
+                        self.isRockFalling = false
+                    } else {
+                        self.moveObstacle(for: obstacle)
                     }
                 }
             }
@@ -144,7 +137,6 @@ extension GameScene {
                 
                 moveEnemy(enemyMovement: enemyMovement)
             case .rock:
-                
                 moveRock()
             case .tree:
                 moveTree()
