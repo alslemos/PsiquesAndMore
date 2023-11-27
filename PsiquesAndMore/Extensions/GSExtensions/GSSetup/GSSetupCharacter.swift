@@ -87,7 +87,7 @@ extension GameScene {
     
     func createPositionSyncLimits() {
         // right sync node
-        let rightSyncLimitNode = SKSpriteNode(color: .red, size: CGSize(width: 10, height: viewFrame.height * 3))
+        let rightSyncLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 10, height: viewFrame.height * 3))
         
         rightSyncLimitNode.name = "rightSyncLimit"
         rightSyncLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
@@ -109,7 +109,7 @@ extension GameScene {
         
         // left sync node
         
-        let leftSyncLimitNode = SKSpriteNode(color: .red, size: CGSize(width: 10, height: viewFrame.height * 3))
+        let leftSyncLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 10, height: viewFrame.height * 3))
         
         leftSyncLimitNode.name = "leftSyncLimit"
         leftSyncLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
