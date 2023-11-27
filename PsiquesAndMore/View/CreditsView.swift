@@ -1,20 +1,46 @@
 //
-//  CreditsView.swift
-//  PsiquesAndMore
+//  Credits View.swift
+//  RememberingViews
 //
-//  Created by Alexandre Lemos da Silva on 25/10/23.
+//  Created by Alexandre Lemos da Silva on 13/11/23.
 //
 
+import Foundation
 import SwiftUI
 
 struct CreditsView: View {
     var body: some View {
-        Text("Credits")
-    }
-}
-
-struct CreditsView_Previews: PreviewProvider {
-    static var previews: some View {
-        CreditsView()
+        ZStack {
+            Color(.fundo)
+            
+            VStack(alignment: .center, spacing: 0.0) {
+                Text("Credits")
+                    .font(.custom("LuckiestGuy-Regular", size: 24))
+                    .foregroundColor(Color(.semclique))
+                    .padding(.all)
+                    .padding(.bottom)
+                
+                Text("Alexandre Lemos")
+                    .font(.custom("LuckiestGuy-Regular", size: 16))
+                    .foregroundColor(Color(.semclique))
+                    .padding(.all)
+                
+                Text("Arthur Sobrosa")
+                    .font(.custom("LuckiestGuy-Regular", size: 16))
+                    .foregroundColor(Color(.semclique))
+                    .padding(.all)
+                
+                Text("Gustavo Silvano")
+                    .font(.custom("LuckiestGuy-Regular", size: 16))
+                    .foregroundColor(Color(.semclique))
+                    .padding(.all)
+                
+                Text("Victória Trindade")
+                    .font(.custom("LuckiestGuy-Regular", size: 16))
+                    .foregroundColor(Color(.semclique))
+                    .padding(.all)
+            }
+        }.ignoresSafeArea()
+        
     }
 }

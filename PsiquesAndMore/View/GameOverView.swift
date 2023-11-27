@@ -10,45 +10,37 @@ import SwiftUI
 struct GameOverView: View {
     var body: some View {
         ZStack {
-            Color(.black).opacity(0.7)
-                .ignoresSafeArea()
+            Color(.fundo)
             
-            ZStack {
-                Rectangle()
-                    .frame(maxWidth: 400, maxHeight: 300)
-                    .foregroundColor(.white)
+            VStack(spacing: 24) {
+                Text("GAME OVER")
+                    .font(.custom("LuckiestGuy-Regular", size: 36))
+                    .foregroundColor(Color(.semclique))
                 
-                VStack(spacing: 64) {
-                    Text("GAME OVER")
-                        .font(.largeTitle)
-                        .foregroundStyle(.black)
+                VStack {
                     
-                    HStack {
-                        
-                        Button {
-                            NotificationCenter.default.post(name: .playAgainGameNotificationName, object: nil)
-                            print("DEBUG: play again")
-                        } label: {
-                            Text("TRY AGAIN")
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(.black)
-                                .cornerRadius(8)
-                        }
-                        
-                        Button {
-                            NotificationCenter.default.post(name: .goToMenuGameNotificationName, object: nil)
-                        } label: {
-                            Text("MENU")
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(.black)
-                                .cornerRadius(8)
-                        }
+                    Button {
+                        NotificationCenter.default.post(name: .playAgainGameNotificationName, object: nil)
+                        print("DEBUG: play again")
+                    } label: {
+                        Text("TRY AGAIN")
+                            .font(.custom("LuckiestGuy-Regular", size: 24))
+                            .foregroundColor(Color(.clique))
+                            .padding(4)
+                    }
+                    
+                    Button {
+                        NotificationCenter.default.post(name: .goToMenuGameNotificationName, object: nil)
+                    } label: {
+                        Text("PICK ANOTHER GAME")
+                            .font(.custom("LuckiestGuy-Regular", size: 24))
+                            .foregroundColor(Color(.clique))
+                            .padding(4)
                     }
                 }
             }
-            .cornerRadius(4)        }
+        }
+        .ignoresSafeArea()
     }
 }
 

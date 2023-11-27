@@ -6,15 +6,23 @@ struct PsiquesAndMoreApp: App {
     var body: some Scene {
         WindowGroup {
             SplashView().ignoresSafeArea()
+                .onAppear {
+                    iniciaDois()
+                }
         }
     }
 }
 
-func iniciaGameKit(){
+func iniciaDois(){
+
+    GameKitHelper.shared.authenticateLocalPlayer()
+}
+
+func iniciaGameKit() {
     GKLocalPlayer.local.authenticateHandler = {
         viewController, error in
         
-        if let viewController = viewController {
+        if let _ = viewController {
             print(" player can sign in")
             // present the view controller so the player can sign in
             return

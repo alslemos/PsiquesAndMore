@@ -9,7 +9,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var rectangle = SKSpriteNode()
     
-    var characterVelocity: CGFloat = 10
+    var square = SKSpriteNode(texture: SKTexture(imageNamed: "animada0"), size: CGSize(width: 60, height: 60))
+    
+    var entidadeFramesAbaixando: [SKTexture] = []
+    var textureAtlassAbaixando = SKTextureAtlas(named: "entidadeAbaixando")
+    
+    var entidadeFrames: [SKTexture] = []
+    var textureAtlasss = SKTextureAtlas(named: "entidadeAnimada")
+    
+    var characterVelocity: CGFloat = 20
     
     // Don't forget to cancel this afterwards
     var cancellables = Set<AnyCancellable>()
@@ -45,15 +53,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // personagem
     var velocityX: CGFloat = 0.0
     var velocityY: CGFloat = 0.0
-    var square = SKSpriteNode(imageNamed: "personagem")
+    
+    var isPlayerMoving: Bool = false
+    var isPlayerTouchingFloor: Bool = false // variável controle que diz se o personagem tá tocando no chão
+    
+    var snowParticle = SKEmitterNode() // partícula acoplada ao personagem
+    
+    var lifes: Int = 3 {
+        didSet {
+            self.updateLifeNodes()
+            
+            if isHost {
+                if self.lifes <= 0 {
+                    self.sendInstaKillData()
+                } else {
+                    self.sendLifeData()
+                }
+            }
+        }
+    }
+    
+    var isPlayerInvincible: Bool = false {
+        didSet {
+            if isPlayerInvincible {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.isPlayerInvincible = false
+                    print("DEBUG: invincible? : \(self.isPlayerInvincible)")
+                }
+            }
+        }
+    }
+    
+    // n∘ de vidas do personagem
+    var lifeNodes = [SKSpriteNode]() // nodos das vidas do personagem
     
     // obstáculos
+    let enemy = SKSpriteNode(texture: Textures.birdTexture, size: CGSize(width: 30, height: 30))
+    let rock = SKSpriteNode(texture: Textures.rockTexture, size: CGSize(width: 40, height: 30))
+    let tree = SKSpriteNode(texture: Textures.trunkTexture, size: CGSize(width: 25, height: 50))
     
-    var spawnObstacleDelay: TimeInterval = 2
+    var spawnObstacleDelay: TimeInterval = 4
+    var enemiesMovements: [EnemyMovement] = []
+    var obstaclesOrder: [Obstacle] = []
+    var currentEnemyMovement: Int = 0
+    var currentObstacle: Int = 0
+    
+    var spawnObstaclesSubscription: AnyCancellable?
     
     // avalanche
-    
-    var avalanche = SKSpriteNode()
+    var avalanche = SKSpriteNode(texture: SKTexture(imageNamed: "avalanche0"))
     
     // logica do jogo
     var matchManager: MatchManager?
@@ -65,12 +113,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var players: [Player] = []
     
-    var enemiesMovements: [EnemyMovement] = []
-    var rocksMovements: [RockMovement] = []
-    
-    var obstacles: [SKSpriteNode] = []
-    var obstaclesOrder: [Obstacle] = []
-    
     var startDate: Int = 0
     
     var didGameStart: Bool! {
@@ -81,11 +123,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var startGameSubscription: AnyCancellable?
     
-    var spawnObstaclesSubscription: AnyCancellable?
+    var isHost: Bool = false
     
-    var currentEnemyMovement: Int = 0
-    var currentRockMovement: Int = 0
-    var currentObstacle: Int = 0
+    var timeCounter: Int = 0
+    
+    var movementDelay: TimeInterval = 0.5
+    
+    var movementImpulse: CGFloat = 10
+    
+    var isRockFalling: Bool = false
     
     override func didMove(to view: SKView) {
         match?.delegate = self
@@ -94,5 +140,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         viewFrame = view.frame
         
         didGameStart = false
+    }
+    
+    func clean() {
+        print("cleaning scene")
+        
+        self.removeAllActions()
+        self.removeAllChildren()
+        
+        for cancellable in cancellables {
+            cancellable.cancel()
+        }
+        
+        spawnObstaclesSubscription?.cancel()
+        
+        virtualController?.disconnect()
+        
+        enviarResultados()
+    }
+    
+    func enviarResultados() {
+        let score = calculaPontuacao()
+        
+        submitScore(score)
+                
+        var achievements: [GKAchievement] = []
+        achievements.append(AchievementsHelper.firstWinAchievement(didWin: true))
+        GameKitHelper.shared.reportAchievements(achievements: achievements)
+    }
+    
+    func calculaPontuacao() -> Int {
+        var resultado = Int((self.timeCounter * 100) / 60)
+        resultado += (self.lifes * 10)
+        
+        return resultado
     }
 }

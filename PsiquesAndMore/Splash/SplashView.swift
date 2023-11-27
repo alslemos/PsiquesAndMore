@@ -1,16 +1,15 @@
 import SwiftUI
 
 struct SplashView: View {
-    @ObservedObject var matchManager = MatchManager()
     @State var isActive: Bool = false
     
     var body: some View {
         ZStack {
+            Color(.fundo)
+            
             if self.isActive {
-                FirstView(matchManager: _matchManager)
+                InitialScreenView(showInstructions: !isOnboardingSeen())
             } else {
-                Rectangle()
-                    .background(Color.black)
                 Image("splashIcon")
                     .resizable()
                     .scaledToFit()
@@ -24,8 +23,12 @@ struct SplashView: View {
                 }
             }
         }
+        .ignoresSafeArea()
     }
-        
+}
+
+func isOnboardingSeen() -> Bool {
+    return UserDefaults.standard.bool(forKey: "completedOnboarding")
 }
 
 struct SplashView_Previews: PreviewProvider {
