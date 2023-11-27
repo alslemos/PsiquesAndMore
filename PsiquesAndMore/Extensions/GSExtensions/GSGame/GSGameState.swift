@@ -27,35 +27,20 @@ extension GameScene {
         }
     }
     
-    func gameOver(_ completion: @escaping () -> ()) {
-        guard let scene = self.scene else { return }
+    func clean() {
+        print("cleaning scene")
         
-        scene.removeAllActions()
-        scene.removeAllChildren()
-        
-        removeComands()
+        self.removeAllActions()
+        self.removeAllChildren()
         
         for cancellable in cancellables {
             cancellable.cancel()
         }
         
-        square.removeAllActions()
+        spawnObstaclesSubscription?.cancel()
         
-        spawnObstaclesSubscription = nil
+        virtualController?.disconnect()
         
-        spawnObstacleDelay = 1
-        
-        characterVelocity = 10
-        
-        completion()
-    }
-    
-    func restartGame() {
-        self.gameOver {
-            self.setGame {
-                self.backgroundSpeed = 0
-                self.createSubscriptions()
-            }
-        }
+        sendResults()
     }
 }

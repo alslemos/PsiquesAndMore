@@ -2,12 +2,28 @@ import Foundation
 import GameKit
 
 extension GameScene {
-    
-    func submitScore(_ score: Int){
-        /// open class func submitScore(_ score: Int, context: Int, player: GKPlayer, leaderboardIDs: [String])
+    func sendResults() {
+        let score = computePoints()
         
-        GKLeaderboard.submitScore(score, context: 0, player: GKLocalPlayer.local,
-                                  leaderboardIDs: ["firstLeaderboard"]) { error in
+        submitScore(score)
+                
+        var achievements: [GKAchievement] = []
+        achievements.append(AchievementsHelper.firstWinAchievement(didWin: true))
+        matchManager?.reportAchievements(achievements: achievements)
+    }
+    
+    func computePoints() -> Int {
+        var result = Int((self.timeCounter * 100) / 60)
+        result += (self.lifes * 10)
+        
+        return result
+    }
+    
+    func submitScore(_ score: Int) {
+        /// open class func submitScore(_ score: Int, context: Int, player: GKPlayer, leaderboardIDs: [String])
+        guard let localPlayer = matchManager?.localPlayer else { return }
+        
+        GKLeaderboard.submitScore(score, context: 0, player: localPlayer, leaderboardIDs: [MatchManager.leaderBoardID]) { error in
             if error != nil {
                 print("Error: \(error!.localizedDescription).")
                 print("TAZ MANIA") // QUAL A CHANCE DELE OBTER O localplayer? 3
@@ -16,9 +32,7 @@ extension GameScene {
     }
     
     /// Load the player's active achievements.
-    func loadAchivements(){
-       
-        
+    func loadAchivements() {
         GKAchievement.loadAchievements(completionHandler: { (achievements: [GKAchievement]?, error: Error?) in
             let achievementID = "InGh10"
             var achievement: GKAchievement? = nil
@@ -30,18 +44,6 @@ extension GameScene {
             if achievement == nil {
                 achievement = GKAchievement(identifier: achievementID)
             }
-            
-//            // Insert code to report the percentage.
-//            if let achievement = GKAchievement(identifier: achievementID) {
-//                achievement.percentComplete = 1.0
-//                GKAchievement.report([achievement]) { error in
-//                    if let error = error {
-//                        print("Error in reporting achievements: \(error)")
-//                    }
-//                }
-//            }
-            
-            
             
             if error != nil {
                 // Handle the error that occurs.

@@ -135,7 +135,7 @@ struct PickLevelView: View {
         .onReceive(gameOverPublisher) { _ in
             $gameSceneBox.gameScene.wrappedValue.virtualController?.disconnect()
             
-            $gameSceneBox.gameScene.wrappedValue.enviarResultados()
+            $gameSceneBox.gameScene.wrappedValue.sendResults()
             
             showGameOverView = true
             $gameSceneBox.gameScene.wrappedValue.isPaused = true

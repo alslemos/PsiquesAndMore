@@ -44,7 +44,7 @@ extension GameScene {
     func sendNotificationData(_ notification: NotificationType, _ completion: @escaping () -> ()) {
         print("sending notification data")
         do {
-            guard let data = try? JSONEncoder().encode(notification.data) else { return }
+            guard let data = try? JSONEncoder().encode(notification.rawValue) else { return }
             try self.match?.sendData(toAllPlayers: data, with: .reliable)
             completion()
         } catch {

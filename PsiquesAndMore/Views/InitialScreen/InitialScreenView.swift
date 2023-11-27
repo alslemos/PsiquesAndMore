@@ -27,7 +27,6 @@ struct InitialScreenView: View {
                                 .padding(.bottom, 40)
                             
                             VStack(spacing: 10) {
-                                // botao para jogar
                                 Button {
                                     matchManager.startMatchmaking()
                                 } label: {
@@ -45,7 +44,6 @@ struct InitialScreenView: View {
                                 }
                                 .padding(.bottom)
                                 
-                                // ainda tem esse bag
                                 Button {
                                     showInstructions = true
                                 } label: {
@@ -55,7 +53,6 @@ struct InitialScreenView: View {
                                 }
                                 .padding(.bottom)
                                 
-                                // botao para Fonedex
                                 NavigationLink {
                                     CreditsView().ignoresSafeArea().navigationBarBackButtonHidden(true)
                                         .navigationBarItems(leading: CustomBackButton())

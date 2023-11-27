@@ -141,38 +141,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         didGameStart = false
     }
-    
-    func clean() {
-        print("cleaning scene")
-        
-        self.removeAllActions()
-        self.removeAllChildren()
-        
-        for cancellable in cancellables {
-            cancellable.cancel()
-        }
-        
-        spawnObstaclesSubscription?.cancel()
-        
-        virtualController?.disconnect()
-        
-        enviarResultados()
-    }
-    
-    func enviarResultados() {
-        let score = calculaPontuacao()
-        
-        submitScore(score)
-                
-        var achievements: [GKAchievement] = []
-        achievements.append(AchievementsHelper.firstWinAchievement(didWin: true))
-        GameKitHelper.shared.reportAchievements(achievements: achievements)
-    }
-    
-    func calculaPontuacao() -> Int {
-        var resultado = Int((self.timeCounter * 100) / 60)
-        resultado += (self.lifes * 10)
-        
-        return resultado
-    }
 }

@@ -17,9 +17,3 @@ struct CustomBackButton: View {
         }
     }
 }
-
-////  how to use it:
-/**
- .navigationBarBackButtonHidden(true)
- .navigationBarItems(leading: CustomBackButton()) // Usando nosso botão personalizado no lugar
- */

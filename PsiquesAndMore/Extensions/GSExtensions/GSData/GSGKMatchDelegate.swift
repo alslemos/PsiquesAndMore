@@ -8,7 +8,6 @@
 import Foundation
 import GameKit
 
-
 extension GameScene: GKMatchDelegate {
     func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
         // Check if it's the players data
@@ -31,13 +30,13 @@ extension GameScene: GKMatchDelegate {
         }
         
         if let actionString = try? JSONDecoder().decode(String.self, from: data) {
-            if actionString == "pauseGame" {
+            if actionString == NotificationType.pauseGame.rawValue {
                 print("pause game data received")
                     
                 notify(.pauseGame)
             }
             
-            if actionString == "continueGame" {
+            if actionString == NotificationType.continueGame.rawValue {
                 print("continue game data received")
                 
                 isContinueOrderGiven = true
@@ -45,7 +44,7 @@ extension GameScene: GKMatchDelegate {
                 notify(.continueGame)
             }
             
-            if actionString == "goToMenu" {
+            if actionString == NotificationType.goToMenu.rawValue {
                 print("go to menu data received")
                 
                 isGoToMenuOrderGiven = true
@@ -53,13 +52,13 @@ extension GameScene: GKMatchDelegate {
                 notify(.goToMenu)
             }
             
-            if actionString == "gameOver" {
+            if actionString == NotificationType.gameOver.rawValue {
                 print("game over data received")
                 
                 notify(.gameOver)
             }
             
-            if actionString == "playAgain" {
+            if actionString == NotificationType.playAgain.rawValue {
                 print("play again data received")
                 
                 isPlayAgainOrderGiven = true
@@ -67,7 +66,7 @@ extension GameScene: GKMatchDelegate {
                 notify(.playAgain)
             }
             
-            if actionString == "loading" {
+            if actionString == NotificationType.loading.rawValue {
                 print("loading data received")
                 
                 notify(.loading)

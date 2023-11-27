@@ -13,13 +13,13 @@ extension GameScene {
     }
 }
 
-enum NotificationType {
-    case pauseGame
-    case continueGame
-    case goToMenu
-    case gameOver
-    case playAgain
-    case loading
+enum NotificationType: String {
+    case pauseGame = "pauseGame"
+    case continueGame = "continueGame"
+    case goToMenu = "goToMenu"
+    case gameOver = "gameOver"
+    case playAgain = "playAgain"
+    case loading = "loading"
     
     var name: NSNotification.Name {
         switch self {
@@ -35,23 +35,6 @@ enum NotificationType {
                 return .playAgainGameNotificationName
             case .loading:
                 return .loadingGameNotificationName
-        }
-    }
-    
-    var data: String {
-        switch self {
-            case .pauseGame:
-                return "pauseGame"
-            case .continueGame:
-                return "continueGame"
-            case .goToMenu:
-                return "goToMenu"
-            case .gameOver:
-                return "gameOver"
-            case .playAgain:
-                return "playAgain"
-            case .loading:
-                return "loading"
         }
     }
     
