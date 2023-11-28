@@ -14,14 +14,15 @@ struct LoadingGameView: View {
     
     var body: some View {
         ZStack {
-            Color(.fundo).ignoresSafeArea()
+            Color(.blueBlackground)
             
             Text(loadingText)
                 .lineLimit(2)
                 .font(.custom("LuckiestGuy-Regular", size: 24))
-                .foregroundColor(Color(.clique))
+                .foregroundColor(Color(.colorClickable))
                 .padding(.all)
         }
+        .ignoresSafeArea()
         .onReceive(timer) { input in
             if loadingText.count < 10 {
                 loadingText += "."

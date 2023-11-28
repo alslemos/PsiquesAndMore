@@ -10,34 +10,29 @@ import SwiftUI
 struct GameOverView: View {
     var body: some View {
         ZStack {
-            Color(.fundo)
+            Color(.blueBlackground)
             
             VStack(spacing: 24) {
                 Text("GAME OVER")
                     .font(.custom("LuckiestGuy-Regular", size: 36))
-                    .foregroundColor(Color(.semclique))
+                    .foregroundColor(Color(.colorText))
                 
-                VStack {
-                    
+                VStack(spacing: 8) {
                     Button {
                         NotificationCenter.default.post(name: .playAgainGameNotificationName, object: nil)
-                        print("DEBUG: play again")
                     } label: {
                         Text("TRY AGAIN")
-                            .font(.custom("LuckiestGuy-Regular", size: 24))
-                            .foregroundColor(Color(.clique))
-                            .padding(4)
                     }
                     
                     Button {
                         NotificationCenter.default.post(name: .goToMenuGameNotificationName, object: nil)
                     } label: {
                         Text("PICK ANOTHER GAME")
-                            .font(.custom("LuckiestGuy-Regular", size: 24))
-                            .foregroundColor(Color(.clique))
-                            .padding(4)
                     }
                 }
+                .font(.custom("LuckiestGuy-Regular", size: 24))
+                .foregroundColor(Color(.colorClickable))
+                .padding(8)
             }
         }
         .ignoresSafeArea()

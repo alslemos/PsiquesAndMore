@@ -5,12 +5,12 @@ struct SplashView: View {
     
     var body: some View {
         ZStack {
-            Color(.fundo)
+            Color(.blueBlackground)
             
             if self.isActive {
                 InitialScreenView(showInstructions: !isOnboardingSeen())
             } else {
-                Image("splashIcon")
+                Image(.chaosLogo)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 300, height: 300)
@@ -31,8 +31,6 @@ func isOnboardingSeen() -> Bool {
     return UserDefaults.standard.bool(forKey: "completedOnboarding")
 }
 
-struct SplashView_Previews: PreviewProvider {
-    static var previews: some View {
-        SplashView()
-    }
+#Preview {
+    SplashView(isActive: false)
 }

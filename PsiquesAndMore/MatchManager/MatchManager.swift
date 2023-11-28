@@ -2,11 +2,13 @@ import Foundation
 import GameKit
 import SwiftUI
 
-class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, GKLocalPlayerListener {
+@MainActor
+class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate {
     @Published var authenticationState: PlayerAuthState = .authenticating
     @Published var match: GKMatch?
     @Published var isGamePresented: Bool = false
     @Published var isHost: Bool = false
+    @Published var restrictedAlert: Bool = false
     
     static let leaderBoardID = "firstLeaderboard"
     
@@ -23,8 +25,14 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, 
         print("presenting matchmaking view controller...")
     }
     
-    func startMatchmaking(witInvite invite: GKInvite? = nil) {
-        guard localPlayer.isAuthenticated, let vc = createMatchmaker(withInvite: invite) else {
+    func startMatchmaking() {
+        if localPlayer.isMultiplayerGamingRestricted {
+            restrictedAlert = true
+            
+            return
+        }
+        
+        guard localPlayer.isAuthenticated, let vc = createMatchmaker() else {
             return
         }
         
@@ -32,12 +40,7 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, 
         presentMatchmaking(viewController: vc)
     }
     
-    private func createMatchmaker(withInvite invite: GKInvite? = nil) -> GKMatchmakerViewController? {
-        //If there is an invite, create the matchmaker vc with it
-        if let invite = invite {
-            return GKMatchmakerViewController(invite: invite)
-        }
-        
+    private func createMatchmaker() -> GKMatchmakerViewController? {
         return GKMatchmakerViewController(matchRequest: createRequest())
     }
     
@@ -45,7 +48,6 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, 
         let request = GKMatchRequest()
         request.minPlayers = 2
         request.maxPlayers = 2
-        request.inviteMessage = "blablabla"
         
         return request
     }

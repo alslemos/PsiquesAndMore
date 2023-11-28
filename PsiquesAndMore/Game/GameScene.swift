@@ -9,13 +9,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var rectangle = SKSpriteNode()
     
-    var square = SKSpriteNode(texture: SKTexture(imageNamed: "animada0"), size: CGSize(width: 60, height: 60))
+    var square = SKSpriteNode(texture: SKTexture(imageNamed: "animated0"), size: CGSize(width: 60, height: 60))
     
-    var entidadeFramesAbaixando: [SKTexture] = []
-    var textureAtlassAbaixando = SKTextureAtlas(named: "entidadeAbaixando")
+    var loweredEntityFrames: [SKTexture] = []
+    var loweredTextureAtlas = SKTextureAtlas(named: "loweredEntity")
     
-    var entidadeFrames: [SKTexture] = []
-    var textureAtlasss = SKTextureAtlas(named: "entidadeAnimada")
+    var animatedEntityFrames: [SKTexture] = []
+    var animatedTextureAtlas = SKTextureAtlas(named: "animatedEntity")
     
     var characterVelocity: CGFloat = 20
     

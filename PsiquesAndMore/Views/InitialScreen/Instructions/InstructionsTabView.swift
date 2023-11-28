@@ -14,7 +14,7 @@ struct InstructionsTabView: View {
     
     var body: some View {
         ZStack {
-            Color(.fundo)
+            Color(.blueBlackground)
             
             VStack {
                 HStack {
@@ -25,7 +25,7 @@ struct InstructionsTabView: View {
                             Image(systemName: "arrowshape.turn.up.backward.fill")
                                 .resizable()
                                 .frame(width: 30, height: 30)
-                                .foregroundColor(Color(.clique))
+                                .foregroundColor(Color(.colorClickable))
                         }
                         .padding(.leading)
                     } else {
@@ -46,7 +46,7 @@ struct InstructionsTabView: View {
                     } label: {
                         Text("SKIP")
                             .font(.custom("LuckiestGuy-Regular", size: 24))
-                            .foregroundColor(Color(.clique))
+                            .foregroundColor(Color(.colorClickable))
                     }
                     .padding(.trailing)
                 }
@@ -74,7 +74,7 @@ struct InstructionsTabView: View {
                         Text(selectedTab == 2 ? "ENJOY" : "NEXT")
                     }
                     .font(.custom("LuckiestGuy-Regular", size: 32))
-                    .foregroundColor(Color(.clique))
+                    .foregroundColor(Color(.colorClickable))
                     .position(CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height - 180))
                 }
                 .padding(.bottom, 60)

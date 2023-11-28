@@ -14,12 +14,12 @@ struct PauseGameView: View {
             
             ZStack {
                 Rectangle()
-                    .foregroundColor(Color(.fundo))
+                    .foregroundColor(Color(.blueBlackground))
                 
                 VStack(spacing: 24) {
                     Text("PAUSED GAME")
                         .font(.custom("LuckiestGuy-Regular", size: 36))
-                        .foregroundColor(Color(.semclique))
+                        .foregroundColor(Color(.colorText))
                     
                     VStack {
                         
@@ -29,7 +29,7 @@ struct PauseGameView: View {
                         } label: {
                             Text("CONTINUE")
                                 .font(.custom("LuckiestGuy-Regular", size: 24))
-                                .foregroundColor(Color(.clique))
+                                .foregroundColor(Color(.colorClickable))
                                 .padding(4)
                         }
                         
@@ -38,7 +38,7 @@ struct PauseGameView: View {
                         } label: {
                             Text("RESTART")
                                 .font(.custom("LuckiestGuy-Regular", size: 24))
-                                .foregroundColor(Color(.clique))
+                                .foregroundColor(Color(.colorClickable))
                                 .padding(4)
                         }
                         
@@ -47,7 +47,7 @@ struct PauseGameView: View {
                         } label: {
                             Text("QUIT")
                                 .font(.custom("LuckiestGuy-Regular", size: 24))
-                                .foregroundColor(Color(.clique))
+                                .foregroundColor(Color(.colorClickable))
                                 .padding(4)
                         }
                     }

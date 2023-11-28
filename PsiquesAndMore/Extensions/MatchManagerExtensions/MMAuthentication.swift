@@ -14,8 +14,7 @@ extension MatchManager {
     func authenticatePlayer() {
         GKLocalPlayer.local.authenticateHandler = { [self] viewController, error in
             if let viewController = viewController {
-                print("presenting authentication view controller...")
-                self.rootViewController?.present(viewController, animated: true)
+                self.rootViewController?.present(viewController, animated: true) { }
                 return
             }
             
@@ -36,12 +35,14 @@ extension MatchManager {
             } else {
                 self.authenticationState = .unauthenticated
             }
+            
+            localPlayer.register(self)
+            
+            GKAccessPoint.shared.isActive = true
+            GKAccessPoint.shared.location = .bottomLeading
+            GKAccessPoint.shared.showHighlights = true
+            
+            print(GKAccessPoint.shared.isActive)
         }
-        
-        GKAccessPoint.shared.isActive = true
-        GKAccessPoint.shared.location = .bottomLeading
-        GKAccessPoint.shared.showHighlights = true
-        
-        print(GKAccessPoint.shared.isActive)
     }
 }

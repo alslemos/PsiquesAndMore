@@ -98,7 +98,7 @@ struct PickLevelView: View {
                 
             } else {
                 ZStack {
-                    Color(.fundo)
+                    Color(.blueBlackground)
                     
                     VStack() {
                         
@@ -106,7 +106,7 @@ struct PickLevelView: View {
                         
                         Text("Pick an adventure to explore!")
                             .font(.custom("LuckiestGuy-Regular", size: 24)) //LuckiestGuy-Regular
-                            .foregroundColor(Color(.clique))
+                            .foregroundColor(Color(.colorClickable))
                             .padding(.all)
                         
                         HStack {
@@ -212,7 +212,7 @@ struct PickLevelView: View {
                     Image(systemName: "apple.logo")
                         .resizable()
                         .frame(width: 30, height: 30)
-                        .foregroundColor(Color(.clique))
+                        .foregroundColor(Color(.colorClickable))
                         .opacity(0)
                 }
             }
@@ -233,7 +233,7 @@ struct PickLevelView: View {
                     Image(systemName: "arrowshape.turn.up.backward.fill")
                         .resizable()
                         .frame(width: 30, height: 30)
-                        .foregroundColor(Color(.clique))
+                        .foregroundColor(Color(.colorClickable))
                         .opacity(1)
                   
                 }

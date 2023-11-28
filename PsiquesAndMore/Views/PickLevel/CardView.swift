@@ -63,7 +63,7 @@ struct CardView: View {
             VStack(spacing: 0) {
                 Text(game.name)
                     .font(.custom("LuckiestGuy-Regular", size: 20))
-                    .foregroundColor(Color(.clique))
+                    .foregroundColor(Color(.colorClickable))
                 
                 game.image
                     .padding(.horizontal)
@@ -74,12 +74,12 @@ struct CardView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 28, height: 19)
-                        .foregroundColor(Color(.clique))
+                        .foregroundColor(Color(.colorClickable))
                     #warning("frame and width are not responsive for other devices")
                     
                     Text("two players")
                         .font(.custom("LuckiestGuy-Regular", size: 12))
-                        .foregroundColor(Color(.clique))
+                        .foregroundColor(Color(.colorClickable))
                 }
             }
         }
