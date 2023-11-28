@@ -8,7 +8,7 @@
 import Foundation
 import GameKit
 
-extension MatchManager: GKLocalPlayerListener {
+extension MatchManager {
     func player(_ player: GKPlayer, didRequestMatchWithRecipients recipientPlayers: [GKPlayer]) {
         print("\n\nSending invites to other players.")
     }
