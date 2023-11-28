@@ -87,7 +87,7 @@ extension GameScene {
     
     func createPositionSyncLimits() {
         // right sync node
-        let rightSyncLimitNode = SKSpriteNode(color: .red, size: CGSize(width: 10, height: viewFrame.height * 3))
+        let rightSyncLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 10, height: viewFrame.height * 3))
         
         rightSyncLimitNode.name = "rightSyncLimit"
         rightSyncLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
@@ -109,7 +109,7 @@ extension GameScene {
         
         // left sync node
         
-        let leftSyncLimitNode = SKSpriteNode(color: .red, size: CGSize(width: 10, height: viewFrame.height * 3))
+        let leftSyncLimitNode = SKSpriteNode(color: .clear, size: CGSize(width: 10, height: viewFrame.height * 3))
         
         leftSyncLimitNode.name = "leftSyncLimit"
         leftSyncLimitNode.anchorPoint = CGPoint(x: 0, y: 0)
@@ -159,28 +159,28 @@ extension GameScene {
     }
     
     func updateAsset() {
-        print("debug: texture atlas: \(textureAtlasss.textureNames.count)")
+        print("debug: texture atlas: \(animatedTextureAtlas.textureNames.count)")
         
-        for i in 0..<textureAtlasss.textureNames.count {
-            let textureNames = "animada" + String(i)
-            entidadeFrames.append(textureAtlasss.textureNamed(textureNames))
+        for i in 0..<animatedTextureAtlas.textureNames.count {
+            let textureNames = "animated" + String(i)
+            animatedEntityFrames.append(animatedTextureAtlas.textureNamed(textureNames))
         }
         
-        print(entidadeFrames.count)
+        print(animatedEntityFrames.count)
         
-        square.run(SKAction.repeatForever(SKAction.animate(with: entidadeFrames, timePerFrame: 0.15)))
+        square.run(SKAction.repeatForever(SKAction.animate(with: animatedEntityFrames, timePerFrame: 0.15)))
     }
     
     func updateAssetSeAbaixando() {
-        print("debug: texture atlas abaixando: \(textureAtlassAbaixando.textureNames.count)")
+        print("debug: texture atlas abaixando: \(loweredTextureAtlas.textureNames.count)")
         
-        for i in 0..<textureAtlassAbaixando.textureNames.count {
-            let textureNames = "Vector" + "+" + String(i)
-            entidadeFramesAbaixando.append(textureAtlassAbaixando.textureNamed(textureNames))
+        for i in 0..<loweredTextureAtlas.textureNames.count {
+            let textureNames = "lowered" + String(i)
+            loweredEntityFrames.append(loweredTextureAtlas.textureNamed(textureNames))
         }
-        print(entidadeFramesAbaixando.count)
+        print(loweredEntityFrames.count)
         
-        square.run(SKAction.animate(with: entidadeFramesAbaixando, timePerFrame: 0.15))
+        square.run(SKAction.animate(with: loweredEntityFrames, timePerFrame: 0.15))
     }
 }
 
