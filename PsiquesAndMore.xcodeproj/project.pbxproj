@@ -39,6 +39,7 @@
 		68A8874E2B068B0E00C64E76 /* LuckiestGuy-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 68A8874D2B068B0E00C64E76 /* LuckiestGuy-Regular.ttf */; };
 		68E492A32B0FC4F700C06F31 /* GSSubmitScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E492A22B0FC4F700C06F31 /* GSSubmitScore.swift */; };
 		68E492A52B0FC73300C06F31 /* Textures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68E492A42B0FC73300C06F31 /* Textures.swift */; };
+		68F12C562B1656DC00DA5798 /* MMGKLocalPlayerListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F12C552B1656DC00DA5798 /* MMGKLocalPlayerListener.swift */; };
 		68F190292AFD24E3005B5030 /* GSSetupGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F190282AFD24E3005B5030 /* GSSetupGame.swift */; };
 		68F1902B2AFD2536005B5030 /* GSStartDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F1902A2AFD2536005B5030 /* GSStartDate.swift */; };
 		68F1902D2AFD2671005B5030 /* GSSetupPlayers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F1902C2AFD2671005B5030 /* GSSetupPlayers.swift */; };
@@ -96,6 +97,7 @@
 		68A8874D2B068B0E00C64E76 /* LuckiestGuy-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LuckiestGuy-Regular.ttf"; sourceTree = "<group>"; };
 		68E492A22B0FC4F700C06F31 /* GSSubmitScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSubmitScore.swift; sourceTree = "<group>"; };
 		68E492A42B0FC73300C06F31 /* Textures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Textures.swift; sourceTree = "<group>"; };
+		68F12C552B1656DC00DA5798 /* MMGKLocalPlayerListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MMGKLocalPlayerListener.swift; path = ../../../MMGKLocalPlayerListener.swift; sourceTree = "<group>"; };
 		68F190282AFD24E3005B5030 /* GSSetupGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupGame.swift; sourceTree = "<group>"; };
 		68F1902A2AFD2536005B5030 /* GSStartDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSStartDate.swift; sourceTree = "<group>"; };
 		68F1902C2AFD2671005B5030 /* GSSetupPlayers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSetupPlayers.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				689EBE2E2B151AFC0059ABC9 /* MMAuthentication.swift */,
 				689EBE3A2B151CA00059ABC9 /* MMMatchmakerDelegate.swift */,
 				689EBE362B151C360059ABC9 /* MMDataSharing.swift */,
+				68F12C552B1656DC00DA5798 /* MMGKLocalPlayerListener.swift */,
 				689EBE382B151C4F0059ABC9 /* MMGKMatchDelegate.swift */,
 				689EBE322B151B820059ABC9 /* MMLeaderboard.swift */,
 			);
@@ -500,6 +503,7 @@
 				68A887442B067F2A00C64E76 /* CardView.swift in Sources */,
 				687F43612B11343C0079FCF9 /* InstructionsTabView.swift in Sources */,
 				1C452ED72AF2BB07001F696B /* GameOverView.swift in Sources */,
+				68F12C562B1656DC00DA5798 /* MMGKLocalPlayerListener.swift in Sources */,
 				68F190292AFD24E3005B5030 /* GSSetupGame.swift in Sources */,
 				E7C5580D2AF93B4700F07740 /* GSGKMatchDelegate.swift in Sources */,
 				1CCB539E2B02901A00A78BC8 /* GSSetupAvalanche.swift in Sources */,

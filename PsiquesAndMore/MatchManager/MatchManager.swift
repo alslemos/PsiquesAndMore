@@ -3,7 +3,7 @@ import GameKit
 import SwiftUI
 
 @MainActor
-class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate, GKLocalPlayerListener {
+class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate {
     @Published var authenticationState: PlayerAuthState = .authenticating
     @Published var match: GKMatch?
     @Published var isGamePresented: Bool = false
