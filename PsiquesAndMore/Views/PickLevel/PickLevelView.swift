@@ -36,9 +36,12 @@ struct PickLevelView: View {
     let loadingGamePublisher = NotificationCenter.default.publisher(for: .loadingGameNotificationName)
     let backToInitialScreenPublisher = NotificationCenter.default.publisher(for: .backToInitialScreenNotificationName)
     
+    let yourTurnPublisher = NotificationCenter.default.publisher(for: .yourTurnNotificationName)
+    
     @State var showPauseGameView: Bool = false
     @State var showGameOverView: Bool = false
     @State var showLoadingGameView: Bool = false
+    @State var showYourTurnView: Bool = false
     @State var showGameScene: Bool = false
     
     @State private var index = 0
@@ -50,8 +53,9 @@ struct PickLevelView: View {
     
     init(matchManager: ObservedObject<MatchManager>) {
         self._matchManager = matchManager
-        let scene = Self.createGameScene(withMatchManager: matchManager.wrappedValue)
-        gameSceneBox = GameSceneBox(gameScene: scene)
+        
+        let gameScene = Self.createGameScene(withMatchManager: matchManager.wrappedValue)
+        gameSceneBox = GameSceneBox(gameScene: gameScene)
     }
     
     private static func createGameScene(withMatchManager matchManager: MatchManager) -> GameScene {
@@ -63,11 +67,12 @@ struct PickLevelView: View {
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .fill
         scene.isHost = matchManager.isHost
+        scene.isItMyTurn = matchManager.myTurn
         
         return scene
     }
     
-    let cards: [Card] = Card.allCases
+    let cards: [Game] = Game.allCases
     
     var body: some View {
         ZStack {
@@ -96,6 +101,14 @@ struct PickLevelView: View {
                     LoadingGameView()
                 }
                 
+                if showYourTurnView {
+                    if matchManager.myTurn {
+                        YourTurnView(myTurn: true)
+                    } else {
+                        YourTurnView(myTurn: false)
+                    }
+                }
+                
             } else {
                 ZStack {
                     Color(.blueBlackground)
@@ -104,8 +117,9 @@ struct PickLevelView: View {
                         
                         Spacer()
                         
+                        #warning("esse texto deve estar alinhando com o back button dessa tela")
                         Text("Pick an adventure to explore!")
-                            .font(.custom("LuckiestGuy-Regular", size: 24)) //LuckiestGuy-Regular
+                            .font(.custom("LuckiestGuy-Regular", size: 24))
                             .foregroundColor(Color(.colorClickable))
                             .padding(.all)
                         
@@ -123,25 +137,36 @@ struct PickLevelView: View {
                 }.ignoresSafeArea()
             }
         }
+        .onReceive(yourTurnPublisher) { _ in
+            print("foo: match manager turn: \(matchManager.myTurn)")
+            
+            showYourTurnView.toggle()
+        }
         .onReceive(lobbyCreationPublisher) { _ in
             matchManager.isGamePresented = false
         }
         .onReceive(readyPublisher) { _ in
             print("inside notification handler")
             
+            print(matchManager.selectedGame.name)
+            
             showGameScene = true
             showLoadingGameView = true
         }
         .onReceive(gameOverPublisher) { _ in
-            $gameSceneBox.gameScene.wrappedValue.virtualController?.disconnect()
+            $gameSceneBox.gameScene.wrappedValue.removeCommands()
             
-            $gameSceneBox.gameScene.wrappedValue.sendResults()
+            if matchManager.selectedGame == .hill {
+                $gameSceneBox.gameScene.wrappedValue.sendResults()
+            }
+            
+            $gameSceneBox.gameScene.wrappedValue.isPaused = true
             
             showGameOverView = true
-            $gameSceneBox.gameScene.wrappedValue.isPaused = true
         }
         .onReceive(pauseGamePublisher) { _ in
             $gameSceneBox.gameScene.wrappedValue.isPaused = true
+            
             showPauseGameView = true
         }
         .onReceive(continueGamePublisher) { _ in
@@ -154,6 +179,7 @@ struct PickLevelView: View {
             }
             
             $gameSceneBox.gameScene.wrappedValue.isPaused = false
+            
             self.showPauseGameView = false
         }
         .onReceive(playAgainPublisher) { _ in
@@ -167,8 +193,10 @@ struct PickLevelView: View {
                 matchManager.isHost = false
             }
             
-            showGameOverView = false
             gameSceneBox.gameScene = Self.createGameScene(withMatchManager: matchManager)
+            
+            showGameOverView = false
+            
             refreshToggle.toggle()
             
             showLoadingGameView = true
@@ -184,19 +212,19 @@ struct PickLevelView: View {
                 $gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven = false
             }
             
-            $gameSceneBox.gameScene.wrappedValue.virtualController?.disconnect()
+            $gameSceneBox.gameScene.wrappedValue.removeCommands()
             
             $gameSceneBox.gameScene.wrappedValue.clean()
+            
+            guard let match = $gameSceneBox.gameScene.wrappedValue.match else { return }
+            
+            matchManager.startGame(newMatch: match)
             
             matchManager.isHost = false
             
             showPauseGameView = false
             
             showGameScene = false
-            
-            guard let match = $gameSceneBox.gameScene.wrappedValue.match else { return }
-            
-            matchManager.startGame(newMatch: match)
         }
         .onReceive(loadingGamePublisher) { _ in
             self.showLoadingGameView = false
@@ -216,6 +244,7 @@ struct PickLevelView: View {
                         .opacity(0)
                 }
             }
+            .padding(.top)
                             
             :
                             
@@ -223,10 +252,11 @@ struct PickLevelView: View {
                 matchManager.sendBackToInitialData {
                     self.backToInitialScreen.toggle()
                 }
-        
+            
                 $gameSceneBox.gameScene.wrappedValue.clean()
             
                 $gameSceneBox.gameScene.wrappedValue.match?.disconnect()
+                
                 matchManager.match?.disconnect()
             } label: {
                 HStack {
@@ -238,6 +268,7 @@ struct PickLevelView: View {
                   
                 }
             }
+            .padding(.top)
         )
         .onChange(of: backToInitialScreen) { _ in
             self.matchManager.isGamePresented = false

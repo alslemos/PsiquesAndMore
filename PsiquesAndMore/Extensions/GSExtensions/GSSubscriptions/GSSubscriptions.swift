@@ -9,8 +9,21 @@ import Foundation
 import SpriteKit
 
 extension GameScene {
+    func createSubscriptions(for game: Game) {
+        switch game {
+            case .hill:
+                createDownTheHillSubscriptions()
+            case .snake:
+                print("foo")
+            case .squid:
+                createSquidSubscriptions()
+        }
+    }
+    
     // MARK: - Combine functions
-    func createSubscriptions() {
+    func createDownTheHillSubscriptions() {
+        floorSpeed = 0
+        
         timerSubscription()
         createFloorPositionUpdater()
         createFloorVelocityUpdater()
@@ -22,5 +35,9 @@ extension GameScene {
             self.obstaclePusher()
             self.createDelayDecreasers()
         }
+    }
+    
+    func createSquidSubscriptions() {
+        // nothing here yet
     }
 }

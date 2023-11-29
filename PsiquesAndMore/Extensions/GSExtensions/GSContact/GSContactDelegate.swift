@@ -8,7 +8,7 @@
 import Foundation
 import SpriteKit
 
-struct PhysicsCategory {
+struct DownTheHillPhysicsCategory {
     static let characterNode: UInt32 = 0x1 << 0
     static let floorNode: UInt32 = 0x1 << 1
     static let obstacleNode: UInt32 = 0x1 << 2
@@ -23,7 +23,7 @@ extension GameScene {
         if isHost {
             // check for player touching obstacles
             if !isPlayerInvincible {
-                if contactMask == PhysicsCategory.characterNode | PhysicsCategory.obstacleNode {
+                if contactMask == DownTheHillPhysicsCategory.characterNode | DownTheHillPhysicsCategory.obstacleNode {
                     print("DEBUG: touched obstacle")
                     
                     self.lifes -= 1
@@ -33,14 +33,14 @@ extension GameScene {
         }
         
         // check for player touching avalanche
-        if contactMask == PhysicsCategory.characterNode | PhysicsCategory.avalancheNode {
+        if contactMask == DownTheHillPhysicsCategory.characterNode | DownTheHillPhysicsCategory.avalancheNode {
             print("DEBUG: touched avalanche")
             
             self.lifes = 0
         }
         
         // check for player touching ground
-        if contactMask == PhysicsCategory.characterNode | PhysicsCategory.floorNode {
+        if contactMask == DownTheHillPhysicsCategory.characterNode | DownTheHillPhysicsCategory.floorNode {
             print("DEBUG: player is touching ground")
             
             self.isPlayerTouchingFloor = true
@@ -52,7 +52,7 @@ extension GameScene {
     func didEnd(_ contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         
-        if contactMask == PhysicsCategory.characterNode | PhysicsCategory.floorNode {
+        if contactMask == DownTheHillPhysicsCategory.characterNode | DownTheHillPhysicsCategory.floorNode {
             print("DEBUG: player is not touching ground")
             
             self.isPlayerTouchingFloor = false

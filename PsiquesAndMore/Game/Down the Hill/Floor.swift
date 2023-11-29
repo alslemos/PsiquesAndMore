@@ -20,7 +20,7 @@ extension GameScene {
         
         rotationAngle = asin(verticalThresholdPoint / rectangleWidth)
         
-        square.zRotation = -(rotationAngle)
+        character.zRotation = -(rotationAngle)
         
         rectangleHeigth = sin(rotationAngle) * (viewFrame.width)
         
@@ -37,8 +37,8 @@ extension GameScene {
         
         pb.isDynamic = false
         
-        pb.categoryBitMask = PhysicsCategory.floorNode
-        pb.contactTestBitMask = PhysicsCategory.characterNode
+        pb.categoryBitMask = DownTheHillPhysicsCategory.floorNode
+        pb.contactTestBitMask = DownTheHillPhysicsCategory.characterNode
         pb.collisionBitMask = 0
         
         rectangle.physicsBody = pb
@@ -46,11 +46,11 @@ extension GameScene {
         self.addChild(rectangle)
     }
     
-    func moveBackground() {
+    func floorMovement() {
         let deltaX = 30.0
         let deltaY = deltaX * Double(tan(.pi - rotationAngle))
         
-        let moveAction = SKAction.move(by: CGVector(dx: -(deltaX * backgroundSpeed), dy: -(deltaY * backgroundSpeed)), duration: 1)
+        let moveAction = SKAction.move(by: CGVector(dx: -(deltaX * floorSpeed), dy: -(deltaY * floorSpeed)), duration: 1)
         
         rectangle.run(SKAction.repeatForever(moveAction))
     }
@@ -79,7 +79,7 @@ extension GameScene {
         
         subscription
             .sink { _ in
-                self.backgroundSpeed += 1
+                self.floorSpeed += 1
                 
                 if (self.movementDelay - 0.0625) >= 0.25 {
                     self.movementDelay -= 0.0625

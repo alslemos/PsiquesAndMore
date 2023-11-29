@@ -18,8 +18,11 @@ extension GameScene {
             // continue game
             self.isPaused = false
 
-            self.backgroundSpeed = 0
-            self.createSubscriptions()
+            self.createSubscriptions(for: selectedGame)
+            
+            if selectedGame == .squid {
+                checkRound()
+            }
         } else {
             self.isPaused = true
 
@@ -39,8 +42,10 @@ extension GameScene {
         
         spawnObstaclesSubscription?.cancel()
         
-        virtualController?.disconnect()
+        removeCommands()
         
-        sendResults()
+        if selectedGame == .hill {
+            sendResults()
+        }
     }
 }

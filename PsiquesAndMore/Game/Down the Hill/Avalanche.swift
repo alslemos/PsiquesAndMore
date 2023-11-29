@@ -25,8 +25,8 @@ extension GameScene {
         physicsBodyAvalanche.allowsRotation = false
         physicsBodyAvalanche.isDynamic = false
         
-        physicsBodyAvalanche.categoryBitMask = PhysicsCategory.avalancheNode
-        physicsBodyAvalanche.contactTestBitMask = PhysicsCategory.characterNode
+        physicsBodyAvalanche.categoryBitMask = DownTheHillPhysicsCategory.avalancheNode
+        physicsBodyAvalanche.contactTestBitMask = DownTheHillPhysicsCategory.characterNode
         physicsBodyAvalanche.collisionBitMask = 16
         
         avalanche.physicsBody = physicsBodyAvalanche

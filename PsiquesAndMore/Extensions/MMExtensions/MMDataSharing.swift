@@ -1,12 +1,12 @@
 import Foundation
 
 extension MatchManager {
-    func sendReadyState(_ completion: @escaping () -> ()) {
+    func sendReadyState(for game: Game, _ completion: @escaping () -> ()) {
         self.isHost = true
         
         print("sending ready state data")
         do {
-            guard let data = try? JSONEncoder().encode("ready") else { return }
+            guard let data = try? JSONEncoder().encode(game) else { return }
             try self.match?.sendData(toAllPlayers: data, with: .reliable)
             completion()
         } catch {

@@ -10,6 +10,8 @@ import SpriteKit
 
 extension GameScene {
     func setupPauseButton() {
+        print("setting up pause button")
+        
         let pauseButton = SKSpriteNode(texture: SKTexture(image: UIImage(systemName: "pause.fill") ?? UIImage()))
         pauseButton.size = CGSize(
             width: 32,

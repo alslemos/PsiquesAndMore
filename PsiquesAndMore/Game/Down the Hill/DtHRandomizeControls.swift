@@ -1,36 +1,13 @@
 //
-//  GSSetupPlayers.swift
+//  DtHRandomizeControls.swift
 //  PsiquesAndMore
 //
-//  Created by Arthur Sobrosa on 09/11/23.
+//  Created by Arthur Sobrosa on 29/11/23.
 //
 
 import Foundation
-import GameKit
 
 extension GameScene {
-    func checkPlayerIndex() {
-        let localPlayer = Player(controls: .upAndLeft)
-        let remotePlayer = Player(controls: .downAndRight)
-        
-        if isHost {
-            print("debug: i am host")
-            players = [localPlayer, remotePlayer]
-            
-            self.localPlayerIndex = 0
-            self.remotePlayerIndex = 1
-            
-            setGame {
-                self.getStartDate {
-                    self.startGamePublisher()
-                }
-            }
-        } else {
-            self.remotePlayerIndex = 0
-            self.localPlayerIndex = 1
-        }
-    }
-    
     func savePlayers(_ completion: @escaping () -> ()) {
         let controls = setControlsForPlayer()
         players[0].controls = controls[0]

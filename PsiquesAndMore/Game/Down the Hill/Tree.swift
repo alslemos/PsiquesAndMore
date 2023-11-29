@@ -30,9 +30,9 @@ extension GameScene {
         physicsBodyTree.allowsRotation = false
         physicsBodyTree.isDynamic = true
         
-        physicsBodyTree.categoryBitMask = PhysicsCategory.obstacleNode
-        physicsBodyTree.contactTestBitMask = PhysicsCategory.characterNode
-        physicsBodyTree.collisionBitMask = PhysicsCategory.floorNode
+        physicsBodyTree.categoryBitMask = DownTheHillPhysicsCategory.obstacleNode
+        physicsBodyTree.contactTestBitMask = DownTheHillPhysicsCategory.characterNode
+        physicsBodyTree.collisionBitMask = DownTheHillPhysicsCategory.floorNode
         
         tree.physicsBody = physicsBodyTree
         
@@ -43,7 +43,7 @@ extension GameScene {
         let deltaX = 30.0
         let deltaY = deltaX * Double(tan(.pi - rotationAngle))
         
-        let moveAction = SKAction.move(by: CGVector(dx: -(deltaX * backgroundSpeed), dy: -(deltaY * backgroundSpeed)), duration: 1)
+        let moveAction = SKAction.move(by: CGVector(dx: -(deltaX * floorSpeed), dy: -(deltaY * floorSpeed)), duration: 1)
         
         self.tree.run(SKAction.repeatForever(moveAction))
     }

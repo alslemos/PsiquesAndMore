@@ -30,13 +30,13 @@ extension GameScene: GKMatchDelegate {
         }
         
         if let actionString = try? JSONDecoder().decode(String.self, from: data) {
-            if actionString == NotificationType.pauseGame.rawValue {
+            if actionString == GameState.pauseGame.rawValue {
                 print("pause game data received")
                     
                 notify(.pauseGame)
             }
             
-            if actionString == NotificationType.continueGame.rawValue {
+            if actionString == GameState.continueGame.rawValue {
                 print("continue game data received")
                 
                 isContinueOrderGiven = true
@@ -44,7 +44,7 @@ extension GameScene: GKMatchDelegate {
                 notify(.continueGame)
             }
             
-            if actionString == NotificationType.goToMenu.rawValue {
+            if actionString == GameState.goToMenu.rawValue {
                 print("go to menu data received")
                 
                 isGoToMenuOrderGiven = true
@@ -52,13 +52,13 @@ extension GameScene: GKMatchDelegate {
                 notify(.goToMenu)
             }
             
-            if actionString == NotificationType.gameOver.rawValue {
+            if actionString == GameState.gameOver.rawValue {
                 print("game over data received")
                 
                 notify(.gameOver)
             }
             
-            if actionString == NotificationType.playAgain.rawValue {
+            if actionString == GameState.playAgain.rawValue {
                 print("play again data received")
                 
                 isPlayAgainOrderGiven = true
@@ -66,7 +66,7 @@ extension GameScene: GKMatchDelegate {
                 notify(.playAgain)
             }
             
-            if actionString == NotificationType.loading.rawValue {
+            if actionString == GameState.loading.rawValue {
                 print("loading data received")
                 
                 notify(.loading)
@@ -82,6 +82,18 @@ extension GameScene: GKMatchDelegate {
                 print("insta kill data received")
                 
                 self.lifes = 0
+            }
+            
+            if actionString == "upper" {
+                print("upper movement data received")
+                
+                self.play(row: .upper)
+            }
+            
+            if actionString == "lower" {
+                print("lower movement data received")
+                
+                self.play(row: .lower)
             }
         }
         
@@ -105,6 +117,14 @@ extension GameScene: GKMatchDelegate {
             setGame {
                 self.startGamePublisher()
             }
+        }
+        
+        // Check if it's falling order array data
+        if let fallingOrder = try? JSONDecoder().decode([Bool].self, from: data) {
+            print("falling order received")
+            self.fallingOrder = fallingOrder
+          
+            self.setupPlatforms()
         }
     }
 }

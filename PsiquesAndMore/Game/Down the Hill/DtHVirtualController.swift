@@ -1,25 +1,10 @@
-//
-//  GSSetupCommands.swift
-//  PsiquesAndMore
-//
-//  Created by Alexandre Lemos da Silva on 06/11/23.
-//
-
 import Foundation
 import GameController
-
-class GameViewController: UIViewController {
-    // Virtual Onscreen Controller
-    private var _virtualController: Any?
-    @available(iOS 15.0, *)
-    public var virtualController: GCVirtualController? {
-        get { return self._virtualController as? GCVirtualController }
-        set { self._virtualController = newValue }
-    }
-}
+import SpriteKit
 
 extension GameScene {
-    func setupCommands(){
+    // MARK: - Down the Hill Game
+    func setupVirtualController() {
         print("inside trigger comands function")
         let virtualControllerConfig = GCVirtualController.Configuration()
         virtualControllerConfig.elements = [GCInputLeftTrigger, GCInputButtonX]
@@ -27,11 +12,9 @@ extension GameScene {
         virtualController = GCVirtualController(configuration: virtualControllerConfig)
         virtualController?.connect()
         getInputCommand()
-        
     }
     
-    func getInputCommand(){
-        
+    func getInputCommand() {
         var leftButton: GCControllerButtonInput?
         var rightButton: GCControllerButtonInput?
         var stickXAxis: GCControllerAxisInput?
@@ -123,6 +106,7 @@ extension GameScene {
                     
                     if !self.isPlayerMoving && self.isPlayerTouchingFloor {
                         self.sendMovementData(.up) {
+                            print("moving up")
                             self.moveSprite(.up)
                         }
                     } else {
@@ -134,6 +118,7 @@ extension GameScene {
                     
                     if !self.isPlayerMoving {
                         self.sendMovementData(.down) {
+                            print("moving down")
                             self.moveSprite(.down)
                         }
                     } else {
@@ -144,60 +129,7 @@ extension GameScene {
         }
     }
     
-    func removeComands(){
+    func removeCommands() {
         virtualController?.disconnect()
     }
-    
 }
-
-func createHeartBezierPath1() -> UIBezierPath {
-    let path = UIBezierPath()
-    
-    path.move(to: CGPoint(x: 0, y: 0))
-    path.addLine(to: CGPoint(x: -0.7, y:0))
-    path.addLine(to: CGPoint(x: -0.3, y:0.09))
-    path.addLine(to: CGPoint(x: -0.3, y:0.04))
-    // meio
-    path.addLine(to: CGPoint(x: 0.3, y:0.04))
-    path.addLine(to: CGPoint(x: 0.3, y:0.09))
-    path.addLine(to: CGPoint(x: 0.7, y:0))
-    // agora voltando
-    path.addLine(to: CGPoint(x: 0.3, y: -0.09))
-    path.addLine(to: CGPoint(x: 0.3, y: -0.04))
-    
-    path.addLine(to: CGPoint(x: -0.3, y: -0.04))
-    path.addLine(to: CGPoint(x: -0.3, y: -0.09))
-    
-    path.addLine(to: CGPoint(x: -0.7, y: 0))
-    
-    
-    path.close()
-    
-    return path
-}
-
-func createHeartBezierPath2() -> UIBezierPath {
-    let path = UIBezierPath()
-    
-    path.move(to: CGPoint(x: 0, y: 0))
-    path.addLine(to: CGPoint(x: 0, y:0.02))
-    path.addLine(to: CGPoint(x: 0.01, y:0.01))
-    path.addLine(to: CGPoint(x: 0.005, y:0.01))
-    /// MEIO
-    path.addLine(to: CGPoint(x: 0.005, y: -0.01))
-    //
-    path.addLine(to: CGPoint(x: 0.01, y: -0.01))
-    path.addLine(to: CGPoint(x: 0, y: -0.02))
-    // voltando
-    path.addLine(to: CGPoint(x: -0.01, y: -0.01))
-    path.addLine(to: CGPoint(x: -0.005, y: -0.01))
-    
-    path.addLine(to: CGPoint(x: -0.005, y: 0.01))
-    path.addLine(to: CGPoint(x: -0.01, y: 0.01))
-    path.addLine(to: CGPoint(x: 0, y: 0.02))
-    
-    path.close()
-    return path
-}
-
-

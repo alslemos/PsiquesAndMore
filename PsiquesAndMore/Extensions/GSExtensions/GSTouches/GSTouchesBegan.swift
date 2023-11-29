@@ -12,6 +12,23 @@ extension GameScene {
                     }
                 }
             }
+            
+            let location = touch.location(in: self)
+            let touchedNodes = self.nodes(at: location)
+            
+            for node in touchedNodes {
+                if isItMyTurn {
+                    if node.name == "upperButton" {
+                        sendStepData(Rows.upper.rawValue) {
+                            self.play(row: .upper)
+                        }
+                    } else if node.name == "lowerButton" {
+                        sendStepData(Rows.lower.rawValue) {
+                            self.play(row: .lower)
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -13,22 +13,15 @@ extension GameScene {
         print("inside set game")
         
         self.setupPauseButton()
-        self.setupCharacter()
-        self.setupFloor()
-        self.setupBackground()
-        self.setupAvalanche()
-        self.setupTimer()
-        self.setupLifeNodes()
-        self.setupEnemy()
-        self.setupRock()
-        self.setupTree()
+        
+        self.setupCharacter(for: selectedGame)
+        
+        self.setupBackground(for: selectedGame)
+        
+        self.setupElements(for: selectedGame)
         
         if isHost {
-            print("creating obstacles array")
-            
-            self.createObstaclesArray()
-            
-            self.savePlayers {
+            self.setupHostOnlyFunctions(for: selectedGame) {
                 completion()
             }
         } else {
@@ -55,7 +48,7 @@ extension GameScene {
                     self.didGameStart = true                    
                     self.notify(.loading)
                     
-                    self.setupCommands()
+                    self.setupControls(for: self.selectedGame)
                 }
             }
     }

@@ -22,9 +22,9 @@ extension GameScene {
         physicsBodyEnemy.allowsRotation = false
         physicsBodyEnemy.isDynamic = true
         
-        physicsBodyEnemy.categoryBitMask = PhysicsCategory.obstacleNode
-        physicsBodyEnemy.contactTestBitMask = PhysicsCategory.characterNode
-        physicsBodyEnemy.collisionBitMask = PhysicsCategory.floorNode
+        physicsBodyEnemy.categoryBitMask = DownTheHillPhysicsCategory.obstacleNode
+        physicsBodyEnemy.contactTestBitMask = DownTheHillPhysicsCategory.characterNode
+        physicsBodyEnemy.collisionBitMask = DownTheHillPhysicsCategory.floorNode
         
         enemy.physicsBody = physicsBodyEnemy
         

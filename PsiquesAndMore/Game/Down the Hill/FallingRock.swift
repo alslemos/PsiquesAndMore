@@ -21,9 +21,9 @@ extension GameScene {
         physicsBodyRock.allowsRotation = true
         physicsBodyRock.isDynamic = false
         
-        physicsBodyRock.categoryBitMask = PhysicsCategory.obstacleNode
-        physicsBodyRock.contactTestBitMask = PhysicsCategory.characterNode
-        physicsBodyRock.collisionBitMask = PhysicsCategory.floorNode
+        physicsBodyRock.categoryBitMask = DownTheHillPhysicsCategory.obstacleNode
+        physicsBodyRock.contactTestBitMask = DownTheHillPhysicsCategory.characterNode
+        physicsBodyRock.collisionBitMask = DownTheHillPhysicsCategory.floorNode
         
         rock.physicsBody = physicsBodyRock
         

@@ -9,24 +9,37 @@ import Foundation
 import SpriteKit
 
 extension GameScene {
-    func setupCharacter() {
+    func setupCharacter(for game: Game) {
+        switch game {
+            case .hill:
+                setupSkater()
+            case .snake:
+                print("foo")
+            case .squid:
+                setupDinosaur()
+        }
+    }
+    // MARK: - Down the Hill Game
+    func setupSkater() {
         print("Disparando personagem")
         
-        let pb = SKPhysicsBody(rectangleOf: square.size, center: CGPoint(x: square.size.width / 2, y: square.size.height / 2))
+        character = SKSpriteNode(texture: SKTexture(imageNamed: "animated0"), size: CGSize(width: 60, height: 60))
+        
+        let pb = SKPhysicsBody(rectangleOf: character.size, center: CGPoint(x: character.size.width / 2, y: character.size.height / 2))
         
         pb.allowsRotation = false
         pb.isDynamic = true
         pb.affectedByGravity = true
         
-        pb.categoryBitMask = PhysicsCategory.characterNode
-        pb.contactTestBitMask = PhysicsCategory.obstacleNode + PhysicsCategory.avalancheNode
-        pb.collisionBitMask = PhysicsCategory.floorNode + PhysicsCategory.limitNode
+        pb.categoryBitMask = DownTheHillPhysicsCategory.characterNode
+        pb.contactTestBitMask = DownTheHillPhysicsCategory.obstacleNode + DownTheHillPhysicsCategory.avalancheNode
+        pb.collisionBitMask = DownTheHillPhysicsCategory.floorNode + DownTheHillPhysicsCategory.limitNode
         
-        square.anchorPoint = CGPoint(x: 0, y: 0)
-        square.physicsBody = pb
-        square.name = "square"
-        square.position = CGPoint(x: (viewFrame.midX), y: (viewFrame.midY) + 100)
-        square.zPosition = Layers.entity
+        character.anchorPoint = CGPoint(x: 0, y: 0)
+        character.physicsBody = pb
+        character.name = "square"
+        character.position = CGPoint(x: (viewFrame.midX), y: (viewFrame.midY) + 100)
+        character.zPosition = Layers.entity
         
         let emitter = SKEmitterNode(fileNamed: "Snow")
         emitter?.position = CGPoint(x: 0.0, y: 0.0)
@@ -37,9 +50,9 @@ extension GameScene {
         emitter?.name = "snow"
         emitter?.targetNode = self.scene
         self.snowParticle = emitter ?? SKEmitterNode()
-        square.addChild(snowParticle)
+        character.addChild(snowParticle)
         
-        self.addChild(square)
+        self.addChild(character)
         createLimits()
         createPositionSyncLimits()
         
@@ -59,8 +72,8 @@ extension GameScene {
         maxLimitBody.isDynamic = false
         maxLimitBody.affectedByGravity = false
         
-        maxLimitBody.categoryBitMask = PhysicsCategory.limitNode
-        maxLimitBody.collisionBitMask = PhysicsCategory.characterNode
+        maxLimitBody.categoryBitMask = DownTheHillPhysicsCategory.limitNode
+        maxLimitBody.collisionBitMask = DownTheHillPhysicsCategory.characterNode
         
         maxLimitNode.physicsBody = maxLimitBody
         
@@ -76,8 +89,8 @@ extension GameScene {
         minLimitBody.isDynamic = false
         minLimitBody.affectedByGravity = false
         
-        minLimitBody.categoryBitMask = PhysicsCategory.limitNode
-        minLimitBody.collisionBitMask = PhysicsCategory.characterNode
+        minLimitBody.categoryBitMask = DownTheHillPhysicsCategory.limitNode
+        minLimitBody.collisionBitMask = DownTheHillPhysicsCategory.characterNode
         
         minLimitNode.physicsBody = minLimitBody
         
@@ -100,8 +113,8 @@ extension GameScene {
         rightSyncLimitNodePhysicsBody.isDynamic = false
         rightSyncLimitNodePhysicsBody.affectedByGravity = false
         
-        rightSyncLimitNodePhysicsBody.categoryBitMask = PhysicsCategory.limitNode
-        rightSyncLimitNodePhysicsBody.collisionBitMask = PhysicsCategory.characterNode
+        rightSyncLimitNodePhysicsBody.categoryBitMask = DownTheHillPhysicsCategory.limitNode
+        rightSyncLimitNodePhysicsBody.collisionBitMask = DownTheHillPhysicsCategory.characterNode
         
         rightSyncLimitNode.physicsBody = rightSyncLimitNodePhysicsBody
         
@@ -122,8 +135,8 @@ extension GameScene {
         leftSyncLimitNodePhysicsBody.isDynamic = false
         leftSyncLimitNodePhysicsBody.affectedByGravity = false
         
-        leftSyncLimitNodePhysicsBody.categoryBitMask = PhysicsCategory.limitNode
-        leftSyncLimitNodePhysicsBody.collisionBitMask = PhysicsCategory.characterNode
+        leftSyncLimitNodePhysicsBody.categoryBitMask = DownTheHillPhysicsCategory.limitNode
+        leftSyncLimitNodePhysicsBody.collisionBitMask = DownTheHillPhysicsCategory.characterNode
         
         leftSyncLimitNode.physicsBody = leftSyncLimitNodePhysicsBody
         
@@ -153,7 +166,7 @@ extension GameScene {
                     self.characterVelocity += 2
                     
                     let applyForce = SKAction.applyForce(CGVector(dx: -(self.characterVelocity), dy: 0), duration: 1)
-                    self.square.run(applyForce)
+                    self.character.run(applyForce)
                 }
             }.store(in: &cancellables)
     }
@@ -168,7 +181,7 @@ extension GameScene {
         
         print(animatedEntityFrames.count)
         
-        square.run(SKAction.repeatForever(SKAction.animate(with: animatedEntityFrames, timePerFrame: 0.15)))
+        character.run(SKAction.repeatForever(SKAction.animate(with: animatedEntityFrames, timePerFrame: 0.15)))
     }
     
     func updateAssetSeAbaixando() {
@@ -180,7 +193,51 @@ extension GameScene {
         }
         print(loweredEntityFrames.count)
         
-        square.run(SKAction.animate(with: loweredEntityFrames, timePerFrame: 0.15))
+        character.run(SKAction.animate(with: loweredEntityFrames, timePerFrame: 0.15))
+    }
+    
+    // MARK: - Squid Game
+    func setupDinosaur() {
+        character = SKSpriteNode(color: .yellow, size: CGSize(width: 40, height: 40))
+        
+        character.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        character.position = CGPoint(x: viewFrame.minX + 80, y: viewFrame.midY)
+        character.name = "character"
+        character.zPosition = Layers.entity
+        
+        self.addChild(character)
+        setupLines()
+    }
+    
+    func setupLines() {
+        setupStartLine()
+        setupFinishLine()
+    }
+    
+    func setupStartLine() {
+        let node = SKSpriteNode(texture: Textures.groundTexture, size: CGSize(
+            width: 120,
+            height: viewFrame.height + 100))
+        
+        node.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        node.position = CGPoint(x: viewFrame.minX + 60, y: viewFrame.midY)
+        node.zPosition = Layers.particle
+        node.name = "startLine"
+        
+        self.addChild(node)
+    }
+    
+    func setupFinishLine() {
+        let node = SKSpriteNode(texture: Textures.groundTexture, size: CGSize(
+            width: 120,
+            height: viewFrame.height + 100))
+        
+        node.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        node.position = CGPoint(x: viewFrame.maxX - 60, y: viewFrame.midY)
+        node.zPosition = Layers.particle
+        node.name = "finishLine"
+        
+        self.addChild(node)
     }
 }
 

@@ -8,12 +8,6 @@
 import Foundation
 import SpriteKit
 
-enum Obstacle: CaseIterable, Codable {
-    case enemy
-    case rock
-    case tree
-}
-
 extension GameScene {
     // MARK: - Obstacles Subscriptions
     func obstaclePositionUpdater() {
@@ -57,6 +51,12 @@ extension GameScene {
                         
                         self.isRockFalling = false
                     } else {
+                        if obstacle == .rock {
+                            self.isRockFalling = true
+                        } else {
+                            self.isRockFalling = false
+                        }
+                        
                         self.moveObstacle(for: obstacle)
                     }
                 }
@@ -88,30 +88,6 @@ extension GameScene {
     }
     
     // MARK: - Obstacles Actions
-    func createObstaclesArray() {
-        for _ in 0..<100 {
-            // Creatiing enemies array
-            let yPositions: [YPosition] = YPosition.allCases
-            let randomYPosition = yPositions.randomElement()
-            
-            guard let yPosition = randomYPosition else { return }
-            
-            let enemyTime = Double.random(in: 1.5...2.0)
-            
-            let randomEnemyMovement = EnemyMovement(yPosition: yPosition, time: enemyTime)
-            
-            enemiesMovements.append(randomEnemyMovement)
-            
-            // Creating obstacles array
-            let obstacleCases: [Obstacle] = Obstacle.allCases
-            let randomObstacle = obstacleCases.randomElement()
-            
-            guard let obstacle = randomObstacle else { return }
-            
-            obstaclesOrder.append(obstacle)
-        }
-    }
-    
     func repositionObstacles() {
         if enemy.position.x <= -50 {
             enemy.position = CGPoint(x: viewFrame.maxX, y: 0)

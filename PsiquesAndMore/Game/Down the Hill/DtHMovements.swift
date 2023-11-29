@@ -1,3 +1,10 @@
+//
+//  DtHMovements.swift
+//  PsiquesAndMore
+//
+//  Created by Arthur Sobrosa on 29/11/23.
+//
+
 import Foundation
 import SpriteKit
 
@@ -11,7 +18,7 @@ extension GameScene {
                     let deltaX = isRockFalling ? 0 : Int(movementImpulse)
                     let deltaY = Int(movementImpulse * 0.9)
                     
-                    self.square.physicsBody?.applyImpulse(CGVector(dx: deltaX, dy: deltaY))
+                    self.character.physicsBody?.applyImpulse(CGVector(dx: deltaX, dy: deltaY))
                 case .down:
                     updateAssetSeAbaixando()
                     
@@ -24,60 +31,55 @@ extension GameScene {
                     let deltaX = Int(movementImpulse)
                     let deltaY = 0
                     
-                    self.square.physicsBody?.applyImpulse(CGVector(dx: deltaX, dy: deltaY))
+                    self.character.physicsBody?.applyImpulse(CGVector(dx: deltaX, dy: deltaY))
                 case .left:
                     self.isPlayerMoving = true
                     
                     let deltaX = -Int(movementImpulse * 0.8)
                     let deltaY = 0
                     
-                    self.square.physicsBody?.applyImpulse(CGVector(dx: deltaX, dy: deltaY))
+                    self.character.physicsBody?.applyImpulse(CGVector(dx: deltaX, dy: deltaY))
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + movementDelay) {
                 self.isPlayerMoving = false
                 
                 self.updateAsset()
+                
+                self.normalSpriteBody()
             }
         }
     }
     
     func littleSpriteBody() {
-        square.size = CGSize(width: 60, height: 30)
+        character.size = CGSize(width: 60, height: 30)
         
-        let pb = SKPhysicsBody(rectangleOf: square.size, center: CGPoint(x: square.size.width / 2, y: square.frame.height / 2))
+        let pb = SKPhysicsBody(rectangleOf: character.size, center: CGPoint(x: character.size.width / 2, y: character.frame.height / 2))
         
         pb.allowsRotation = false
         pb.isDynamic = true
         pb.affectedByGravity = true
         
-        pb.categoryBitMask = PhysicsCategory.characterNode
-        pb.contactTestBitMask = PhysicsCategory.obstacleNode
-        pb.collisionBitMask = PhysicsCategory.floorNode + PhysicsCategory.limitNode
+        pb.categoryBitMask = DownTheHillPhysicsCategory.characterNode
+        pb.contactTestBitMask = DownTheHillPhysicsCategory.obstacleNode
+        pb.collisionBitMask = DownTheHillPhysicsCategory.floorNode + DownTheHillPhysicsCategory.limitNode
         
-        square.physicsBody = pb
+        character.physicsBody = pb
     }
     
     func normalSpriteBody() {
-        square.size = CGSize(width: 60, height: 60)
+        character.size = CGSize(width: 60, height: 60)
         
-        let pb = SKPhysicsBody(rectangleOf: self.square.size, center: CGPoint(x: self.square.size.width / 2, y: self.square.size.height / 2))
+        let pb = SKPhysicsBody(rectangleOf: self.character.size, center: CGPoint(x: self.character.size.width / 2, y: self.character.size.height / 2))
         
         pb.allowsRotation = false
         pb.isDynamic = true
         pb.affectedByGravity = true
         
-        pb.categoryBitMask = PhysicsCategory.characterNode
-        pb.contactTestBitMask = PhysicsCategory.obstacleNode
-        pb.collisionBitMask = PhysicsCategory.floorNode + PhysicsCategory.limitNode
+        pb.categoryBitMask = DownTheHillPhysicsCategory.characterNode
+        pb.contactTestBitMask = DownTheHillPhysicsCategory.obstacleNode
+        pb.collisionBitMask = DownTheHillPhysicsCategory.floorNode + DownTheHillPhysicsCategory.limitNode
         
-        self.square.physicsBody = pb
+        self.character.physicsBody = pb
     }
-}
-
-enum Movement: Codable {
-    case up
-    case down
-    case left
-    case right
 }
