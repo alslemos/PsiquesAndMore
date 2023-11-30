@@ -7,9 +7,7 @@
 
 import SwiftUI
 
-struct YourTurnView: View {
-    let myTurn: Bool
-    
+struct YouWinView: View {
     @State var fontSize: CGFloat = 10
     @State var didTap: Bool = false
     
@@ -19,7 +17,7 @@ struct YourTurnView: View {
         ZStack {
             Color.black.opacity(0.7)
             
-            Text("It's \(myTurn ? "your" : "their") turn!")
+            Text("You win!")
                 .font(.custom("LuckiestGuy-Regular", size: fontSize))
                 .foregroundColor(Color(.colorClickable))
         }
@@ -29,18 +27,10 @@ struct YourTurnView: View {
                 fontSize += 80
             }
         }
-        .onTapGesture {
-            NotificationCenter.default.post(name: .yourTurnNotificationName, object: nil)
-            didTap = true
-        }
-        .onReceive(timer) { _ in
-            if !didTap {
-                NotificationCenter.default.post(name: .yourTurnNotificationName, object: nil)
-            }
-        }
     }
 }
 
 #Preview {
-    YourTurnView(myTurn: false)
+    YouWinView()
 }
+

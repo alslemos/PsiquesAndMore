@@ -37,11 +37,14 @@ struct PickLevelView: View {
     let backToInitialScreenPublisher = NotificationCenter.default.publisher(for: .backToInitialScreenNotificationName)
     
     let yourTurnPublisher = NotificationCenter.default.publisher(for: .yourTurnNotificationName)
+    let youWinPublisher = NotificationCenter.default.publisher(for: .youWinNotificationName)
     
     @State var showPauseGameView: Bool = false
     @State var showGameOverView: Bool = false
     @State var showLoadingGameView: Bool = false
     @State var showYourTurnView: Bool = false
+    @State var showYouWinView: Bool = false
+    
     @State var showGameScene: Bool = false
     
     @State private var index = 0
@@ -89,6 +92,10 @@ struct PickLevelView: View {
                     showGameOverView = false
                 }
                 
+                if showYouWinView {
+                    YouWinView()
+                }
+                
                 if showYourTurnView {
                     if matchManager.myTurn {
                         YourTurnView(myTurn: true)
@@ -134,6 +141,9 @@ struct PickLevelView: View {
                 .ignoresSafeArea()
             }
         }
+        .onReceive(youWinPublisher) { _ in
+            showYouWinView = true
+        }
         .onReceive(yourTurnPublisher) { _ in
             showYourTurnView.toggle()
         }
@@ -146,6 +156,8 @@ struct PickLevelView: View {
         }
         .onReceive(gameOverPublisher) { _ in
             showYourTurnView = false
+            
+            showYouWinView = false
             
             $gameSceneBox.gameScene.wrappedValue.removeCommands()
             
@@ -193,6 +205,8 @@ struct PickLevelView: View {
             showPauseGameView = false
         }
         .onReceive(goToMenuPublisher) { _ in
+            showYouWinView = false
+            
             if !$gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven {
                 $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.goToMenu)
                 $gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven = true

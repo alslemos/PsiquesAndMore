@@ -18,7 +18,6 @@ extension GameScene {
     func play(row: Rows) {
         
         if !isPlayerMoving {
-            
             // UPPER BUTTON
             if row == .upper {
                 print("DEBUG initial player step: \(step)")
@@ -33,10 +32,12 @@ extension GameScene {
                     movePlayer(position: self.childNode(withName: "finishLine")?.position ?? CGPoint(
                         x: viewFrame.maxX,
                         y: viewFrame.midY))
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                        self.notify(.gameOver)
+                    
+                    notify(.youWin)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        self.notify(.goToMenu)
                     }
-                    return
                 } else {
                     movePlayer(position: position)
                     
@@ -47,7 +48,6 @@ extension GameScene {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                                 self.notify(.gameOver)
                             }
-                            
                             
                             print("DEBUG: DEAD")
                         }
@@ -63,8 +63,7 @@ extension GameScene {
                 
                 print("DEBUG final player step: \(step)")
                 
-                
-                // LOWER BUTTON
+            // LOWER BUTTON
             } else if row == .lower {
                 print("DEBUG initial player step: \(step)")
                 
@@ -78,10 +77,12 @@ extension GameScene {
                     movePlayer(position: self.childNode(withName: "finishLine")?.position ?? CGPoint(
                         x: viewFrame.maxX,
                         y: viewFrame.midY))
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                        self.notify(.gameOver)
+                    
+                    notify(.youWin)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        self.notify(.goToMenu)
                     }
-                    return
                 } else {
                     movePlayer(position: position)
                     
@@ -96,7 +97,6 @@ extension GameScene {
                             
                             print("DEBUG: DEAD")
                         }
-                        
                     } else {
                         step += 2
                         

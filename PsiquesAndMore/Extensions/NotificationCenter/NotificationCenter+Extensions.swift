@@ -19,4 +19,5 @@ extension NSNotification.Name {
     static var backToInitialScreenNotificationName: NSNotification.Name = NSNotification.Name("BackToInitial")
     
     static var yourTurnNotificationName: NSNotification.Name = NSNotification.Name("YourTurn")
+    static var youWinNotificationName: NSNotification.Name = NSNotification.Name("YouWin")
 }

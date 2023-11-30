@@ -15,6 +15,7 @@ enum GameState: String {
     case playAgain = "playAgain"
     case loading = "loading"
     case yourTurn = "yourTurn"
+    case youWin = "youWin"
     
     var name: NSNotification.Name {
         switch self {
@@ -32,6 +33,8 @@ enum GameState: String {
                 return .loadingGameNotificationName
             case .yourTurn:
                 return .yourTurnNotificationName
+            case .youWin:
+                return .youWinNotificationName
         }
     }
     
@@ -51,6 +54,8 @@ enum GameState: String {
                 return "send loading data failed"
             case .yourTurn:
                 return "send your turn data failed"
+            case .youWin:
+                return "send you win data failed"
         }
     }
 }
