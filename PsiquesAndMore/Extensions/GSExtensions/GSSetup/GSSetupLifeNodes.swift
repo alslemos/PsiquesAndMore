@@ -41,9 +41,8 @@ extension GameScene {
                 self.lifeNodes[1].texture = Textures.heartTexture
                 self.lifeNodes[2].texture = Textures.heartTexture
                 
-                self.sendNotificationData(.gameOver) {
-                    self.notify(.gameOver)
-                }
+                self.sendNotificationData(.gameOver)
+                self.notify(.gameOver)
             default:
                 print("tried to update lifeNodes with <0 hearts")
         }

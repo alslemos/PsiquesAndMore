@@ -9,13 +9,15 @@ import Foundation
 import SpriteKit
 
 extension GameScene {
-    func setupBackground(){
-        backgroundImage.zPosition = Layers.background
-        backgroundImage.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
-
-        addChild(backgroundImage)
-    }
+    func setupBackground(for game: Game) {
+        switch game {
+            case .hill:
+                setupDownTheHillBackground()
+            case .squid:
+                setupSquidBackground()
+            case .snake:
+                print("foo")
+        }
+    }    
 }
-
-
 

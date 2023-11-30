@@ -4,11 +4,13 @@ import SwiftUI
 
 @MainActor
 class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate {
-    @Published var authenticationState: PlayerAuthState = .authenticating
+    @Published var authenticationState: AuthenticationState = .authenticating
     @Published var match: GKMatch?
     @Published var isGamePresented: Bool = false
     @Published var isHost: Bool = false
     @Published var restrictedAlert: Bool = false
+    @Published var selectedGame: Game = .hill
+    @Published var myTurn: Bool = false
     
     static let leaderBoardID = "firstLeaderboard"
     

@@ -9,30 +9,19 @@ import Foundation
 import GameKit
 
 extension GameScene {
-    func setGame(_ completion: @escaping () -> ()) {
+    func setGame() {
         print("inside set game")
         
-        self.setupPauseButton()
-        self.setupCharacter()
-        self.setupFloor()
-        self.setupBackground()
-        self.setupAvalanche()
-        self.setupTimer()
-        self.setupLifeNodes()
-        self.setupEnemy()
-        self.setupRock()
-        self.setupTree()
+        self.setupPauseButton(for: selectedGame)
+        
+        self.setupCharacter(for: selectedGame)
+        
+        self.setupBackground(for: selectedGame)
+        
+        self.setupElements(for: selectedGame)
         
         if isHost {
-            print("creating obstacles array")
-            
-            self.createObstaclesArray()
-            
-            self.savePlayers {
-                completion()
-            }
-        } else {
-            completion()
+            self.setupHostOnlyFunctions(for: selectedGame)
         }
     }
     
@@ -55,7 +44,7 @@ extension GameScene {
                     self.didGameStart = true                    
                     self.notify(.loading)
                     
-                    self.setupCommands()
+                    self.setupControls(for: self.selectedGame)
                 }
             }
     }

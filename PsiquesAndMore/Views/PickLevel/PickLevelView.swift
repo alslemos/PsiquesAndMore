@@ -36,9 +36,12 @@ struct PickLevelView: View {
     let loadingGamePublisher = NotificationCenter.default.publisher(for: .loadingGameNotificationName)
     let backToInitialScreenPublisher = NotificationCenter.default.publisher(for: .backToInitialScreenNotificationName)
     
+    let yourTurnPublisher = NotificationCenter.default.publisher(for: .yourTurnNotificationName)
+    
     @State var showPauseGameView: Bool = false
     @State var showGameOverView: Bool = false
     @State var showLoadingGameView: Bool = false
+    @State var showYourTurnView: Bool = false
     @State var showGameScene: Bool = false
     
     @State private var index = 0
@@ -50,8 +53,9 @@ struct PickLevelView: View {
     
     init(matchManager: ObservedObject<MatchManager>) {
         self._matchManager = matchManager
-        let scene = Self.createGameScene(withMatchManager: matchManager.wrappedValue)
-        gameSceneBox = GameSceneBox(gameScene: scene)
+        
+        let gameScene = Self.createGameScene(withMatchManager: matchManager.wrappedValue)
+        gameSceneBox = GameSceneBox(gameScene: gameScene)
     }
     
     private static func createGameScene(withMatchManager matchManager: MatchManager) -> GameScene {
@@ -63,18 +67,19 @@ struct PickLevelView: View {
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .fill
         scene.isHost = matchManager.isHost
+        scene.isItMyTurn = matchManager.myTurn
         
         return scene
     }
     
-    let cards: [Card] = Card.allCases
+    let cards: [Game] = Game.allCases
     
     var body: some View {
         ZStack {
             if showGameScene {
                 let _ = Self._printChanges()
                 VStack {
-                    SpriteView(scene: $gameSceneBox.gameScene.wrappedValue, debugOptions: .showsPhysics)
+                    SpriteView(scene: $gameSceneBox.gameScene.wrappedValue)
                         .id(refreshToggle)
                         .ignoresSafeArea()
                         .navigationBarBackButtonHidden(true)
@@ -84,12 +89,20 @@ struct PickLevelView: View {
                     showGameOverView = false
                 }
                 
+                if showYourTurnView {
+                    if matchManager.myTurn {
+                        YourTurnView(myTurn: true)
+                    } else {
+                        YourTurnView(myTurn: false)
+                    }
+                }
+                
                 if showPauseGameView {
                     PauseGameView()
                 }
                 
                 if showGameOverView {
-                    GameOverView()
+                    GameOverView(matchManager: matchManager)
                 }
                 
                 if showLoadingGameView {
@@ -100,75 +113,79 @@ struct PickLevelView: View {
                 ZStack {
                     Color(.blueBlackground)
                     
-                    VStack() {
-                        
-                        Spacer()
-                        
+                    VStack {
                         Text("Pick an adventure to explore!")
-                            .font(.custom("LuckiestGuy-Regular", size: 24)) //LuckiestGuy-Regular
+                            .font(.custom("LuckiestGuy-Regular", size: 24))
                             .foregroundColor(Color(.colorClickable))
                             .padding(.all)
+                        
+                        Spacer()
                         
                         HStack {
                             ForEach(cards, id: \.self) { card in
                                 CardView(matchManager: matchManager, showGameScene: $showGameScene, showLoadingGameView: $showLoadingGameView, game: card)
                             }
-                            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                         }
                      
                         Spacer()
-                        
                     }
-                
-                }.ignoresSafeArea()
+                    .padding(.top)
+                }
+                .ignoresSafeArea()
             }
+        }
+        .onReceive(yourTurnPublisher) { _ in
+            showYourTurnView.toggle()
         }
         .onReceive(lobbyCreationPublisher) { _ in
             matchManager.isGamePresented = false
         }
         .onReceive(readyPublisher) { _ in
-            print("inside notification handler")
-            
             showGameScene = true
             showLoadingGameView = true
         }
         .onReceive(gameOverPublisher) { _ in
-            $gameSceneBox.gameScene.wrappedValue.virtualController?.disconnect()
+            showYourTurnView = false
             
-            $gameSceneBox.gameScene.wrappedValue.sendResults()
+            $gameSceneBox.gameScene.wrappedValue.removeCommands()
+            
+            if matchManager.selectedGame == .hill {
+                $gameSceneBox.gameScene.wrappedValue.sendResults()
+            }
+            
+            $gameSceneBox.gameScene.wrappedValue.isPaused = true
             
             showGameOverView = true
-            $gameSceneBox.gameScene.wrappedValue.isPaused = true
         }
         .onReceive(pauseGamePublisher) { _ in
             $gameSceneBox.gameScene.wrappedValue.isPaused = true
+            
             showPauseGameView = true
         }
         .onReceive(continueGamePublisher) { _ in
             if !$gameSceneBox.gameScene.wrappedValue.isContinueOrderGiven {
-                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.continueGame) {
-                    print("sending continue game data")
-                }
+                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.continueGame)
             } else {
                 $gameSceneBox.gameScene.wrappedValue.isContinueOrderGiven = false
             }
             
             $gameSceneBox.gameScene.wrappedValue.isPaused = false
+            
             self.showPauseGameView = false
         }
         .onReceive(playAgainPublisher) { _ in
             if !$gameSceneBox.gameScene.wrappedValue.isPlayAgainOrderGiven {
-                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.playAgain) {
-                    print("sending play again data")
-                }
+                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.playAgain)
                 matchManager.isHost = true
             } else {
                 $gameSceneBox.gameScene.wrappedValue.isPlayAgainOrderGiven = false
                 matchManager.isHost = false
             }
             
-            showGameOverView = false
             gameSceneBox.gameScene = Self.createGameScene(withMatchManager: matchManager)
+            
+            showGameOverView = false
+            
             refreshToggle.toggle()
             
             showLoadingGameView = true
@@ -177,16 +194,19 @@ struct PickLevelView: View {
         }
         .onReceive(goToMenuPublisher) { _ in
             if !$gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven {
-                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.goToMenu) {
-                    $gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven = true
-                }
+                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.goToMenu)
+                $gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven = true
             } else {
                 $gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven = false
             }
             
-            $gameSceneBox.gameScene.wrappedValue.virtualController?.disconnect()
+            $gameSceneBox.gameScene.wrappedValue.removeCommands()
             
             $gameSceneBox.gameScene.wrappedValue.clean()
+            
+            guard let match = $gameSceneBox.gameScene.wrappedValue.match else { return }
+            
+            matchManager.startGame(newMatch: match)
             
             matchManager.isHost = false
             
@@ -194,9 +214,7 @@ struct PickLevelView: View {
             
             showGameScene = false
             
-            guard let match = $gameSceneBox.gameScene.wrappedValue.match else { return }
-            
-            matchManager.startGame(newMatch: match)
+            showYourTurnView = false
         }
         .onReceive(loadingGamePublisher) { _ in
             self.showLoadingGameView = false
@@ -208,36 +226,34 @@ struct PickLevelView: View {
             Button {
                 //
             } label: {
-                HStack {
-                    Image(systemName: "apple.logo")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(Color(.colorClickable))
-                        .opacity(0)
-                }
+                Image(systemName: "apple.logo")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(Color(.colorClickable))
+                    .opacity(0)
             }
+            .padding(.top, 35)
                             
             :
                             
             Button {
-                matchManager.sendBackToInitialData {
-                    self.backToInitialScreen.toggle()
-                }
-        
+                matchManager.sendBackToInitialData()
+            
+                backToInitialScreen.toggle()
+            
                 $gameSceneBox.gameScene.wrappedValue.clean()
             
                 $gameSceneBox.gameScene.wrappedValue.match?.disconnect()
+                
                 matchManager.match?.disconnect()
             } label: {
-                HStack {
-                    Image(systemName: "arrowshape.turn.up.backward.fill")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(Color(.colorClickable))
-                        .opacity(1)
-                  
-                }
+                Image(systemName: "arrowshape.turn.up.backward.fill")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(Color(.colorClickable))
+                    .opacity(1)
             }
+            .padding(.top, 35)
         )
         .onChange(of: backToInitialScreen) { _ in
             self.matchManager.isGamePresented = false

@@ -39,7 +39,7 @@ struct InitialScreenView: View {
                                     errorAlert.toggle()
                                 }
                             }
-                            .alert(PlayerAuthState.restricted.rawValue, isPresented: $matchManager.restrictedAlert) {
+                            .alert(AuthenticationState.restricted.rawValue, isPresented: $matchManager.restrictedAlert) {
                                 Button {
                                     matchManager.restrictedAlert.toggle()
                                 } label: {
@@ -48,7 +48,7 @@ struct InitialScreenView: View {
                             } message: {
                                 Text("\nGo to Settings > Screen Time > Content & Privacy Restrictions, then turn on Content & Privacy Restrictions.\n\nTap Content Restrictions, scroll down to Game Center, then set restrictions.")
                             }
-                            .alert(PlayerAuthState.error.rawValue, isPresented: $errorAlert) {
+                            .alert(AuthenticationState.error.rawValue, isPresented: $errorAlert) {
                                 Button {
                                     matchManager.authenticatePlayer()
                                 } label: {

@@ -5,60 +5,70 @@ import SpriteKit
 import SwiftUI
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    var viewFrame: CGRect = CGRect()
+    // MARK: - Just for Squid Game
+    var platforms: [SKSpriteNode] = []
+    var fallingOrder: [Bool] = []
+    var step: Int = 0 {
+        didSet {
+            if selectedGame == .squid {
+                print("checking round")
+                self.checkRound()
+            }
+        }
+    }
     
+    var isItMyTurn: Bool = false
+    
+    // MARK: - Floor
+    
+    // node
     var rectangle = SKSpriteNode()
     
-    var square = SKSpriteNode(texture: SKTexture(imageNamed: "animated0"), size: CGSize(width: 60, height: 60))
+    // position
+    var rotationAngle: CGFloat = 0
+    var verticalThresholdPoint: CGFloat = 0
     
+    // movement
+    var floorSpeed: CGFloat! {
+        didSet {
+            rectangle.removeAllActions()
+            floorMovement()
+        }
+    }
+    
+    // MARK: - Character
+    
+    // node
+    var character = SKSpriteNode() // reciclavel
+    
+    // position
+    var characterYPosition: CGFloat = 0
+    
+    // velocity
+    var characterVelocity: CGFloat = 20
+    
+    // movement
+    var isPlayerMoving: Bool = false
+    var isPlayerTouchingFloor: Bool = false
+    var movementDelay: TimeInterval = 0.5
+    var movementImpulse: CGFloat = 10
+    
+    // particle
+    var snowParticle = SKEmitterNode()
+    
+    // Animations
     var loweredEntityFrames: [SKTexture] = []
     var loweredTextureAtlas = SKTextureAtlas(named: "loweredEntity")
     
     var animatedEntityFrames: [SKTexture] = []
     var animatedTextureAtlas = SKTextureAtlas(named: "animatedEntity")
     
-    var characterVelocity: CGFloat = 20
+    // MARK: - Lifes
     
-    // Don't forget to cancel this afterwards
-    var cancellables = Set<AnyCancellable>()
+    // nodes
+    var lifeNodes = [SKSpriteNode]()
     
-    // unicas propriedades que n dá mt para tirar
-    var rotationAngle: CGFloat = 0
-    var verticalThresholdPoint: CGFloat = 0
-    
-    var squareYPosition: CGFloat = 0
-    var timerLabel = SKLabelNode()
-    
-    var backgroundSpeed: CGFloat! {
-        didSet {
-            rectangle.removeAllActions()
-            moveBackground()
-        }
-    }
-    
-    var gameDuration: Int = 60
-    
-    var virtualController: GCVirtualController?
-    
-    // fundo
-    var backgroundImage = SKSpriteNode(imageNamed: "backgroundImage")
-    
-    // pause button
-    var pauseButton: SKSpriteNode?
-    
-    var isPlayAgainOrderGiven: Bool = false
-    var isContinueOrderGiven: Bool = false
-    var isGoToMenuOrderGiven: Bool = false
-    
-    // personagem
-    var velocityX: CGFloat = 0.0
-    var velocityY: CGFloat = 0.0
-    
-    var isPlayerMoving: Bool = false
-    var isPlayerTouchingFloor: Bool = false // variável controle que diz se o personagem tá tocando no chão
-    
-    var snowParticle = SKEmitterNode() // partícula acoplada ao personagem
-    
+    // life updater
     var lifes: Int = 3 {
         didSet {
             self.updateLifeNodes()
@@ -73,6 +83,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // character doesn't lose lifes when is invincible
     var isPlayerInvincible: Bool = false {
         didSet {
             if isPlayerInvincible {
@@ -84,56 +95,98 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    // n∘ de vidas do personagem
-    var lifeNodes = [SKSpriteNode]() // nodos das vidas do personagem
+    // MARK: - Obstacles
     
-    // obstáculos
+    // enemy
     let enemy = SKSpriteNode(texture: Textures.birdTexture, size: CGSize(width: 30, height: 30))
+    
+    // rock
     let rock = SKSpriteNode(texture: Textures.rockTexture, size: CGSize(width: 40, height: 30))
+    var isRockFalling: Bool = false
+    
+    // tree
     let tree = SKSpriteNode(texture: Textures.trunkTexture, size: CGSize(width: 25, height: 50))
     
+    // delay to spawn an obstacle
     var spawnObstacleDelay: TimeInterval = 4
+    
+    // store different movements for enemies
     var enemiesMovements: [EnemyMovement] = []
-    var obstaclesOrder: [Obstacle] = []
     var currentEnemyMovement: Int = 0
+    
+    // store different obstacles to be spawned
+    var obstaclesOrder: [Obstacle] = []
     var currentObstacle: Int = 0
     
-    var spawnObstaclesSubscription: AnyCancellable?
-    
-    // avalanche
+    // MARK: - Avalanche
     var avalanche = SKSpriteNode(texture: SKTexture(imageNamed: "avalanche0"))
     
-    // logica do jogo
-    var matchManager: MatchManager?
+    // MARK: - Game time
+    var gameDuration: Int = 60
     
-    var match: GKMatch?
+    var timeCounter: Int = 0
     
-    var localPlayerIndex: Int?
-    var remotePlayerIndex: Int?
-    
-    var players: [Player] = []
+    var timerLabel = SKLabelNode()
     
     var startDate: Int = 0
     
+    // MARK: - Game Setup
+    
+    // game chosen
+    var selectedGame: Game = .hill
+    
+    // game rect
+    var viewFrame: CGRect = CGRect()
+    
+    // players indexes
+    var localPlayerIndex: Int?
+    var remotePlayerIndex: Int?
+    
+    // store players
+    var players: [Player] = []
+    
+    // store host player
+    var isHost: Bool = false
+    
+    // MARK: - Game State
+    
+    // starting game
     var didGameStart: Bool! {
         didSet {
             self.startGame()
         }
     }
     
+    // pause button
+    var pauseButton: SKSpriteNode?
+    
+    var isPlayAgainOrderGiven: Bool = false
+    var isContinueOrderGiven: Bool = false
+    var isGoToMenuOrderGiven: Bool = false
+    
+    // MARK: - Match
+    var matchManager: MatchManager?
+    var match: GKMatch?
+    
+    // MARK: - Controller
+    var virtualController: GCVirtualController?
+    
+    // MARK: - Subscriptions
+    
+    // general subscriptions
+    var cancellables = Set<AnyCancellable>()
+    
+    // obstacle subscription
+    var spawnObstaclesSubscription: AnyCancellable?
+    
+    // game starter subscription
     var startGameSubscription: AnyCancellable?
     
-    var isHost: Bool = false
-    
-    var timeCounter: Int = 0
-    
-    var movementDelay: TimeInterval = 0.5
-    
-    var movementImpulse: CGFloat = 10
-    
-    var isRockFalling: Bool = false
-    
+    // MARK: - Main functions
     override func didMove(to view: SKView) {
+        guard let game = matchManager?.selectedGame else { return }
+        selectedGame = game
+        
         match?.delegate = self
         physicsWorld.contactDelegate = self
         

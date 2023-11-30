@@ -6,10 +6,28 @@ extension GameScene {
         for touch in touches {
             if let pauseButton = pauseButton {
                 if pauseButton.contains(touch.location(in: self)) {
-                    sendNotificationData(.pauseGame) {
-                        print("sending pause game data")
-                        self.notify(.pauseGame)
+                    sendNotificationData(.pauseGame)
+                    notify(.pauseGame)
+                }
+            }
+            
+            let location = touch.location(in: self)
+            let touchedNodes = self.nodes(at: location)
+            
+            for node in touchedNodes {
+                if isItMyTurn {
+                    if node.name == "upperButton" {
+                        sendStepData(Rows.upper.rawValue)
+                        play(row: .upper)
+                    } else if node.name == "lowerButton" {
+                        sendStepData(Rows.lower.rawValue)
+                        play(row: .lower)
                     }
+                }
+                
+                if node.name == "backButton" {
+                    
+                    notify(.goToMenu)
                 }
             }
         }

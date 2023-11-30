@@ -23,7 +23,7 @@ struct LoadingGameView: View {
                 .padding(.all)
         }
         .ignoresSafeArea()
-        .onReceive(timer) { input in
+        .onReceive(timer) { _ in
             if loadingText.count < 10 {
                 loadingText += "."
             } else {
@@ -33,6 +33,6 @@ struct LoadingGameView: View {
     }
 }
 
-#Preview {
-    LoadingGameView()
-}
+//#Preview {
+//    LoadingGameView()
+//}

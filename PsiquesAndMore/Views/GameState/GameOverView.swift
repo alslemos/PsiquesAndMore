@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct GameOverView: View {
+    @ObservedObject var matchManager: MatchManager
+    
     var body: some View {
         ZStack {
             Color(.blueBlackground)
@@ -18,10 +20,12 @@ struct GameOverView: View {
                     .foregroundColor(Color(.colorText))
                 
                 VStack(spacing: 8) {
-                    Button {
-                        NotificationCenter.default.post(name: .playAgainGameNotificationName, object: nil)
-                    } label: {
-                        Text("TRY AGAIN")
+                    if matchManager.selectedGame != .squid {
+                        Button {
+                            NotificationCenter.default.post(name: .playAgainGameNotificationName, object: nil)
+                        } label: {
+                            Text("TRY AGAIN")
+                        }
                     }
                     
                     Button {
@@ -37,8 +41,4 @@ struct GameOverView: View {
         }
         .ignoresSafeArea()
     }
-}
-
-#Preview {
-    GameOverView()
 }
