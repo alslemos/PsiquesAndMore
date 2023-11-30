@@ -125,7 +125,6 @@ struct PickLevelView: View {
                             ForEach(cards, id: \.self) { card in
                                 CardView(matchManager: matchManager, showGameScene: $showGameScene, showLoadingGameView: $showLoadingGameView, game: card)
                             }
-                            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                         }
                      
                         Spacer()
