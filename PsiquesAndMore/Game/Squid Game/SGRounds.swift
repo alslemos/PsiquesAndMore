@@ -9,6 +9,8 @@ import Foundation
 
 extension GameScene {
     func checkRound() {
+        print("checking round")
+        
         if step == 0 || step == 4 {
             if isHost {
                 isItMyTurn = true

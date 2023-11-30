@@ -20,7 +20,7 @@ extension GameScene {
                     
                     self.character.physicsBody?.applyImpulse(CGVector(dx: deltaX, dy: deltaY))
                 case .down:
-                    updateAssetSeAbaixando()
+                    updateLoweredAsset()
                     
                     self.isPlayerMoving = true
                     

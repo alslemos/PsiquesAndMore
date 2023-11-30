@@ -20,11 +20,9 @@ extension GameScene {
             self.localPlayerIndex = 0
             self.remotePlayerIndex = 1
             
-            setGame {
-                self.getStartDate {
-                    self.startGamePublisher()
-                }
-            }
+            setGame()
+            getStartDate()
+            startGamePublisher()
         } else {
             self.remotePlayerIndex = 0
             self.localPlayerIndex = 1

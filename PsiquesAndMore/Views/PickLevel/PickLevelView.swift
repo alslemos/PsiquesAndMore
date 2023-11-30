@@ -89,6 +89,14 @@ struct PickLevelView: View {
                     showGameOverView = false
                 }
                 
+                if showYourTurnView {
+                    if matchManager.myTurn {
+                        YourTurnView(myTurn: true)
+                    } else {
+                        YourTurnView(myTurn: false)
+                    }
+                }
+                
                 if showPauseGameView {
                     PauseGameView()
                 }
@@ -101,27 +109,17 @@ struct PickLevelView: View {
                     LoadingGameView()
                 }
                 
-                if showYourTurnView {
-                    if matchManager.myTurn {
-                        YourTurnView(myTurn: true)
-                    } else {
-                        YourTurnView(myTurn: false)
-                    }
-                }
-                
             } else {
                 ZStack {
                     Color(.blueBlackground)
                     
-                    VStack() {
-                        
-                        Spacer()
-                        
-                        #warning("esse texto deve estar alinhando com o back button dessa tela")
+                    VStack {
                         Text("Pick an adventure to explore!")
                             .font(.custom("LuckiestGuy-Regular", size: 24))
                             .foregroundColor(Color(.colorClickable))
                             .padding(.all)
+                        
+                        Spacer()
                         
                         HStack {
                             ForEach(cards, id: \.self) { card in
@@ -131,10 +129,10 @@ struct PickLevelView: View {
                         }
                      
                         Spacer()
-                        
                     }
-                
-                }.ignoresSafeArea()
+                    .padding(.top)
+                }
+                .ignoresSafeArea()
             }
         }
         .onReceive(yourTurnPublisher) { _ in
@@ -148,6 +146,8 @@ struct PickLevelView: View {
             showLoadingGameView = true
         }
         .onReceive(gameOverPublisher) { _ in
+            showYourTurnView = false
+            
             $gameSceneBox.gameScene.wrappedValue.removeCommands()
             
             if matchManager.selectedGame == .hill {
@@ -165,9 +165,7 @@ struct PickLevelView: View {
         }
         .onReceive(continueGamePublisher) { _ in
             if !$gameSceneBox.gameScene.wrappedValue.isContinueOrderGiven {
-                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.continueGame) {
-                    print("sending continue game data")
-                }
+                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.continueGame)
             } else {
                 $gameSceneBox.gameScene.wrappedValue.isContinueOrderGiven = false
             }
@@ -178,9 +176,7 @@ struct PickLevelView: View {
         }
         .onReceive(playAgainPublisher) { _ in
             if !$gameSceneBox.gameScene.wrappedValue.isPlayAgainOrderGiven {
-                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.playAgain) {
-                    print("sending play again data")
-                }
+                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.playAgain)
                 matchManager.isHost = true
             } else {
                 $gameSceneBox.gameScene.wrappedValue.isPlayAgainOrderGiven = false
@@ -199,9 +195,8 @@ struct PickLevelView: View {
         }
         .onReceive(goToMenuPublisher) { _ in
             if !$gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven {
-                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.goToMenu) {
-                    $gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven = true
-                }
+                $gameSceneBox.gameScene.wrappedValue.sendNotificationData(.goToMenu)
+                $gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven = true
             } else {
                 $gameSceneBox.gameScene.wrappedValue.isGoToMenuOrderGiven = false
             }
@@ -219,6 +214,8 @@ struct PickLevelView: View {
             showPauseGameView = false
             
             showGameScene = false
+            
+            showYourTurnView = false
         }
         .onReceive(loadingGamePublisher) { _ in
             self.showLoadingGameView = false
@@ -230,15 +227,13 @@ struct PickLevelView: View {
             Button {
                 //
             } label: {
-                HStack {
-                    Image(systemName: "apple.logo")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(Color(.colorClickable))
-                        .opacity(0)
-                }
+                Image(systemName: "apple.logo")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(Color(.colorClickable))
+                    .opacity(0)
             }
-            .padding(.top)
+            .padding(.top, 35)
                             
             :
                             
@@ -253,16 +248,13 @@ struct PickLevelView: View {
                 
                 matchManager.match?.disconnect()
             } label: {
-                HStack {
-                    Image(systemName: "arrowshape.turn.up.backward.fill")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(Color(.colorClickable))
-                        .opacity(1)
-                  
-                }
+                Image(systemName: "arrowshape.turn.up.backward.fill")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(Color(.colorClickable))
+                    .opacity(1)
             }
-            .padding(.top)
+            .padding(.top, 35)
         )
         .onChange(of: backToInitialScreen) { _ in
             self.matchManager.isGamePresented = false

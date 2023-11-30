@@ -184,7 +184,7 @@ extension GameScene {
         character.run(SKAction.repeatForever(SKAction.animate(with: animatedEntityFrames, timePerFrame: 0.15)))
     }
     
-    func updateAssetSeAbaixando() {
+    func updateLoweredAsset() {
         print("debug: texture atlas abaixando: \(loweredTextureAtlas.textureNames.count)")
         
         for i in 0..<loweredTextureAtlas.textureNames.count {

@@ -114,9 +114,8 @@ extension GameScene: GKMatchDelegate {
             print("start date data received")
             self.startDate = startDate
             
-            setGame {
-                self.startGamePublisher()
-            }
+            setGame()
+            startGamePublisher()
         }
         
         // Check if it's falling order array data

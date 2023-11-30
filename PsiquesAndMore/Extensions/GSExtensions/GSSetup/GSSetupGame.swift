@@ -9,7 +9,7 @@ import Foundation
 import GameKit
 
 extension GameScene {
-    func setGame(_ completion: @escaping () -> ()) {
+    func setGame() {
         print("inside set game")
         
         self.setupPauseButton()
@@ -22,10 +22,10 @@ extension GameScene {
         
         if isHost {
             self.setupHostOnlyFunctions(for: selectedGame) {
-                completion()
+                
             }
         } else {
-            completion()
+            
         }
     }
     

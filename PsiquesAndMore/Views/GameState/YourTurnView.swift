@@ -25,6 +25,10 @@ struct YourTurnView: View {
             withAnimation(Animation.bouncy(duration: 1).repeatForever(autoreverses: true)) {
                 fontSize += 80
             }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                NotificationCenter.default.post(name: NSNotification.Name("YourTurn"), object: nil)
+            }
         }
         .onTapGesture {
             NotificationCenter.default.post(name: NSNotification.Name("YourTurn"), object: nil)
