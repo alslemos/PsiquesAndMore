@@ -24,6 +24,11 @@ extension GameScene {
                         play(row: .lower)
                     }
                 }
+                
+                if node.name == "backButton" {
+                    
+                    notify(.goToMenu)
+                }
             }
         }
     }

@@ -8,7 +8,7 @@ extension GameScene {
     }
     
     func setupUpperButton() {
-        let node = SKSpriteNode(color: .cyan, size: CGSize(width: 60, height: 60))
+        let node = SKSpriteNode(texture: SKTexture(image: UIImage(systemName: "arrowshape.up.circle") ?? UIImage()), size: CGSize(width: 60, height: 60))
         
         node.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         node.position = CGPoint(x: viewFrame.maxX - 60, y: viewFrame.minY + 140)
@@ -19,7 +19,7 @@ extension GameScene {
     }
     
     func setupLowerButton() {
-        let node = SKSpriteNode(color: .cyan, size: CGSize(width: 60, height: 60))
+        let node = SKSpriteNode(texture: SKTexture(image: UIImage(systemName: "arrowshape.down.circle") ?? UIImage()), size: CGSize(width: 60, height: 60))
         
         node.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         node.position = CGPoint(x: viewFrame.maxX - 60, y: viewFrame.minY + 60)

@@ -13,6 +13,8 @@ struct YourTurnView: View {
     @State var fontSize: CGFloat = 10
     @State var didTap: Bool = false
     
+    let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    
     var body: some View {
         ZStack {
             Color.black.opacity(0.7)
@@ -26,16 +28,15 @@ struct YourTurnView: View {
             withAnimation(Animation.bouncy(duration: 1).repeatForever(autoreverses: true)) {
                 fontSize += 80
             }
-            
-            if !didTap {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    NotificationCenter.default.post(name: NSNotification.Name("YourTurn"), object: nil)
-                }
-            }
         }
         .onTapGesture {
             NotificationCenter.default.post(name: NSNotification.Name("YourTurn"), object: nil)
             didTap = true
+        }
+        .onReceive(timer) { _ in
+            if !didTap {
+                NotificationCenter.default.post(name: NSNotification.Name("YourTurn"), object: nil)
+            }
         }
     }
 }
