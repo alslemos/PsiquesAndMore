@@ -138,18 +138,12 @@ struct PickLevelView: View {
             }
         }
         .onReceive(yourTurnPublisher) { _ in
-            print("foo: match manager turn: \(matchManager.myTurn)")
-            
             showYourTurnView.toggle()
         }
         .onReceive(lobbyCreationPublisher) { _ in
             matchManager.isGamePresented = false
         }
         .onReceive(readyPublisher) { _ in
-            print("inside notification handler")
-            
-            print(matchManager.selectedGame.name)
-            
             showGameScene = true
             showLoadingGameView = true
         }

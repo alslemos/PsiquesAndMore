@@ -20,7 +20,7 @@ enum Game: CaseIterable, Codable {
             case .snake:
                 return "snake survival"
             case .squid:
-                return "hopscotch"
+                return "lava hopscotch"
         }
     }
     
