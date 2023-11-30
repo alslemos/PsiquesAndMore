@@ -79,7 +79,7 @@ struct PickLevelView: View {
             if showGameScene {
                 let _ = Self._printChanges()
                 VStack {
-                    SpriteView(scene: $gameSceneBox.gameScene.wrappedValue, debugOptions: .showsPhysics)
+                    SpriteView(scene: $gameSceneBox.gameScene.wrappedValue)
                         .id(refreshToggle)
                         .ignoresSafeArea()
                         .navigationBarBackButtonHidden(true)
