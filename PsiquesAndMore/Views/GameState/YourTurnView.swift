@@ -11,6 +11,7 @@ struct YourTurnView: View {
     let myTurn: Bool
     
     @State var fontSize: CGFloat = 10
+    @State var didTap: Bool = false
     
     var body: some View {
         ZStack {
@@ -26,12 +27,15 @@ struct YourTurnView: View {
                 fontSize += 80
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                NotificationCenter.default.post(name: NSNotification.Name("YourTurn"), object: nil)
+            if !didTap {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    NotificationCenter.default.post(name: NSNotification.Name("YourTurn"), object: nil)
+                }
             }
         }
         .onTapGesture {
             NotificationCenter.default.post(name: NSNotification.Name("YourTurn"), object: nil)
+            didTap = true
         }
     }
 }

@@ -42,7 +42,7 @@ extension GameScene {
         }
         
         platform.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        platform.color = fallingOrder[index] ? .red : .blue
+//        platform.color = fallingOrder[index] ? .red : .blue
         platform.name = "platform\(index)"
         platform.zPosition = Layers.particle
         

@@ -33,7 +33,7 @@ extension GameScene {
             notify(.yourTurn)
         } else {
             // you win!
-            play(row: .upper)
+//            play(row: .upper)
         }
         
         print("foo: my turn: \(isItMyTurn)")

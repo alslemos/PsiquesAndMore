@@ -12,7 +12,9 @@ extension GameScene {
     func setGame() {
         print("inside set game")
         
-        self.setupPauseButton()
+        if selectedGame != .squid {
+            self.setupPauseButton()
+        }
         
         self.setupCharacter(for: selectedGame)
         
