@@ -44,7 +44,7 @@ extension GameScene {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                             self.platforms[index % self.platforms.count].texture = nil
                             
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                                 self.notify(.gameOver)
                             }
                             
@@ -90,7 +90,7 @@ extension GameScene {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                             self.platforms[index % self.platforms.count].texture = nil
                             
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                                 self.notify(.gameOver)
                             }
                             

@@ -26,6 +26,11 @@ extension GameScene {
                         }
                     }
                 }
+                
+                if node.name == "backButton" {
+                    
+                    notify(.goToMenu)
+                }
             }
         }
     }

@@ -114,6 +114,7 @@ extension GameScene: GKMatchDelegate {
             print("start date data received")
             self.startDate = startDate
             
+
             setGame()
             startGamePublisher()
         }
