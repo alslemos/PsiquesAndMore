@@ -77,9 +77,9 @@ extension GameScene {
                     leftButton?.sfSymbolsName = "arrowshape.left"
                     
                     if !self.isPlayerMoving {
-                        self.sendMovementData(.left) {
-                            self.moveSprite(.left)
-                        }
+                        self.sendMovementData(.left)
+                        self.moveSprite(.left)
+                        
                     } else {
                         print("cannot move")
                     }
@@ -88,9 +88,8 @@ extension GameScene {
                     leftButton?.sfSymbolsName = "arrowshape.right"
                     
                     if !self.isPlayerMoving {
-                        self.sendMovementData(.right) {
-                            self.moveSprite(.right)
-                        }
+                        self.sendMovementData(.right)
+                        self.moveSprite(.right)
                     } else {
                         print("cannot move")
                     }
@@ -101,14 +100,12 @@ extension GameScene {
         rightButton?.valueChangedHandler = {(_ button: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void in
             if pressed {
                 if self.players[index].controls == .upAndLeft {
-                    print("Clicked up") //arrow.up
+                    print("Clicked up")
                     rightButton?.sfSymbolsName = "arrow.up"
                     
                     if !self.isPlayerMoving && self.isPlayerTouchingFloor {
-                        self.sendMovementData(.up) {
-                            print("moving up")
-                            self.moveSprite(.up)
-                        }
+                        self.sendMovementData(.up)
+                        self.moveSprite(.up)
                     } else {
                         print("cannot move")
                     }
@@ -117,10 +114,8 @@ extension GameScene {
                     rightButton?.sfSymbolsName = "arrow.down"
                     
                     if !self.isPlayerMoving {
-                        self.sendMovementData(.down) {
-                            print("moving down")
-                            self.moveSprite(.down)
-                        }
+                        self.sendMovementData(.down)
+                        self.moveSprite(.down)
                     } else {
                         print("cannot move")
                     }

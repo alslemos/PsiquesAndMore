@@ -16,20 +16,21 @@ struct CardView: View {
     
     var body: some View {
         Button {
-            matchManager.sendReadyState(for: game) {
-                matchManager.selectedGame = game
-                self.showGameScene = true
-                self.showLoadingGameView = true
-            }
+            matchManager.sendReadyState(for: game)
+            
+            matchManager.selectedGame = game
+            
+            NotificationCenter.default.post(name: .readyToPlayGameNotificationName, object: nil)
         } label: {
             VStack(spacing: 0) {
                 Text(game.name)
                     .font(.custom("LuckiestGuy-Regular", size: 20))
                     .foregroundColor(Color(.colorClickable))
+                    .padding(.bottom, 16)
                 
                 game.image
                     .padding(.horizontal)
-                    .padding(.bottom, 5)
+                    .padding(.bottom, 8)
                 
                 HStack {
                     Image(systemName: "person.2.fill")

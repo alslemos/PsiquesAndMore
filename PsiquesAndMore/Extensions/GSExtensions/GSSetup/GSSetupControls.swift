@@ -14,10 +14,10 @@ extension GameScene {
         switch game {
             case .hill:
                 setupVirtualController()
-            case .snake:
-                print("foo")
             case .squid:
                 setupSquidControls()
+            case .snake:
+                print("foo")
         }
     }
 }

@@ -8,20 +8,18 @@
 import Foundation
 
 extension GameScene {
-    func savePlayers(_ completion: @escaping () -> ()) {
+    func savePlayers() {
         let controls = setControlsForPlayer()
         players[0].controls = controls[0]
         players[1].controls = controls[1]
         
-        sendPlayerData {
-            print("sending obstacles movements")
-            self.sendEnemiesMovements()
-            
-            print("sending obstacles order")
-            self.sendObstaclesOrder()
-            
-            completion()
-        }
+        sendPlayerData()
+        
+        print("sending obstacles movements")
+        sendEnemiesMovements()
+        
+        print("sending obstacles order")
+        sendObstaclesOrder()
     }
     
     func setControlsForPlayer() -> [Controls] {

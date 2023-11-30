@@ -9,22 +9,20 @@ import Foundation
 
 extension GameScene {
     // movement data
-    func sendMovementData(_ movement: Movement, _ completion: @escaping () -> ()) {
+    func sendMovementData(_ movement: Movement) {
         do {
             guard let data = try? JSONEncoder().encode(movement) else { return }
             try match?.sendData(toAllPlayers: data, with: .unreliable)
-            completion()
         } catch {
             print("send movement data failed")
         }
     }
     
     // player data
-    func sendPlayerData(_ completion: @escaping () -> ()) {
+    func sendPlayerData() {
         do {
             guard let data = try? JSONEncoder().encode(players) else { return }
             try match?.sendData(toAllPlayers: data, with: .reliable)
-            completion()
         } catch {
             print("send players data failed")
         }

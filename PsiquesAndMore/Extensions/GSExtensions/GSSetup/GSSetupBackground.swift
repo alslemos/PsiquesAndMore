@@ -13,10 +13,10 @@ extension GameScene {
         switch game {
             case .hill:
                 setupDownTheHillBackground()
-            case .snake:
-                print("foo")
             case .squid:
                 setupSquidBackground()
+            case .snake:
+                print("foo")
         }
     }    
 }

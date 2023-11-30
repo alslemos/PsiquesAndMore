@@ -102,7 +102,7 @@ struct PickLevelView: View {
                 }
                 
                 if showGameOverView {
-                    GameOverView()
+                    GameOverView(matchManager: matchManager)
                 }
                 
                 if showLoadingGameView {
@@ -237,9 +237,9 @@ struct PickLevelView: View {
             :
                             
             Button {
-                matchManager.sendBackToInitialData {
-                    self.backToInitialScreen.toggle()
-                }
+                matchManager.sendBackToInitialData()
+            
+                backToInitialScreen.toggle()
             
                 $gameSceneBox.gameScene.wrappedValue.clean()
             

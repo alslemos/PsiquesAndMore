@@ -8,23 +8,19 @@
 import Foundation
 
 extension GameScene {
-    func setupHostOnlyFunctions(for game: Game, _ completion: @escaping () -> ()) {
+    func setupHostOnlyFunctions(for game: Game) {
         switch game {
             case .hill:
                 self.createObstaclesArray()
                 
-                self.savePlayers {
-                    completion()
-                }
-            case .snake:
-                print("foo")
+                self.savePlayers()
             case .squid:
                 createFallingOrderArray()
                 
-                sendFallingOrderData {
-                    self.setupPlatforms()
-                    completion()
-                }
+                sendFallingOrderData()
+                setupPlatforms()
+            case .snake:
+                print("foo")
         }
     }    
 }

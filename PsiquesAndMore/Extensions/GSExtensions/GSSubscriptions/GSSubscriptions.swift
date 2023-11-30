@@ -13,10 +13,10 @@ extension GameScene {
         switch game {
             case .hill:
                 createDownTheHillSubscriptions()
-            case .snake:
-                print("foo")
             case .squid:
                 createSquidSubscriptions()
+            case .snake:
+                print("foo")
         }
     }
     

@@ -10,17 +10,17 @@ import SwiftUI
 
 enum Game: CaseIterable, Codable {
     case hill
-    case snake
     case squid
+    case snake
     
     var name: String {
         switch self {
             case .hill:
                 return "down the hill"
-            case .snake:
-                return "snake survival"
             case .squid:
                 return "lava hopscotch"
+            case .snake:
+                return "snake survival"
         }
     }
     
@@ -28,10 +28,10 @@ enum Game: CaseIterable, Codable {
         switch self {
             case .hill:
                 return Image(.downTheHillCard)
-            case .snake:
-                return Image(.gamePlaceholder)
             case .squid:
                 return Image(.squidCard)
+            case .snake:
+                return Image(.snakeSurvival)
         }
     }
     
@@ -39,10 +39,10 @@ enum Game: CaseIterable, Codable {
         switch self {
             case .hill:
                 return true
-            case .snake:
-                return false
             case .squid:
                 return true
+            case .snake:
+                return false
         }
     }
 }

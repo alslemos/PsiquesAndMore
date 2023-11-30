@@ -23,11 +23,7 @@ extension GameScene {
         self.setupElements(for: selectedGame)
         
         if isHost {
-            self.setupHostOnlyFunctions(for: selectedGame) {
-                
-            }
-        } else {
-            
+            self.setupHostOnlyFunctions(for: selectedGame)
         }
     }
     
