@@ -21,6 +21,7 @@
 		6806C3E12AEAF70D00EDED8E /* MatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E02AEAF70D00EDED8E /* MatchManager.swift */; };
 		6806C3E82AEB034C00EDED8E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3E72AEB034C00EDED8E /* GameScene.swift */; };
 		6806C3EC2AEB03EF00EDED8E /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6806C3EB2AEB03EF00EDED8E /* Player.swift */; };
+		680985302B191B9D00C61122 /* YouWinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6809852F2B191B9D00C61122 /* YouWinView.swift */; };
 		683E881C2B17E5D6006B63BE /* YourTurnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 683E881B2B17E5D6006B63BE /* YourTurnView.swift */; };
 		683E881E2B17EC0D006B63BE /* SGRounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 683E881D2B17EC0D006B63BE /* SGRounds.swift */; };
 		685A59712AF58ECE0026A307 /* GSTouchesBegan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685A59702AF58ECE0026A307 /* GSTouchesBegan.swift */; };
@@ -101,6 +102,7 @@
 		6806C3E72AEB034C00EDED8E /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		6806C3EB2AEB03EF00EDED8E /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		6806C3ED2AEB08F000EDED8E /* PsiquesAndMore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PsiquesAndMore.entitlements; sourceTree = "<group>"; };
+		6809852F2B191B9D00C61122 /* YouWinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouWinView.swift; sourceTree = "<group>"; };
 		683E881B2B17E5D6006B63BE /* YourTurnView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourTurnView.swift; sourceTree = "<group>"; };
 		683E881D2B17EC0D006B63BE /* SGRounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SGRounds.swift; sourceTree = "<group>"; };
 		685A59702AF58ECE0026A307 /* GSTouchesBegan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTouchesBegan.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				1C452ED42AF2BAF2001F696B /* PauseGameView.swift */,
 				1CEE63412B07DF8900B62496 /* LoadingGameView.swift */,
 				683E881B2B17E5D6006B63BE /* YourTurnView.swift */,
+				6809852F2B191B9D00C61122 /* YouWinView.swift */,
 			);
 			path = GameState;
 			sourceTree = "<group>";
@@ -598,6 +601,7 @@
 				68A887402B067EBC00C64E76 /* InitialScreenView.swift in Sources */,
 				6806C3E12AEAF70D00EDED8E /* MatchManager.swift in Sources */,
 				683E881C2B17E5D6006B63BE /* YourTurnView.swift in Sources */,
+				680985302B191B9D00C61122 /* YouWinView.swift in Sources */,
 				E7C558112AFC603C00F07740 /* GSSetupTimer.swift in Sources */,
 				68B1C44C2B17C08000ECCAD4 /* SGDataSharing.swift in Sources */,
 				68B1C4402B17BE4300ECCAD4 /* DtHRandomizeControls.swift in Sources */,

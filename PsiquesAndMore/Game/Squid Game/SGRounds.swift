@@ -32,14 +32,9 @@ extension GameScene {
             
             notify(.yourTurn)
         } else {
-            // you win!
-//            play(row: .upper)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.play(row: .upper)
+            }
         }
-        
-        print("foo: my turn: \(isItMyTurn)")
-    }
-    
-    func checkWillFall() {
-        
     }
 }
