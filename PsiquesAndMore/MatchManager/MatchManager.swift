@@ -12,7 +12,7 @@ class MatchManager: NSObject, ObservableObject, UINavigationControllerDelegate {
     @Published var selectedGame: Game = .hill
     @Published var myTurn: Bool = false
     
-    static let leaderBoardID = "firstLeaderboard"
+    static let leaderBoardID = "grp.firstLeaderboard"
     
     var localPlayer = GKLocalPlayer.local
     

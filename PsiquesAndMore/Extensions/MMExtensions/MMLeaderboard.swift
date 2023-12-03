@@ -2,7 +2,7 @@ import Foundation
 import GameKit
 
 class AchievementsHelper {
-    static let achievementIdFirstWin = "InGh10"
+    static let achievementIdFirstWin = "grp.vipAchievement"
     
     class func firstWinAchievement(didWin: Bool) -> GKAchievement { let achievement = GKAchievement(
         identifier: AchievementsHelper.achievementIdFirstWin)
